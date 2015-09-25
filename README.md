@@ -2,6 +2,13 @@
 
 Welcome to the home of the AMT Project. This is where you will find information about the project (specifications, evaluation, etc.).
 
+# Authors
+
+* Mélanie Huck
+* Jan Purro
+* Miguel Santamaria
+* Benois Wolleb
+
 ## How to use this repo
 
 ### What should we do with this repo?
