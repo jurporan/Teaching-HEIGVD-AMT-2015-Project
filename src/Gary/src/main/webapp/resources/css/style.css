@@ -1,0 +1,85 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 18 sept. 2015, 11:37:12
+    Author     : Miguel
+*/
+
+table {
+   width: 100%;
+}
+
+th {
+   border-bottom: 1px solid gray;
+}
+
+th, td {
+   padding-right: 20px;
+   padding-top: 10px;
+}
+
+.header {
+   background-color: #212121;
+   padding: 10px;
+   width: 100%;
+}
+
+.title {
+   color: white;
+   float: left;
+   font-size: 22px;
+   font-weight: bold;
+}
+
+title:focus, .title:hover {
+   color: white;
+   text-decoration: none;
+}
+
+.btnHeader {
+   color: #DEDEDE;
+}
+
+.btnHeaderSelected, .btnHeader:hover, .btnHeaderSelected:hover, .btnHeader:focus, .btnHeaderSelected:focus {
+   color: #D9534F;
+   text-decoration: none;
+}
+
+.selectedHeaderElem {
+   margin-right: 50px;
+}
+
+.headerRight {
+   color: #DEDEDE;
+   float: right;
+}
+
+.btnLogout {
+   margin-left: 20px;
+}
+
+.appsTitle {
+   float: left;
+}
+
+.btnRegisterNew {
+   float: right;
+   margin-top: 27px;
+}
+
+.appsTable {
+   margin-top: 90px;
+}
+
+.appButtons {
+   padding-right: 0;
+   text-align: right;
+}
+
+.btnStatus {
+   width: 81px;
+}
+
