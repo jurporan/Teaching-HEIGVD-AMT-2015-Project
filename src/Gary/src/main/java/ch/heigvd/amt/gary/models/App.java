@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Represent the objet that define an application.
+ * Created on 01.10.2015 by Miguel Santamaria
  */
 package ch.heigvd.amt.gary.models;
 
