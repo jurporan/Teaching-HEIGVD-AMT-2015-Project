@@ -7,9 +7,25 @@
         <servlet-name>ServletAccount</servlet-name>
         <servlet-class>ch.heigvd.amt.gary.controllers.ServletAccount</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletRegistration</servlet-name>
+        <servlet-class>ch.heigvd.amt.gary.controllers.ServletRegistration</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.gary.controllers.WelcomeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletAccount</servlet-name>
         <url-pattern>/ServletAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletRegistration</servlet-name>
+        <url-pattern>/ServletRegistration</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <url-pattern>/WelcomeServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

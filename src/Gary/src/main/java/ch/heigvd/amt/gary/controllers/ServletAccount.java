@@ -5,82 +5,100 @@
  */
 package ch.heigvd.amt.gary.controllers;
 
+import ch.heigvd.amt.gary.services.LoginServiceLocal;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Miguel
+ * @author Jan Purro
+ * 
+ * Called when the "login" button is clicked. 
+ * Delegate the the verification of the login informations to a service and
+ * transmit the request either to the login.jsp with an error attribute if the 
+ * login was incorrect or to the appslis.jsp if login was ok.
+ * 
  */
-public class ServletAccount extends HttpServlet {
+@WebServlet(name = "login", urlPatterns = {"/login"})
+public class ServletAccount extends HttpServlet
+{
+    @EJB
+    LoginServiceLocal loginService;
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        response.setContentType("text/html;charset=UTF-8");
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        
+        if(loginService.verifyLogin(login, password))
+        {
+            // Not done yet.
+        }
+        
+        else
+        {
+            request.setAttribute("Error", "Authentification Failure");
+            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+        }
+        
 
-   /**
-    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-    * methods.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      response.setContentType("text/html;charset=UTF-8");
-      try (PrintWriter out = response.getWriter()) {
-         /* TODO output your page here. You may use following sample code. */
-         out.println("<!DOCTYPE html>");
-         out.println("<html>");
-         out.println("<head>");
-         out.println("<title>Servlet ServletAccount</title>");         
-         out.println("</head>");
-         out.println("<body>");
-         out.println("<h1>Servlet ServletAccount at " + request.getContextPath() + "</h1>");
-         out.println("</body>");
-         out.println("</html>");
-      }
-   }
-
+    }
+    
    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-   /**
-    * Handles the HTTP <code>GET</code> method.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   @Override
-   protected void doGet(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      processRequest(request, response);
-   }
+  /**
+   * Handles the HTTP <code>GET</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        processRequest(request, response);
+    }
 
-   /**
-    * Handles the HTTP <code>POST</code> method.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   @Override
-   protected void doPost(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      processRequest(request, response);
-   }
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        processRequest(request, response);
+    }
 
-   /**
-    * Returns a short description of the servlet.
-    *
-    * @return a String containing servlet description
-    */
-   @Override
-   public String getServletInfo() {
-      return "Short description";
-   }// </editor-fold>
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo()
+    {
+        return "Short description";
+    }// </editor-fold>
 
 }
