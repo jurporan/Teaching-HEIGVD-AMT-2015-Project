@@ -17,7 +17,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class AppsManager implements AppsManagerLocal {
    
-   @EJB(beanName = "AppsDataStore")
+   @EJB
    AppsDataStoreLocal appsDataStore;
    
    @Override

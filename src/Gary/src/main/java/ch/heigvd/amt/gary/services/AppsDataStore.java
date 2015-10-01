@@ -8,11 +8,13 @@ package ch.heigvd.amt.gary.services;
 import ch.heigvd.amt.gary.models.App;
 import java.util.LinkedList;
 import java.util.List;
+import javax.ejb.Singleton;
 
 /**
  *
  * @author Miguel
  */
+@Singleton
 public class AppsDataStore implements AppsDataStoreLocal {
    private final List<App> catalog = new LinkedList<>();
    
@@ -24,8 +26,9 @@ public class AppsDataStore implements AppsDataStoreLocal {
    }
    
    @Override
-   public List<App> getAllApps() {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   public List<App> getAllApps()
+   {    
+      return new LinkedList<>(catalog);
    }
    
 }

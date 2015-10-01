@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ServletAppsList", urlPatterns = {"/appslist"})
 public class ServletAppsList extends HttpServlet {
 
-   @EJB(beanName = "AppsManager")
+   @EJB
    AppsManagerLocal appsManager;
    
    /**
@@ -40,7 +40,7 @@ public class ServletAppsList extends HttpServlet {
       try (PrintWriter out = response.getWriter()) {
          Object apps = appsManager.getAllApps();
          
-         request.setAttribute("pageTitle", "You apps");
+         request.setAttribute("pageTitle", "Your apps");
          request.setAttribute("apps", apps);
          request.getRequestDispatcher("WEB-INF/views/appslist.jsp").forward(request, response);
       }

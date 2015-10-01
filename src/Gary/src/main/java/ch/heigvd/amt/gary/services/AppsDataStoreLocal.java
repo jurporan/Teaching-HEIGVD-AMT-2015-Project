@@ -7,11 +7,13 @@ package ch.heigvd.amt.gary.services;
 
 import ch.heigvd.amt.gary.models.App;
 import java.util.List;
+import javax.ejb.Local;
 
 /**
  *
  * @author Miguel
  */
+@Local
 public interface AppsDataStoreLocal {
    List<App> getAllApps();
 }

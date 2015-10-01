@@ -5,7 +5,7 @@
  */
 package ch.heigvd.amt.gary.controllers;
 
-import ch.heigvd.amt.gary.services.LoginServiceLocal;
+//import ch.heigvd.amt.gary.services.LoginServiceLocal;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "login", urlPatterns = {"/login"})
 public class ServletAccount extends HttpServlet
 {
-    @EJB
-    LoginServiceLocal loginService;
+    //@EJB
+    //LoginServiceLocal loginService;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,7 +45,7 @@ public class ServletAccount extends HttpServlet
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         
-        if(loginService.verifyLogin(login, password))
+        /*if(loginService.verifyLogin(login, password))
         {
             // Not done yet.
         }
@@ -54,7 +54,7 @@ public class ServletAccount extends HttpServlet
         {
             request.setAttribute("Error", "Authentification Failure");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-        }
+        }*/
         
 
     }
