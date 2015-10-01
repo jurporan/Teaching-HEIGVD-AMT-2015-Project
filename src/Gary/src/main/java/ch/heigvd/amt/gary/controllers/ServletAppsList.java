@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ServletAppsList", urlPatterns = {"/appslist"})
 public class ServletAppsList extends HttpServlet {
 
-   @EJB
+   @EJB(beanName = "AppsManager")
    AppsManagerLocal appsManager;
    
    /**
