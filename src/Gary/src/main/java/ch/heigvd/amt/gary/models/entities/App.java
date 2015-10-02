@@ -27,6 +27,8 @@ public class App implements Serializable
    private int numberOfUsers;
    private boolean active;
    
+   public App() {}
+   
    public App(Long id, String name, String description, String apiKey, 
               int numberOfUsers, boolean active)
    {
