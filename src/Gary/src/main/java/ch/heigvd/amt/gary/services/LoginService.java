@@ -18,11 +18,6 @@ public class LoginService implements LoginServiceLocal
     public boolean verifyLogin(String login, String password)
     {
         // Placeholder
-        if(login.equals("admin") && password.equals("1234"))
-        {
-            return true;
-        }
-        
-        return false;
+        return login.equals("admin") && password.equals("1234");
     }
 }

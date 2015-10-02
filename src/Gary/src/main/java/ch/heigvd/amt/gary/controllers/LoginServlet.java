@@ -5,7 +5,7 @@
  */
 package ch.heigvd.amt.gary.controllers;
 
-//import ch.heigvd.amt.gary.services.LoginServiceLocal;
+import ch.heigvd.amt.gary.services.LoginServiceLocal;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -24,11 +24,11 @@ import javax.servlet.http.HttpServletResponse;
  * login was incorrect or to the appslis.jsp if login was ok.
  * 
  */
-@WebServlet(name = "ServletAccount", urlPatterns = {"/login"})
-public class ServletAccount extends HttpServlet
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+public class LoginServlet extends HttpServlet
 {
-    //@EJB
-    //LoginServiceLocal loginService;
+    @EJB
+    LoginServiceLocal loginService;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,18 +44,28 @@ public class ServletAccount extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
+        String action = request.getParameter("action");
         
-        /*if(loginService.verifyLogin(login, password))
+        if(action.equals("login"))
         {
-            // Not done yet.
+            if(loginService.verifyLogin(login, password))
+            {
+                request.getSession().setAttribute("login", login);
+                response.sendRedirect("/appslist");
+            }
+
+            else
+            {
+                request.setAttribute("Error", "Authentification Failure");
+                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+            }
         }
         
-        else
+        else if (action.equals("logout"))
         {
-            request.setAttribute("Error", "Authentification Failure");
-            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-        }*/
-        
+            request.getSession().invalidate();
+            response.sendRedirect("/welcome");
+        }
 
     }
     
