@@ -7,6 +7,7 @@ package ch.heigvd.amt.gary.controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  * Simply redirects the request to the login.jsp view.
  * 
  */
+
+@WebServlet(name = "WelcomeServlet", urlPatterns = {"/welcome"})
 public class WelcomeServlet extends HttpServlet
 {
 
@@ -34,7 +37,6 @@ public class WelcomeServlet extends HttpServlet
             throws ServletException, IOException
     {}
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
