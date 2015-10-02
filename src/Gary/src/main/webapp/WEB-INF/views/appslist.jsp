@@ -24,8 +24,15 @@
             <td>${apps.apiKey}</td>
             <td>${apps.numberOfUsers}</td>
             <td class="appButtons">
-            <button id="btnEdit1" class="btn btn-default" type="button">Edit</button>
-            <button id="btnStatus1" class="btn btnStatus btn-success" type="button">Enabled</button>
+            <button id="btnEdit${apps.id}" class="btn btn-default" type="button">Edit</button>
+            <c:choose>
+               <c:when test="${apps.active}">
+                  <button id="btnStatus${apps.id}" class="btn btnStatus btn-success" type="button">Enabled</button>
+               </c:when>
+               <c:otherwise>
+                  <button id="btnStatus${apps.id}" class="btn btnStatus btn-danger" type="button">Disabled</button>
+               </c:otherwise>
+            </c:choose>
          </td>
          </tr>
       </c:forEach>

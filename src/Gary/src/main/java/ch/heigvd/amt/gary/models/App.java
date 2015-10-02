@@ -9,17 +9,26 @@ package ch.heigvd.amt.gary.models;
  * @author Miguel
  */
 public class App {
+   private int id;
    private final String name;
    private final String description;
    private final String apiKey;
    private int numberOfUsers;
+   private boolean active;
    
-   public App(String name, String description, String apiKey, int numberOfUsers)
+   public App(int id, String name, String description, String apiKey, 
+              int numberOfUsers, boolean active)
    {
       this.name = name;
       this.description = description;
       this.apiKey = apiKey;
       this.numberOfUsers = numberOfUsers;
+      this.active = active;
+   }
+   
+   public int getId()
+   {
+      return id;
    }
    
    public String getName()
@@ -40,5 +49,10 @@ public class App {
    public int getNumberOfUsers()
    {
       return numberOfUsers;
+   }
+   
+   public boolean isActive()
+   {
+      return active;
    }
 }
