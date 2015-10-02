@@ -5,7 +5,7 @@
  */
 package ch.heigvd.amt.gary.services;
 
-import ch.heigvd.amt.gary.models.App;
+import ch.heigvd.amt.gary.models.entities.App;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
