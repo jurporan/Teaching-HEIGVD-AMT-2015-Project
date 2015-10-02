@@ -17,7 +17,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>ServletAccount</servlet-name>
-        <url-pattern>/ServletAccount</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletRegistration</servlet-name>
@@ -25,7 +25,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
-        <url-pattern>/WelcomeServlet</url-pattern>
+        <url-pattern>/welcome</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  * login was incorrect or to the appslis.jsp if login was ok.
  * 
  */
-@WebServlet(name = "login", urlPatterns = {"/login"})
+@WebServlet(name = "ServletAccount", urlPatterns = {"/login"})
 public class ServletAccount extends HttpServlet
 {
     //@EJB

@@ -5,7 +5,7 @@
  */
 package ch.heigvd.amt.gary.services;
 
-import ch.heigvd.amt.gary.models.App;
+import ch.heigvd.amt.gary.models.entities.App;
 import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -20,9 +20,9 @@ public class AppsDataStore implements AppsDataStoreLocal {
    
    public AppsDataStore()
    {
-      catalog.add(new App(1, "demo1", "just a test...", "$adi684jdmcosj301#lkxm", 0, true));
-      catalog.add(new App(2, "a test app", "This application was...", "$lkdbaécbalbabla#lkxm", 299225, false));
-      catalog.add(new App(5, "my photo app", "A cool app that...", "$jérômemoret#lkxm", 1110, true));
+      catalog.add(new App((long)1, "demo1", "just a test...", "$adi684jdmcosj301#lkxm", 0, true));
+      catalog.add(new App((long)2, "a test app", "This application was...", "$lkdbaécbalbabla#lkxm", 299225, false));
+      catalog.add(new App((long)5, "my photo app", "A cool app that...", "$jérômemoret#lkxm", 1110, true));
    }
    
    @Override
