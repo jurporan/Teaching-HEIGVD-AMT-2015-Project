@@ -61,7 +61,7 @@ title:focus, .title:hover {
    margin-left: 20px;
 }
 
-.appsTitle {
+.pageTitle {
    float: left;
 }
 
@@ -70,7 +70,7 @@ title:focus, .title:hover {
    margin-top: 27px;
 }
 
-.appsTable {
+.appsTable, .usersTable {   
    margin-top: 90px;
 }
 
@@ -83,3 +83,6 @@ title:focus, .title:hover {
    width: 81px;
 }
 
+.usersTable {
+   border-bottom: 1px solid gray;
+}

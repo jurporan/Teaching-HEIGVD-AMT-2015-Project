@@ -1,15 +1,13 @@
 /*
- * The servlet that manage and show the list of applications.
- * Created on 01.10.2015 by Miguel Santamaria
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package ch.heigvd.amt.gary.controllers;
 
-import ch.heigvd.amt.gary.services.AppsManagerLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.ejb.EJB;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,12 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Miguel
  */
-@WebServlet(name = "ServletAppsList", urlPatterns = {"/appslist"})
-public class ServletAppsList extends HttpServlet {
+public class UsersListServlet extends HttpServlet {
 
-   @EJB
-   AppsManagerLocal appsManager;
-   
    /**
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
     * methods.
@@ -37,11 +31,8 @@ public class ServletAppsList extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
-         Object apps = appsManager.getAllApps();
-         
-         request.setAttribute("pageTitle", "Your apps");
-         request.setAttribute("apps", apps);
-         request.getRequestDispatcher("WEB-INF/views/appslist.jsp").forward(request, response);
+         request.setAttribute("pageTitle", "List of users");
+         request.getRequestDispatcher("WEB-INF/views/userslist.jsp").forward(request, response);
       }
    }
 
