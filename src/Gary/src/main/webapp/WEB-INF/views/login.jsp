@@ -1,17 +1,27 @@
 <%-- 
-    Document   : login
-    Created on : 25 sept. 2015, 09:53:23
-    Author     : Miguel
+    Document   : login2
+    Created on : 08-Oct-2015, 22:43:45
+    Author     : mel
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-   <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>JSP Page</title>
-   </head>
-   <body>
-      <h1>Hello World!</h1>
-   </body>
-</html>
+<%@include file="includes/header2.jsp" %>
+
+    <form class="form-vertical" role="form" />
+	<div class="form-group">
+            <label for="email" class="col-sm-2 control-label">E-mail</label>
+            <div class="col-sm-10">
+		<input type="email" class="form-control" placeholder="e-mail" value ="" />
+            </div>
+	</div>
+	<div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+            <div class="input-group col-sm-10">
+		<input type="password" class="form-control" placeholder="password" value ="" />
+            </div>
+	</div>
+
+        <div class="container pourcent">
+            <button type="submit" class="btn btn-default  pull-right">Login</button>
+        </div>
+
+<%@include file="includes/footer2.jsp" %>
