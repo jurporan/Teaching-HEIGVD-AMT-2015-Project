@@ -6,7 +6,7 @@
 
 <%@include file="includes/header.jsp" %>
 
-   <h1 class="appsTitle">Your apps</h1>
+   <h1 class="pageTitle">${pageTitle}</h1>
    <button id="btnNewApp" class="btn btnRegisterNew btn-danger" type="button">Register new app</button>
 
    <table class="appsTable">
@@ -22,9 +22,9 @@
             <td>${apps.name}</td>
             <td>${apps.description}</td>
             <td>${apps.apiKey}</td>
-            <td>${apps.numberOfUsers}</td>
+            <td><a href="userslist?app=${apps.id}&page=1">${apps.numberOfUsers}</a></td>
             <td class="appButtons">
-            <button id="btnEdit${apps.id}" class="btn btn-default" type="button">Edit</button>
+            <button id="btnEdit${apps.id}" class="btn btn-default" type="button" onClick="window.location.replace('app?action=edit&app=${apps.id}');">Edit</button>
             <c:choose>
                <c:when test="${apps.active}">
                   <button id="btnStatus${apps.id}" class="btn btnStatus btn-success" type="button">Enabled</button>
