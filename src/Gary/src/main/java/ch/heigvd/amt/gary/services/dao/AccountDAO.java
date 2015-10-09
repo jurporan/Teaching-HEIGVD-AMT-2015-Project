@@ -17,9 +17,6 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class AccountDAO extends DAO {
 
-     @PersistenceContext
-     EntityManager em;
-
     
     public Account create(String mail, String firstName, String lastName, String password)
     {
