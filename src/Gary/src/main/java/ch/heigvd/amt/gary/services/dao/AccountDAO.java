@@ -7,7 +7,8 @@ package ch.heigvd.amt.gary.services.dao;
 
 import javax.ejb.Stateless;
 import ch.heigvd.amt.gary.models.entities.Account;
-import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -15,9 +16,6 @@ import java.util.*;
  */
 @Stateless
 public class AccountDAO extends DAO {
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
 
     
     public Account create(String mail, String firstName, String lastName, String password)
@@ -27,10 +25,10 @@ public class AccountDAO extends DAO {
         return a;
     }
     
-    public Account login(String mail, String password)
+    /*public Account login(String mail, String password)
     {
-        List l = em.createQuery("SELECT a FROM Account a WHERE a.mail = :mail AND a.password = :password").setParameter("mail", mail).setParameter("password", password).getResultList();
-        Account a = (Account) l.get(0);
+        //List l = em.createQuery("SELECT a FROM Account a WHERE a.mail = :mail AND a.password = :password").setParameter("mail", mail).setParameter("password", password).getResultList();
+        //Account a = (Account) l.get(0);
         return a;
-    }
+    }*/
 }
