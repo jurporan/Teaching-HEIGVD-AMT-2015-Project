@@ -5,6 +5,7 @@
  */
 package ch.heigvd.amt.gary.services;
 
+import ch.heigvd.amt.gary.models.entities.Account;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +15,5 @@ import javax.ejb.Local;
 @Local
 public interface LoginServiceLocal
 {
-    boolean verifyLogin(String login, String password);
+    Account verifyLogin(String login, String password);
 }

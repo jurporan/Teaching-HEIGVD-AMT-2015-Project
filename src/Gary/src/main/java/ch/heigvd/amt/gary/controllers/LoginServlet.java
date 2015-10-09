@@ -42,13 +42,15 @@ public class LoginServlet extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        String action = request.getParameter("action");
-        
+        //String login = request.getParameter("login");
+        //String password = request.getParameter("password");
+        //String action = request.getParameter("action");
+        String action = "login";
+        String login = "aahahahah";
+        String password = "fdsahiufhdsauf";
         if(action.equals("login"))
         {
-            if(loginService.verifyLogin(login, password))
+            if(loginService.verifyLogin(login, password) != null)
             {
                 request.getSession().setAttribute("login", login);
                 response.sendRedirect("/appslist");

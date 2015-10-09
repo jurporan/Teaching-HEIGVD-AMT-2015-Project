@@ -13,7 +13,7 @@
     </servlet>
     <servlet>
         <servlet-name>WelcomeServlet</servlet-name>
-        <servlet-class>ch.heigvd.amt.gary.controllers.WelcomeServlet</servlet-class>
+        <servlet-class>/welcome</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
