@@ -5,7 +5,9 @@
  */
 package ch.heigvd.amt.gary.controllers;
 
+import ch.heigvd.amt.gary.services.dao.AccountDAO;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +19,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RegistrationServlet extends HttpServlet
 {
-
+   @EJB
+   AccountDAO dao;
+   
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -63,7 +67,15 @@ public class RegistrationServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+       String mail = request.getParameter("mail");
+       String pass1 = request.getParameter("pass1");
+       String pass2 = request.getParameter("pass2");
+       
+       
+       
+       dao.create(mail, "Michel", "Stephan", pass1);
+       
+       processRequest(request, response);
     }
 
     /**

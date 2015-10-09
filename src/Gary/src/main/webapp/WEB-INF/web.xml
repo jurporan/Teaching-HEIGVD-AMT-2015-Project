@@ -3,6 +3,10 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+     <servlet>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.gary.controllers.WelcomeServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>ch.heigvd.amt.gary.controllers.LoginServlet</servlet-class>
@@ -10,10 +14,6 @@
     <servlet>
         <servlet-name>RegistrationServlet</servlet-name>
         <servlet-class>ch.heigvd.amt.gary.controllers.RegistrationServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>WelcomeServlet</servlet-name>
-        <servlet-class>/welcome</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UsersListServlet</servlet-name>
