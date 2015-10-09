@@ -71,9 +71,7 @@ public class RegistrationServlet extends HttpServlet
        String pass1 = request.getParameter("pass1");
        String pass2 = request.getParameter("pass2");
        
-       
-       
-       dao.create(mail, "Michel", "Stephan", pass1);
+       //dao.create(mail, "Michel", "Stephan", pass1);
        
        processRequest(request, response);
     }

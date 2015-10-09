@@ -4,7 +4,7 @@
     Author     : mel
 --%>
 
-<%@include file="includes/header2.jsp" %>
+<%@include file="includes/header.jsp" %>
     <form method="POST" action="registration" class="form-vertical" role="form">
         <div class="form-group">
             <label for="mail" class="col-md-2 control-label">E-mail</label>
@@ -29,4 +29,4 @@
     <div class="container pourcent">
         <button type="submit" class="btn btn-default  pull-right">Create account</button>
     </div>  
-<%@include file="includes/footer2.jsp" %>
+<%@include file="includes/footer.jsp" %>

@@ -8,7 +8,7 @@
 
    <h1 class="pageTitle">${pageTitle}</h1>
    <button id="btnNewApp" class="btn btnRegisterNew btn-danger" type="button">Register new app</button>
-
+   
    <table class="appsTable">
       <tr>
          <th>Name</th>
