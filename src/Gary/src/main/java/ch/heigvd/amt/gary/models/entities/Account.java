@@ -6,10 +6,14 @@
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -59,6 +63,9 @@ public class Account implements Serializable {
     private String lastName;
     private String password;
     
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<App> apps = new LinkedList<App>();
+    
     public Account(){}
     public Account(String mail, String firstName, String lastName, String password)
     {
@@ -101,4 +108,13 @@ public class Account implements Serializable {
         return "ch.heigvd.amt.gary.models.entities.Account[ id=" + id + " ]";
     }
     
+    public void addApp (App app)
+    {
+        apps.add(app);
+    }
+    
+    public List getApps()
+    {
+        return (List) ((LinkedList) apps).clone();
+    }
 }

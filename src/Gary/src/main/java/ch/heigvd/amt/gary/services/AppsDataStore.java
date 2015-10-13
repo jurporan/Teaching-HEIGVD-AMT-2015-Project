@@ -20,9 +20,9 @@ public class AppsDataStore implements AppsDataStoreLocal {
    
    public AppsDataStore()
    {
-      catalog.add(new App((long)1, "demo1", "just a test...", "$adi684jdmcosj301#lkxm", 0, true));
-      catalog.add(new App((long)2, "a test app", "This application was...", "$lkdbaécbalbabla#lkxm", 299225, false));
-      catalog.add(new App((long)5, "my photo app", "A cool app that...", "$jérômemoret#lkxm", 1110, true));
+      //catalog.add(new App((long)1, "demo1", "just a test...", "$adi684jdmcosj301#lkxm", 0, true));
+      //catalog.add(new App((long)2, "a test app", "This application was...", "$lkdbaécbalbabla#lkxm", 299225, false));
+      //catalog.add(new App((long)5, "my photo app", "A cool app that...", "$jérômemoret#lkxm", 1110, true));
    }
    
    @Override

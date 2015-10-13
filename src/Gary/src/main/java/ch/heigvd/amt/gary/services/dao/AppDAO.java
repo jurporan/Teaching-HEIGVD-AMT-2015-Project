@@ -5,6 +5,9 @@
  */
 package ch.heigvd.amt.gary.services.dao;
 
+import ch.heigvd.amt.gary.models.entities.Account;
+import ch.heigvd.amt.gary.models.entities.App;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -13,7 +16,24 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class AppDAO extends DAO {
+    
+    @EJB
+    AccountDAO accountDao;
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
+    public App create(String name, String description, String apiKey, int numberOfUsers, boolean active, Long creatorId)
+    {
+        return create(name, description, apiKey, numberOfUsers, active, accountDao.get(creatorId));
+    }
+    
+    public App create(String name, String description, String apiKey, int numberOfUsers, boolean active, Account creator)
+    {
+        App app = new App(name, description, apiKey, numberOfUsers, active, creator);
+        creator.addApp(app);
+        em.persist(app);
+        return app;
+    }
+
 }
