@@ -27,11 +27,18 @@ th, td {
    width: 100%;
 }
 
+.titleImg {
+   height: 32px;
+   margin-right: 8px;
+   padding-bottom: 2px;
+}
+
 .title {
    color: white;
    float: left;
    font-size: 22px;
    font-weight: bold;
+   margin-right: 75px;
 }
 
 title:focus, .title:hover {
@@ -41,10 +48,14 @@ title:focus, .title:hover {
 
 .btnHeader {
    color: #DEDEDE;
+   font-size: 15px;
+   font-weight: bold;
 }
 
 .btnHeaderSelected, .btnHeader:hover, .btnHeaderSelected:hover, .btnHeader:focus, .btnHeaderSelected:focus {
-   color: #D9534F;
+   color: #7AC7A8;
+   font-size: 15px;
+   font-weight: bold;
    text-decoration: none;
 }
 
@@ -57,8 +68,18 @@ title:focus, .title:hover {
    float: right;
 }
 
+.loginInformation {
+   font-size: 12px;
+}
+
+.btn-gary {
+   background-color: #7AC7A8;
+   border-color: #75B393;
+   color: #000;
+}
+
 .btnLogout {
-   margin-left: 20px;
+   margin-left: 10px;
 }
 
 .pageTitle {

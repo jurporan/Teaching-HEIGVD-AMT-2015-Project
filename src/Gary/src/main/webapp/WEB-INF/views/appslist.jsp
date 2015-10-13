@@ -7,7 +7,7 @@
 <%@include file="includes/header.jsp" %>
 
    <h1 class="pageTitle">${pageTitle}</h1>
-   <button id="btnNewApp" class="btn btnRegisterNew btn-danger" type="button" onClick="location.href='app?action=add';">Register new app</button>
+   <button id="btnNewApp" class="btn btnRegisterNew btn-gary" type="button" onClick="location.href='app?action=add';">Register new app</button>
    
    <table class="appsTable">
       <tr>

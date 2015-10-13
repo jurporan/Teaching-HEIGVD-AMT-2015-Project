@@ -24,13 +24,13 @@
    </head>
    <body>
       <div class="header">
-         <a href="" class="title">Gary</a>
          <div class="container">
+            <a href="" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a>
             <button class="btn btnHeaderSelected btn-link" type="button">Apps</button>
             <button class="btn btnHeader btn-link" type="button">Account</button>
             <div class="headerRight">
-               Logged in as miguel.santamaria@heig-vd.ch
-               <button id="btnLogout" class="btn btnLogout btn-danger" type="button">Logout</button>
+               <span class="loginInformation">Logged in as miguel.santamaria@heig-vd.ch</span>
+               <button id="btnLogout" class="btn btnLogout btn-gary" type="button">Logout</button>
             </div>
          </div>
       </div>
