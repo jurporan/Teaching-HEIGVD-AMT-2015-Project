@@ -113,4 +113,8 @@ public class Account implements Serializable {
         apps.add(app);
     }
     
+    public List getApps()
+    {
+        return (List) ((LinkedList) apps).clone();
+    }
 }
