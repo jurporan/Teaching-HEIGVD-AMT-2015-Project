@@ -29,6 +29,15 @@ public class AccountDAO extends DAO {
     public Account login(String mail, String password)
     {
         List l = em.createQuery("SELECT a FROM Account a WHERE a.mail = :mail AND a.password = :password").setParameter("mail", mail).setParameter("password", password).getResultList();
+        if (l.isEmpty()) {return null;}
+        Account a = (Account) l.get(0);
+        return a;
+    }
+    
+    public Account get(Long id)
+    {
+        List l = em.createQuery("SELECT a FROM Account a WHERE a.id = :id").setParameter("id", id).getResultList();
+        if (l.isEmpty()) {return null;}
         Account a = (Account) l.get(0);
         return a;
     }

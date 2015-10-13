@@ -40,8 +40,8 @@ public class testjpa extends HttpServlet {
         
         
         Account a = dao.create("lol@coucou.com", "test", "java", "1234");
-        //Account b = dao.login("lol@coucou.comdd", "1234");
-        //if (b == null) {System.out.println("ZEROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");}
+        Account b = dao.login("lol@coucou.comdd", "1234");
+        if (b == null) {System.out.println("ZEROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");}
         
         
         
