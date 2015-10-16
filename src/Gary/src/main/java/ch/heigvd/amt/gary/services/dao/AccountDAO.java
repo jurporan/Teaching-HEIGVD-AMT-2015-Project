@@ -49,12 +49,9 @@ public class AccountDAO extends DAO {
         return true;
     }
     
-    public int count()
+    public long count()
     {
-        //int count = ((Number)em.createNamedQuery("SELECT COUNT(a) FROM Account a").getSingleResult()).intValue();
-        //int count = em.createNamedQuery("SELECT COUNT(*) FROM Account").getResultList().size();
-        int count = 2;
-        System.out.println("NB: --------------------------------------------- " + count);
+        long count = (long) em.createQuery("SELECT COUNT(a) FROM Account a").getSingleResult();
         return count;
     }
 }
