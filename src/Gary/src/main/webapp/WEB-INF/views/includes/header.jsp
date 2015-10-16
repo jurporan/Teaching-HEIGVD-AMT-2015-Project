@@ -26,7 +26,7 @@
       <div class="header">
          <div class="container">
             <a href="" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a>
-            <button class="btn btnHeaderSelected btn-link" type="button">Apps</button>
+            <button class="btn btnHeaderSelected btn-link" type="button" onClick="location.href='appslist';">Apps</button>
             <button class="btn btnHeader btn-link" type="button">Account</button>
             <div class="headerRight">
                <span class="loginInformation">Logged in as miguel.santamaria@heig-vd.ch</span>
