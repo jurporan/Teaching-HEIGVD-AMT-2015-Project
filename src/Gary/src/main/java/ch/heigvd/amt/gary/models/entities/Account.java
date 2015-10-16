@@ -63,8 +63,8 @@ public class Account implements Serializable {
     private String lastName;
     private String password;
     
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<App> apps = new LinkedList<App>();
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    private List<App> createdApps = new LinkedList<App>();
     
     public Account(){}
     public Account(String mail, String firstName, String lastName, String password)
@@ -110,11 +110,11 @@ public class Account implements Serializable {
     
     public void addApp (App app)
     {
-        apps.add(app);
+        createdApps.add(app);
     }
     
     public List getApps()
     {
-        return (List) ((LinkedList) apps).clone();
+        return (List) ((LinkedList) createdApps).clone();
     }
 }

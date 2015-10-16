@@ -41,4 +41,20 @@ public class AccountDAO extends DAO {
         Account a = (Account) l.get(0);
         return a;
     }
+    
+    public boolean exists(String mail)
+    {
+        List l = em.createQuery("SELECT a FROM Account a WHERE a.mail = :mail").setParameter("mail", mail).getResultList();
+        if (l.isEmpty()) {return false;}
+        return true;
+    }
+    
+    public int count()
+    {
+        //int count = ((Number)em.createNamedQuery("SELECT COUNT(a) FROM Account a").getSingleResult()).intValue();
+        //int count = em.createNamedQuery("SELECT COUNT(*) FROM Account").getResultList().size();
+        int count = 2;
+        System.out.println("NB: --------------------------------------------- " + count);
+        return count;
+    }
 }
