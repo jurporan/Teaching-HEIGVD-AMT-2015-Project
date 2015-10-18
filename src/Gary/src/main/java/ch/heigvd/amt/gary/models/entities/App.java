@@ -29,7 +29,7 @@ public class App implements Serializable
    private boolean active;
    
    @ManyToOne
-   private Account account;
+   private Account creator;
    
    public App() {}
    
@@ -41,7 +41,7 @@ public class App implements Serializable
       this.apiKey = apiKey;
       this.numberOfUsers = numberOfUsers;
       this.active = active;
-      this.account = creator;
+      this.creator = creator;
    }
 
    public Long getId()

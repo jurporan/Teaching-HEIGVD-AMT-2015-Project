@@ -35,5 +35,11 @@ public class AppDAO extends DAO {
         em.persist(app);
         return app;
     }
+    
+    public long count()
+    {
+        long count = (long) em.createQuery("SELECT COUNT(a) FROM App a").getSingleResult();
+        return count;
+    }
 
 }

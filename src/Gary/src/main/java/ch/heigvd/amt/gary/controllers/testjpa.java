@@ -40,10 +40,14 @@ public class testjpa extends HttpServlet {
         
         
         Account a = dao.create("lol@coucou.com", "test", "java", "1234");
+        Account x = dao.create("lol@coucou.com2", "test", "java", "1234");
+        Account y = dao.create("lol@coucou.com3", "test", "java", "1234");
         Account b = dao.login("lol@coucou.comdd", "1234");
         if (b == null) {System.out.println("ZEROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");}
         
-        
+        System.out.println("EXISTEEEEEEEEEE??????????????? " + dao.exists("lol@coucou.com"));
+        System.out.println("EXISTEEEEEEEEEE??????????????? " + dao.exists("proutout"));
+        dao.count();
         
         
         
