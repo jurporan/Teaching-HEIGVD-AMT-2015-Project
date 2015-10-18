@@ -7,6 +7,7 @@ package ch.heigvd.amt.gary.services.dao;
 
 import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.models.entities.App;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -40,6 +41,14 @@ public class AppDAO extends DAO {
     {
         long count = (long) em.createQuery("SELECT COUNT(a) FROM App a").getSingleResult();
         return count;
+    }
+    
+    public App get(Long id)
+    {
+        List l = em.createQuery("SELECT a FROM App a WHERE a.id = :id").setParameter("id", id).getResultList();
+        if (l.isEmpty()) {return null;}
+        App a = (App) l.get(0);
+        return a;
     }
 
 }
