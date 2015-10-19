@@ -33,14 +33,17 @@ public class AppsManager implements AppsManagerLocal {
    }
    
    @Override
-   public void editAdd()
+   public void editApp(long id, String name, String description, boolean active)
    {
-      
+      App app = getApp(id);
+      app.setName(name);
+      app.setDescription(description);
+      app.setActive(active);
    }
 
    @Override
-   public App getApp() {
-      return null;
+   public App getApp(long id) {
+      return appDao.get(id);
    }
    
    @Override
@@ -48,7 +51,7 @@ public class AppsManager implements AppsManagerLocal {
    {
       //return appsDataStore.getAllApps();
       //Account a = accountDao.create("steakdecheval@orangerie.ch", "Benoist", "Wolleb", "pass123$");
-      Account a = accountDao.get((long)2);
+      Account a = accountDao.get((long)1);
       //App b = appDao.create("ULTIMATE APPLICATION 2015", "THIZ IZ DA APP", "jsdlawkjhdjérôme", 123, true, a);
       //App c = appDao.create("Chattor", "PRO", "lalalalilili", 30, true, a);
       return a.getApps();
