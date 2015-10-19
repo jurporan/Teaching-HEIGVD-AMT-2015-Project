@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -27,17 +28,20 @@ public class App implements Serializable
    private int numberOfUsers;
    private boolean active;
    
+   @ManyToOne
+   private Account creator;
+   
    public App() {}
    
-   public App(Long id, String name, String description, String apiKey, 
-              int numberOfUsers, boolean active)
+   public App(String name, String description, String apiKey, 
+              int numberOfUsers, boolean active, Account creator)
    {
-      this.id = id;
       this.name = name;
       this.description = description;
       this.apiKey = apiKey;
       this.numberOfUsers = numberOfUsers;
       this.active = active;
+      this.creator = creator;
    }
 
    public Long getId()

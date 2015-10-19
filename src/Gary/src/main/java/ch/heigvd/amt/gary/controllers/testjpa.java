@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ch.heigvd.amt.gary.services.dao.AccountDAO;
 import ch.heigvd.amt.gary.models.entities.Account;
+import ch.heigvd.amt.gary.models.entities.App;
+import ch.heigvd.amt.gary.services.dao.AppDAO;
 import javax.ejb.EJB;
 
 /**
@@ -25,6 +27,9 @@ public class testjpa extends HttpServlet {
 
     @EJB
     AccountDAO dao;
+    
+    @EJB
+    AppDAO adao;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,12 +45,18 @@ public class testjpa extends HttpServlet {
         
         
         Account a = dao.create("lol@coucou.com", "test", "java", "1234");
-        //Account b = dao.login("lol@coucou.comdd", "1234");
-        //if (b == null) {System.out.println("ZEROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");}
+        Account x = dao.create("lol@coucou.com2", "test", "java", "1234");
+        Account y = dao.create("lol@coucou.com3", "test", "java", "1234");
+        Account b = dao.login("lol@coucou.comdd", "1234");
+        if (b == null) {System.out.println("ZEROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");}
         
-        
-        
-        
+        System.out.println("EXISTEEEEEEEEEE??????????????? " + dao.exists("lol@coucou.com"));
+        System.out.println("EXISTEEEEEEEEEE??????????????? " + dao.exists("proutout"));
+        dao.count();
+
+        adao.create("poney", "app", "dfghjk", 4, true, a);
+        App lol = adao.get(1l);
+        System.out.println("CAAAAAAAAAAAAAA FONCTIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNNNNNNNNNNNNNEEEEEEEEEEEEEEEEEEEEEE " + lol.getName());
         
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {

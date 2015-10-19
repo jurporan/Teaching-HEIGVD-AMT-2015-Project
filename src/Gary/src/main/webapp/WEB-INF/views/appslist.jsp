@@ -7,7 +7,7 @@
 <%@include file="includes/header.jsp" %>
 
    <h1 class="pageTitle">${pageTitle}</h1>
-   <button id="btnNewApp" class="btn btnRegisterNew btn-danger" type="button" onClick="location.href='app?action=add';">Register new app</button>
+   <button id="btnNewApp" class="btn btnRegisterNew btn-gary" type="button" onClick="location.href='app?action=add';">Register new app</button>
    
    <table class="appsTable">
       <tr>
@@ -27,10 +27,10 @@
                <button id="btnEdit${apps.id}" class="btn btn-default" type="submit" onClick="location.href='app?action=edit&app=${apps.id}';">Edit</button>
                <c:choose>
                   <c:when test="${apps.active}">
-                     <button id="btnStatus${apps.id}" class="btn btnStatus btn-success" type="button">Enabled</button>
+                     <button id="btnStatus${apps.id}" class="btn btnStatus btn-success" type="button" disabled="disabled">Enabled</button>
                   </c:when>
                   <c:otherwise>
-                     <button id="btnStatus${apps.id}" class="btn btnStatus btn-danger" type="button">Disabled</button>
+                     <button id="btnStatus${apps.id}" class="btn btnStatus btn-danger" type="button" disabled="disabled">Disabled</button>
                   </c:otherwise>
                </c:choose>
             </td>

@@ -15,5 +15,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface AppsManagerLocal {
-   List<App> getAllApps();
+   public void createApp(String name, String description, String apiKey, 
+                         int numberOfUsers, boolean active, long userId);
+   public void editAdd();
+   public App getApp();
+   public List<App> getAllApps();
 }

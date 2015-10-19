@@ -48,8 +48,8 @@
       
       <div class="form-group">
          <div class="col-sm-offset-2 col-sm-10">
-            <button id="bSignIn" class="btn btn-lg btn-primary" type="submit">Cancel</button>
-            <button id="bSignIn" class="btn btn-lg btn-primary" type="submit">Update</button>
+            <button id="bSignIn" class="btn btn-lg btn-gary" type="submit">Cancel</button>
+            <button id="bSignIn" class="btn btn-lg btn-gary" type="submit">Update</button>
          </div>
       </div>
    </form>
