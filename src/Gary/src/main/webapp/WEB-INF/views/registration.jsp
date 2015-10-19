@@ -5,8 +5,9 @@
 --%>
 
 <%@include file="includes/header2.jsp" %>
-    <form method="POST" action="registration" class="form-vertical" role="form">
-        <input type="hidden" name="action" value="login" />
+    <div class="container pourcent">
+    <form method="POST" action="registration" role="form">
+        <input type="hidden" name="action" value="registration"/>
         <div class="form-group">
             <label for="firstname" class="col-md-2 control-label">First name</label>
             <div class="col-md-10">
@@ -38,9 +39,9 @@
                 <input name="pass2" type="password" class="form-control" placeholder="password" value ="passwordConfirmation"required />
             </div>
         </div>
-    </div> 
 
-    <div class="container pourcent">
+
+
         <button type="submit" class="btn btn-default  pull-right">Create account</button>
     </div>  
 <%@include file="includes/footer.jsp" %>

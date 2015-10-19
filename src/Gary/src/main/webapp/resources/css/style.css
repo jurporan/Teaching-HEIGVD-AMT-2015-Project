@@ -112,11 +112,10 @@ title:focus, .title:hover {
 
 /* Tout ce qui est la en dessous est à supprimer */
 .pourcent{
-    width: 35%;
+    width: 85%;
 } 
 
 .btn-nav {
-    background: #484848;
     color: #FFFFFF;
     box-shadow: none;
     border-radius:0;
