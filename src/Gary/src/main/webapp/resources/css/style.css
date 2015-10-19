@@ -108,7 +108,17 @@ title:focus, .title:hover {
    border-bottom: 1px solid gray;
 }
 
+.span-btn-form {
+   float: right;
+}
 
+.btn-form {
+   width: 90px;
+}
+
+.mandatoryFields {
+   margin-right: 50px;
+}
 
 /* Tout ce qui est la en dessous est à supprimer */
 .pourcent{

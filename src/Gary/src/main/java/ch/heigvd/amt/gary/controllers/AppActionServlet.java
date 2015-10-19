@@ -8,6 +8,7 @@ package ch.heigvd.amt.gary.controllers;
 import ch.heigvd.amt.gary.services.AppsManagerLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,13 +37,12 @@ public class AppActionServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
-         String action = request.getParameter("action");
-         
+         String action = request.getParameter("action") == null ? 
+                                       "null" : request.getParameter("action");
+         String formAction = request.getParameter("formAction") == null ? 
+                                       "null" : request.getParameter("formAction");
          switch (action) {
             case "add":
-               String formAction = request.getParameter("formAction") == null ? 
-                                       "null" : request.getParameter("formAction");
-               
                if (formAction.equals("create"))
                {
                   String name = request.getParameter("name");
@@ -53,25 +53,51 @@ public class AppActionServlet extends HttpServlet {
                   }
                   else
                   {
-                     System.out.println("NAME_ : " + name);
-                     System.out.println("DESCRIPTION_ : " + request.getParameter("description"));
-                     System.out.println("STATE1 : " + request.getParameter("state"));
-                     
                      appsManager.createApp(name, request.getParameter("description"),
-                                           "abcdefghijkl", 0, request.getParameter("state").equals("Enabled"), 
-                                           (long)2);
+                                           UUID.randomUUID().toString(), 0, 
+                                           request.getParameter("state").equals("Enabled"), 
+                                           (long)1);
                      response.sendRedirect("appslist");
+                     break;
                   }
                }
-               else
-               {
-                  request.setAttribute("pageTitle", "Register new app");
-                  request.getRequestDispatcher("WEB-INF/views/registerapp.jsp").forward(request, response);
-               }
+               
+               request.setAttribute("pageTitle", "Register new app");
+               request.getRequestDispatcher("WEB-INF/views/registerapp.jsp").forward(request, response);
                break;
             case "edit":
+               if (formAction.equals("edit"))
+               {
+                  String name = request.getParameter("name");
+                  
+                  if (name.isEmpty())
+                  {
+                     request.setAttribute("error", "You must fill the name field.");
+                  }
+                  else
+                  {
+                     appsManager.editApp(Long.valueOf(request.getParameter("app")), 
+                                         request.getParameter("name"), 
+                                         request.getParameter("description"), 
+                                         request.getParameter("state").equals("Enabled"));
+                     response.sendRedirect("appslist");
+                     break;
+                  }
+               }
+               else if (request.getParameter("app") == null || request.getParameter("app").equals(""))
+               {
+                  response.sendRedirect("appslist");
+                  break;
+               }
+               
+               Object app = appsManager.getApp(Long.valueOf(request.getParameter("app")));
+               request.setAttribute("app", app);
+               
                request.setAttribute("pageTitle", "App details");
                request.getRequestDispatcher("WEB-INF/views/editapp.jsp").forward(request, response);
+               break;
+            default:
+               response.sendRedirect("appslist");
                break;
          }
       }
