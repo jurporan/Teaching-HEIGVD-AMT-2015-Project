@@ -34,9 +34,35 @@ public class RegistrationServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        
         response.setContentType("text/html;charset=UTF-8");
         request.setAttribute("pageTitle", "Registration");
         request.getRequestDispatcher("WEB-INF/views/registration.jsp").forward(request, response);
+        
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String passwordConfirmation = request.getParameter("passwordConfirmation");
+        String action = request.getParameter("action"); 
+        
+        
+        
+        if(action.equals("register")) {
+            
+            // dao.exists(afsfdsa)
+            
+            if(!password.equals(passwordConfirmation)) {
+                // Registration failure
+                request.setAttribute("Error", "Registration Failure");
+                request.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(request, response);
+            } else {
+                
+            }
+            
+           
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

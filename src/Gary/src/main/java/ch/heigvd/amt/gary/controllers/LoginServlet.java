@@ -41,21 +41,19 @@ public class LoginServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        //String login = request.getParameter("login");
-        //String password = request.getParameter("password");
-        //String action = request.getParameter("action");
-        String action = "login";
-        String login = "aahahahah";
-        String password = "fdsahiufhdsauf";
+      //  response.setContentType("text/html;charset=UTF-8");
+       //  String email = request.getParameter("email");
+       // String password = request.getParameter("password");
+       // String action = request.getParameter("action"); 
+        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+    /*   
         if(action.equals("login"))
         {
-            if(loginService.verifyLogin(login, password) != null)
+            if(loginService.verifyLogin(email, password) != null)
             {
-                request.getSession().setAttribute("login", login);
+                request.getSession().setAttribute("email", email);
                 response.sendRedirect("/appslist");
             }
-
             else
             {
                 request.setAttribute("Error", "Authentification Failure");
@@ -68,6 +66,8 @@ public class LoginServlet extends HttpServlet
             request.getSession().invalidate();
             response.sendRedirect("/welcome");
         }
+        
+      */  
 
     }
     

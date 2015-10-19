@@ -50,7 +50,7 @@ public class WelcomeServlet extends HttpServlet
             throws ServletException, IOException
     {
         request.setAttribute("pageTitle", "Welcome");
-        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/welcome.jsp").forward(request, response);
     }
 
     /**

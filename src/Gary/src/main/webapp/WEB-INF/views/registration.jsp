@@ -4,24 +4,38 @@
     Author     : mel
 --%>
 
-<%@include file="includes/header.jsp" %>
+<%@include file="includes/header2.jsp" %>
     <form method="POST" action="registration" class="form-vertical" role="form">
+        <input type="hidden" name="action" value="login" />
         <div class="form-group">
-            <label for="mail" class="col-md-2 control-label">E-mail</label>
+            <label for="firstname" class="col-md-2 control-label">First name</label>
             <div class="col-md-10">
-                <input name="mail" type="email" class="form-control" placeholder="e-mail" value ="" required />
+                <input name="firstname" type="text" class="form-control" placeholder="first name" value ="firstname" required />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="lastname" class="col-md-2 control-label">Last name</label>
+            <div class="col-md-10">
+                <input name="lastname" type="text" class="form-control" placeholder="last name" value ="lastname" required />
+            </div>
+        </div>     
+        <div class="form-group">
+            <label for="email" class="col-md-2 control-label">E-mail</label>
+            <div class="col-md-10">
+                <input name="email" type="email" class="form-control" placeholder="e-mail" value ="email" required />
             </div>
         </div>    
         <div class="form-group">
             <label for="pass1" class="col-md-2 control-label">Password</label>
             <div class="col-md-10">
-                <input name="pass1" type="password" class="form-control" placeholder="password" value ="" required />
+                <input name="pass1" type="password" class="form-control" placeholder="password" value ="password" required />
             </div>
         </div>
         <div class="form-group">
             <label for="pass2" class="col-md-2 control-label">Password</label>
             <div class="col-md-10">
-                <input name="pass2" type="password" class="form-control" placeholder="password" value =""required />
+                <input name="pass2" type="password" class="form-control" placeholder="password" value ="passwordConfirmation"required />
             </div>
         </div>
     </div> 

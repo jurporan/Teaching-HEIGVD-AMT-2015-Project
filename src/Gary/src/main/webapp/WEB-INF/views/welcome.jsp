@@ -6,8 +6,8 @@
 
 <%@include file="includes/header2.jsp" %>
 			
-<div class="container" style="text-align:center">
+<div class="container" >
     <h1>Welcome to ...</h1>
 </div>
 
-<%@include file="includes/footer2.jsp" %>
+<%@include file="includes/footer.jsp" %>

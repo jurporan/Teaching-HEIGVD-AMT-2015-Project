@@ -86,3 +86,21 @@ title:focus, .title:hover {
 .usersTable {
    border-bottom: 1px solid gray;
 }
+
+
+
+/* Tout ce qui est la en dessous est à supprimer */
+.pourcent{
+    width: 35%;
+} 
+
+.btn-nav {
+    background: #484848;
+    color: #FFFFFF;
+    box-shadow: none;
+    border-radius:0;
+}
+
+.btn{
+    box-shadow: none;
+}
