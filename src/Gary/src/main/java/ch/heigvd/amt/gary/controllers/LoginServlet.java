@@ -6,6 +6,7 @@
 package ch.heigvd.amt.gary.controllers;
 
 import ch.heigvd.amt.gary.services.LoginServiceLocal;
+import ch.heigvd.amt.gary.services.dao.AccountDAO;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -29,6 +30,10 @@ public class LoginServlet extends HttpServlet
 {
     @EJB
     LoginServiceLocal loginService;
+    
+    @EJB
+    AccountDAO dao;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,36 +45,7 @@ public class LoginServlet extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
-    {
-    //    response.setContentType("text/html;charset=UTF-8");
-   //     String email = request.getParameter("email");
-   //     String password = request.getParameter("password");
-          String action = request.getParameter("action"); 
-   //     request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
- /*   
-        if(action.equals("login"))
-        {
-            if(loginService.verifyLogin(email, password) != null)
-            {
-                request.getSession().setAttribute("email", email);
-                response.sendRedirect("/appslist");
-            }
-            else
-            {
-                request.setAttribute("Error", "Authentification Failure");
-                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-            }
-        }
-        
-        else if (action.equals("logout"))
-        {
-            request.getSession().invalidate();
-            response.sendRedirect("/welcome");
-        }
-        
-       */
-
-    }
+    {}
     
    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
   /**
@@ -99,9 +75,35 @@ public class LoginServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-    //   processRequest(request, response);
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String action = request.getParameter("action"); 
+        
+        if(action.equals("login"))
+        {
+            if(loginService.verifyLogin(email, password) != null)
+            {
+                if (dao.login(email, password) != null) {
+                    request.getSession().setAttribute("email", email);
+                    response.sendRedirect("/appslist");
+                } else {
+                    request.setAttribute("Error", "Authentification Failure");
+                  //  request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+                    this.getServletContext().getRequestDispatcher( "/WEB-INF/views/login.jsp" ).forward( request, response );
+                }
+            }
+            else
+            {
+                request.setAttribute("Error", "Authentification Failure");
+                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+            }
+        }
+        
+        else if (action.equals("logout"))
+        {
+            request.getSession().invalidate();
+            response.sendRedirect("/welcome");
+        }
         
     }
 

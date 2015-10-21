@@ -13,18 +13,18 @@
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">E-mail</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" placeholder="e-mail" name="email" />
+                <input type="email" class="form-control" placeholder="e-mail" value ="<c:out value="${param.email}"/>" name="email" required/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="password" class="col-sm-2 control-label">Password</label>
             <div class="col-sm-10">
-                <input type="password" class="form-control" placeholder="password" name="password"/>
+                <input type="password" class="form-control" placeholder="password" name="password" required/>
             </div>
         </div>
 
-            <button type="submit" class="btn btn-default  pull-right" name="action" >Login</button>
+            <button type="submit" value="login" class="btn btn-default  pull-right"  >Login</button>
         </div>
     
     </div>
