@@ -31,9 +31,6 @@ public class LoginServlet extends HttpServlet
     @EJB
     LoginServiceLocal loginService;
     
-    @EJB
-    AccountDAO dao;
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -83,23 +80,20 @@ public class LoginServlet extends HttpServlet
         {
             if(loginService.verifyLogin(email, password) != null)
             {
-                if (dao.login(email, password) != null) {
-                    request.getSession().setAttribute("email", email);
-                    response.sendRedirect("/appslist");
+
+                //   request.getSession().setAttribute("email", email);
+                   response.sendRedirect("/appslist");
+                //    this.getServletContext().getRequestDispatcher( "/WEB-INF/views/appslist.jsp" ).forward( request, response );
                 } else {
                     request.setAttribute("Error", "Authentification Failure");
                   //  request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-                    this.getServletContext().getRequestDispatcher( "/WEB-INF/views/login.jsp" ).forward( request, response );
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp")
+                                            .forward(request, response);
                 }
-            }
-            else
-            {
-                request.setAttribute("Error", "Authentification Failure");
-                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-            }
+
         }
         
-        else if (action.equals("logout"))
+        else  if (action.equals("logout"))
         {
             request.getSession().invalidate();
             response.sendRedirect("/welcome");
