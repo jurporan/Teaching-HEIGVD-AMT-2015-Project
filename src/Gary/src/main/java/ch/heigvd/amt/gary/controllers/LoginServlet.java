@@ -41,12 +41,12 @@ public class LoginServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-      //  response.setContentType("text/html;charset=UTF-8");
-       //  String email = request.getParameter("email");
-       // String password = request.getParameter("password");
-       // String action = request.getParameter("action"); 
-        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-    /*   
+    //    response.setContentType("text/html;charset=UTF-8");
+   //     String email = request.getParameter("email");
+   //     String password = request.getParameter("password");
+          String action = request.getParameter("action"); 
+   //     request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+ /*   
         if(action.equals("login"))
         {
             if(loginService.verifyLogin(email, password) != null)
@@ -67,7 +67,7 @@ public class LoginServlet extends HttpServlet
             response.sendRedirect("/welcome");
         }
         
-      */  
+       */
 
     }
     
@@ -84,7 +84,7 @@ public class LoginServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        this.getServletContext().getRequestDispatcher( "/WEB-INF/views/login.jsp" ).forward( request, response );
     }
 
     /**
@@ -99,7 +99,10 @@ public class LoginServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+    //   processRequest(request, response);
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        
     }
 
     /**

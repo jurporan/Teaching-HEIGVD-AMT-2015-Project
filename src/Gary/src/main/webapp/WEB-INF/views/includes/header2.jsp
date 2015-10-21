@@ -21,6 +21,12 @@
       
         <script src="resources/lib/jquery/jquery.min.js"></script>
         <script src="resources/lib/bootstrap/bootstrap.min.js"></script>
+        
+    <script type="text/javascript">
+        document.getElementById("btnLogin").onclick = function() {
+        location.href = "/login";
+    };
+    </script>
            
     </head>
 	
@@ -31,11 +37,8 @@
                 <a href="" class="title">Gary</a>
                 <div class="container navbar-static">
                     <div>
-                        <button type="button btn-nav" class="btn btnHeader btn-link pull-left btn-nav" name="btnWelcome" value ="btnWelcome">Welcome</button>
-                    </div>
-                    <div>
-                        <button type="button btn-nav" class="btn btnHeader btn-link pull-right btn-nav" name="btnRegister" value="btnRegister">Create account</button>
-                        <button type="button btn-nav" class="btn btnHeader btn-link pull-right pressedButton btn-nav" name="btnLogin" value="btnLogin">Login</button>
+                        <button id="bntLogin" type="button btn-nav" class="btn btnHeader btn-link pull-right btn-nav" name="btnRegister" value="btnRegister">Create account</button>
+                        <button id="btnCreateAccount" type="button btn-nav" class="btn btnHeader btn-link pull-right pressedButton btn-nav" name="btnLogin" value="btnLogin">Login</button>
                     </div>			  	
                 </div>
             </div>

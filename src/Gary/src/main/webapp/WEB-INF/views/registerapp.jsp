@@ -23,7 +23,7 @@
             else
             {
                $("#btnState")
-                       .attr("class", "btn btnStatus btn-success")
+                       .attr("class", "btn btnS</tatus btn-success")
                        .text(enableValue);
                $("#inputState").attr("value", enableValue);
             }

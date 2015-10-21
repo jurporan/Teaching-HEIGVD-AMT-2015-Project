@@ -120,6 +120,14 @@ title:focus, .title:hover {
    margin-right: 50px;
 }
 
+form .errors {
+    color: #900;
+}
+
+form .succes {
+    color: #090;
+}
+
 /* Tout ce qui est la en dessous est à supprimer */
 .pourcent{
     width: 85%;
