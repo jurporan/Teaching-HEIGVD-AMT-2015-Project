@@ -58,6 +58,9 @@ public class testjpa extends HttpServlet {
         App lol = adao.get(1l);
         System.out.println("CAAAAAAAAAAAAAA FONCTIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNNNNNNNNNNNNNEEEEEEEEEEEEEEEEEEEEEE " + lol.getName());
         
+        Account ax = dao.login("lol@coucou.com", "1234");
+        System.out.println("J'aime les PONEYS "  + ax.getFirstName());
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
