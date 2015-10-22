@@ -5,6 +5,7 @@
  */
 package ch.heigvd.amt.gary.controllers;
 
+import ch.heigvd.amt.gary.services.LoginServiceLocal;
 import ch.heigvd.amt.gary.services.dao.AccountDAO;
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,6 +24,9 @@ public class RegistrationServlet extends HttpServlet
 {
    @EJB
    AccountDAO dao;
+   
+   @EJB
+   LoginServiceLocal loginService;
    
    public static final String REGISTRATION_VIEW = "/WEB-INF/views/registration.jsp";
    public static final String ATT_ERRORS = "errors";

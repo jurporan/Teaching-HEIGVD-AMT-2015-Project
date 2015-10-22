@@ -23,7 +23,8 @@ public class LoginService implements LoginServiceLocal
     @Override
     public Account verifyLogin(String login, String password)
     {
-        return account.login(login, password);
-        
+        return account.login(login, password);     
     }
+    
+    
 }

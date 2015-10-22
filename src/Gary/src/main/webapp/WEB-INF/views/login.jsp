@@ -23,10 +23,14 @@
                     <input type="password" class="form-control" placeholder="password" name="password" required/>
                 </div>
             </div>
-
-                <button type="submit" value="login" class="btn btn-default  pull-right">Login</button>
-            </div>
-        </form>
-    </div>
+            
+                <div>
+                    <button type="submit" value="login" class="btn btn-default  pull-right">Login</button>
+                    <p class="errors">${result}</p>
+                </div>
+         
+            </form>
+        </div>
+</div>
 
 <%@include file="includes/footer.jsp" %>

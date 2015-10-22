@@ -5,6 +5,7 @@
  */
 package ch.heigvd.amt.gary.controllers;
 
+import static ch.heigvd.amt.gary.controllers.RegistrationServlet.ATT_RESULT;
 import ch.heigvd.amt.gary.services.LoginServiceLocal;
 import ch.heigvd.amt.gary.services.dao.AccountDAO;
 import java.io.IOException;
@@ -72,6 +73,7 @@ public class LoginServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        String result;
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String action = request.getParameter("action"); 
@@ -80,25 +82,24 @@ public class LoginServlet extends HttpServlet
         {
             if(loginService.verifyLogin(email, password) != null)
             {
-
-                //   request.getSession().setAttribute("email", email);
-                   response.sendRedirect("/appslist");
+                request.getSession().setAttribute("email", email);
+                response.sendRedirect("/WEB-INF/views/appslist.jsp");
                 //    this.getServletContext().getRequestDispatcher( "/WEB-INF/views/appslist.jsp" ).forward( request, response );
-                } else {
-                    request.setAttribute("Error", "Authentification Failure");
-                  //  request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp")
-                                            .forward(request, response);
-                }
-
+            } 
+            else 
+            {
+                 result = "Echec de l'authentification.";
+                 request.setAttribute("result", result);
+                 this.getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp")
+                                         .forward(request, response);
+            }
         }
         
-        else  if (action.equals("logout"))
+        else if(action.equals("logout"))
         {
             request.getSession().invalidate();
             response.sendRedirect("/welcome");
-        }
-        
+        }      
     }
 
     /**

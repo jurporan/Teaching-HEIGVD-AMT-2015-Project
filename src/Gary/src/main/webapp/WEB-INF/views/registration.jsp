@@ -49,8 +49,7 @@
                 </div>
             </div>
 
-        <button type="submit" value="registration" class="btn btn-default  pull-right">Create account</button>
-        
+        <button type="submit" value="registration" class="btn btn-default  pull-right">Create account</button>      
         <p class="${empty errors ? 'succes' : 'errors'}">${result}</p>
         
     </div>  
