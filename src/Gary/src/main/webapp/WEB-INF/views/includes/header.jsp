@@ -25,9 +25,9 @@
    <body>
       <div class="header">
          <div class="container">
-            <a href="" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a>
-            <button class="btn btnHeaderSelected btn-link" type="button" onClick="location.href='appslist';">Apps</button>
-            <button class="btn btnHeader btn-link" type="button">Account</button>
+            <a href="" id="linkLogo" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a>
+            <button id="btnHeaderApps" class="btn btnHeaderSelected btn-link" type="button" onClick="location.href='appslist';">Apps</button>
+            <button id="btnHeaderAccount" class="btn btnHeader btn-link" type="button">Account</button>
             <div class="headerRight">
                <span class="loginInformation">Logged in as ${email}</span>
                <a id="btnLogout" class="btn btnLogout btn-gary" href="login?action=logout">Logout</a>

@@ -22,7 +22,7 @@
             <td>${apps.name}</td>
             <td>${apps.description}</td>
             <td>${apps.apiKey}</td>
-            <td><a href="userslist?app=${apps.id}&page=1">${apps.numberOfUsers}</a></td>
+            <td><a id="linkUsersApp" href="userslist?app=${apps.id}&page=1">${apps.numberOfUsers}</a></td>
             <td class="appButtons">
                <button id="btnEdit${apps.id}" class="btn btn-default" type="submit" onClick="location.href='app?action=edit&app=${apps.id}';">Edit</button>
                <c:choose>

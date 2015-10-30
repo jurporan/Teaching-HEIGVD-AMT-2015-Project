@@ -40,14 +40,14 @@
       <div class="form-group">
          <label class="control-label col-sm-2" for="name">Name *</label>
          <div class="col-sm-10">
-            <input type="text" name="name" class="form-control" placeholder="Enter name" required="required" />
+            <input id="appName" type="text" name="name" class="form-control" placeholder="Enter name" required="required" />
          </div>
       </div>
       
       <div class="form-group">
          <label class="control-label col-sm-2" for="description">Description</label>
          <div class="col-sm-10">
-            <textarea name="description" class="form-control" placeholder="Enter description"></textarea>
+            <textarea id="descritpionName" name="description" class="form-control" placeholder="Enter description"></textarea>
          </div>
       </div>
       
