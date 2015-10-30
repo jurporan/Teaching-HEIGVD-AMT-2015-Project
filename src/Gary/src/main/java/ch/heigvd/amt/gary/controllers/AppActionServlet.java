@@ -56,7 +56,7 @@ public class AppActionServlet extends HttpServlet {
                      appsManager.createApp(name, request.getParameter("description"),
                                            UUID.randomUUID().toString(), 0, 
                                            request.getParameter("state").equals("Enabled"), 
-                                           (long)request.getSession().getAttribute("id"));
+                                             (long)request.getSession().getAttribute("id"));
                      response.sendRedirect("appslist");
                      break;
                   }
