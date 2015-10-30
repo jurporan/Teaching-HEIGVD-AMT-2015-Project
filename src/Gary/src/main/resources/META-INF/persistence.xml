@@ -8,6 +8,7 @@
     <class>ch.heigvd.amt.gary.models.entities.Role</class>
     <properties>
       <property name="eclipselink.logging.level" value="FINE"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>
