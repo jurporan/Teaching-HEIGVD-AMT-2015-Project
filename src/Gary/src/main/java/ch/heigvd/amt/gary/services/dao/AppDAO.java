@@ -7,6 +7,7 @@ package ch.heigvd.amt.gary.services.dao;
 
 import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.models.entities.App;
+import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -50,5 +51,11 @@ public class AppDAO extends DAO {
         App a = (App) l.get(0);
         return a;
     }
-
+    
+    public List<App> getUserApps(Account a, int pageNo, int nbPerPage)
+    {
+        pageNo--;
+        List<App> l = em.createQuery("SELECT a FROM App a WHERE a.creator = :creator").setParameter("creator", a).setFirstResult(pageNo * nbPerPage).setMaxResults(nbPerPage).getResultList();
+        return l;
+    }
 }
