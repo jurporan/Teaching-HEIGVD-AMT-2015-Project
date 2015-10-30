@@ -5,8 +5,11 @@
  */
 package ch.heigvd.amt.gary.controllers;
 
+import ch.heigvd.amt.gary.models.entities.App;
+import ch.heigvd.amt.gary.services.AppsManagerLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +20,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author Miguel
  */
 public class UsersListServlet extends HttpServlet {
-
+   
+   @EJB
+   AppsManagerLocal appsManager;
+   
    /**
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
     * methods.
@@ -31,8 +37,11 @@ public class UsersListServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
+         App app = appsManager.getApp(Long.valueOf(request.getParameter("app")));                  
+         
          request.setAttribute("pageTitle", "List of users");
          request.setAttribute("email", request.getSession().getAttribute("email"));
+         request.setAttribute("appName", app.getName());
          request.getRequestDispatcher("WEB-INF/views/userslist.jsp").forward(request, response);
       }
    }

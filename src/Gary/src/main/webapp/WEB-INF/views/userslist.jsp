@@ -6,7 +6,7 @@
 
 <%@include file="includes/header.jsp" %>
 
-   <h1>List of users for "my photo app"</h1>
+   <h1>List of users for "${appName}"</h1>
    <br/>
    <h3>No user.</h3>
    
