@@ -41,6 +41,7 @@ public class AppsListServlet extends HttpServlet {
          
          request.setAttribute("pageTitle", "Your apps");
          request.setAttribute("apps", apps);
+         request.setAttribute("email", request.getSession().getAttribute("email"));
          request.getRequestDispatcher("WEB-INF/views/appslist.jsp").forward(request, response);
       }
    }
