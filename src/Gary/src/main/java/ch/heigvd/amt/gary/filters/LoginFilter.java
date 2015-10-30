@@ -66,6 +66,11 @@ public class LoginFilter implements Filter
         {
             isTargetUrlProtected = false;
         }
+        else if ("/registration".equals(path)) 
+        {
+            isTargetUrlProtected = false;
+        }
+
 
       /*
        * If the user has been authenticated before, then the AuthenticationServlet has placed
