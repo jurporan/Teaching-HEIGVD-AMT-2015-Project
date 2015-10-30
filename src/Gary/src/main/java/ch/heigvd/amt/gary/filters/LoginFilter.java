@@ -58,10 +58,18 @@ public class LoginFilter implements Filter
        * If the target URL is static content or if it is the authentication servlet, then we grant access event
        * if the user has not been authenticated.
        */
-        if ("/welcome".equals(path)) 
+        if (path.startsWith("/resources/"))
         {
             isTargetUrlProtected = false;
-        } 
+        }
+        else if ("/".equals(path)) 
+        {
+            isTargetUrlProtected = false;
+        }
+        else if ("/welcome".equals(path)) 
+        {
+            isTargetUrlProtected = false;            
+        }
         else if ("/login".equals(path)) 
         {
             isTargetUrlProtected = false;
@@ -83,7 +91,7 @@ public class LoginFilter implements Filter
          * The user has not been authenticated and tries to access a protected resource,
          * we display the login page (and interrupt the request processing pipeline).
          */
-        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
       } 
       
       else 
