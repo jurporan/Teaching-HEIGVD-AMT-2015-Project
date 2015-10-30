@@ -34,8 +34,9 @@
         <div class="wrapper">
             <div class="header">
                 <%-- <a href="" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a> --%>
-                <a href="" class="title">Gary</a>
+                
                 <div class="container navbar-static">
+                    <a href="" class="title">Gary</a>
                     <div>
                         <button id="bntLogin" type="button btn-nav" class="btn btnHeader btn-link pull-right btn-nav" name="btnRegister" value="btnRegister">Create account</button>
                         <button id="btnCreateAccount" type="button btn-nav" class="btn btnHeader btn-link pull-right pressedButton btn-nav" name="btnLogin" value="btnLogin">Login</button>

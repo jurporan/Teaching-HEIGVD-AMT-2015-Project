@@ -23,7 +23,8 @@ th, td {
 
 .header {
    background-color: #212121;
-   padding: 10px;
+  // padding: 10px;
+   height: 60px;
    width: 100%;
 }
 
@@ -128,7 +129,44 @@ form .succes {
     color: #090;
 }
 
-/* Tout ce qui est la en dessous est à supprimer */
+
+.form-group {
+    margin-bottom: 100px;
+}
+
+.col-sm-2 {
+    padding: 0px;
+}
+
+.col-sm-10 {
+    padding: 0px;
+    margin-bottom: 25px;
+}
+
+.container {
+    
+   // padding-left: 250px;
+   // padding-right: 250px;
+}
+
+h1 {
+    font-size: 700%;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.navbar-static {
+    padding-top: 1%;
+    padding-left: 0px; 
+    padding-right: 0px;
+}
+
+form {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+/*
+
 .pourcent{
     width: 85%;
 } 
@@ -142,3 +180,4 @@ form .succes {
 .btn{
     box-shadow: none;
 }
+*/
