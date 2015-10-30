@@ -94,7 +94,7 @@ public class AppActionServlet extends HttpServlet {
                request.setAttribute("app", app);
                
                request.setAttribute("pageTitle", "App details");
-               request.setAttribute("mail", request.getSession().getAttribute("email"));
+               request.setAttribute("email", request.getSession().getAttribute("email"));
                request.getRequestDispatcher("WEB-INF/views/editapp.jsp").forward(request, response);
                break;
             default:

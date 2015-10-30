@@ -32,7 +32,7 @@ public class UsersListServlet extends HttpServlet {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
          request.setAttribute("pageTitle", "List of users");
-         request.setAttribute("mail", request.getSession().getAttribute("email"));
+         request.setAttribute("email", request.getSession().getAttribute("email"));
          request.getRequestDispatcher("WEB-INF/views/userslist.jsp").forward(request, response);
       }
    }
