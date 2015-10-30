@@ -82,8 +82,8 @@ public class LoginServlet extends HttpServlet
         {
             if(loginService.verifyLogin(email, password) != null)
             {
-                request.getSession().setAttribute("email", email);
-                response.sendRedirect("/WEB-INF/views/appslist.jsp");
+                request.getSession().setAttribute("mail", email);
+                response.sendRedirect("appslist");
                 //    this.getServletContext().getRequestDispatcher( "/WEB-INF/views/appslist.jsp" ).forward( request, response );
             } 
             else 
@@ -98,7 +98,7 @@ public class LoginServlet extends HttpServlet
         else if(action.equals("logout"))
         {
             request.getSession().invalidate();
-            response.sendRedirect("/welcome");
+            response.sendRedirect("welcome");
         }      
     }
 

@@ -29,8 +29,8 @@
             <button class="btn btnHeaderSelected btn-link" type="button" onClick="location.href='appslist';">Apps</button>
             <button class="btn btnHeader btn-link" type="button">Account</button>
             <div class="headerRight">
-               <span class="loginInformation">Logged in as miguel.santamaria@heig-vd.ch</span>
-               <button id="btnLogout" class="btn btnLogout btn-gary" type="button">Logout</button>
+               <span class="loginInformation">Logged in as ${mail}</span>
+               <a id="btnLogout" class="btn btnLogout btn-gary" href="login?action=logout">Logout</a>
             </div>
          </div>
       </div>
