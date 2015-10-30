@@ -7,7 +7,7 @@
 <%@include file="includes/header2.jsp" %>
 			
 <div class="container" >
-    <h1>Welcome to ...</h1>
+    <h1>Welcome to Gary</h1>
 </div>
 
 <%@include file="includes/footer.jsp" %>

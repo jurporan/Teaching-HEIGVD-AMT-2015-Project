@@ -7,6 +7,7 @@ package ch.heigvd.amt.gary.services;
 
 import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.services.dao.AccountDAO;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -16,11 +17,14 @@ import javax.ejb.Stateless;
 @Stateless
 public class LoginService implements LoginServiceLocal
 {
-    private AccountDAO account = new AccountDAO();
+    @EJB
+    AccountDAO account;
+
     @Override
     public Account verifyLogin(String login, String password)
     {
-        return account.login(login, password);
-        
+        return account.login(login, password);     
     }
+    
+    
 }

@@ -35,7 +35,11 @@ public class WelcomeServlet extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
-    {}
+    {
+        request.getRequestDispatcher("/WEB-INF/views/welcome.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(request, response);
+    }
 
     /**
      * Handles the HTTP <code>GET</code> method.

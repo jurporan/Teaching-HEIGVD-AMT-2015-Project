@@ -21,26 +21,28 @@
       
         <script src="resources/lib/jquery/jquery.min.js"></script>
         <script src="resources/lib/bootstrap/bootstrap.min.js"></script>
+        
+    <script type="text/javascript">
+        document.getElementById("btnLogin").onclick = function() {
+        location.href = "/login";
+    };
+    </script>
            
     </head>
 	
     <body>
         <div class="wrapper">
             <div class="header">
+                <%-- <a href="" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a> --%>
                 <a href="" class="title">Gary</a>
-                <div id="header nav container">
-                    <div class="navbar navbar-default navbar-static">
-                        <div class="headerLeft container">
-                            <button type="button btn-nav" class="btn btn-default btn-lg pull-left btn-nav">Welcome</button>
-                        </div>
-                        <div class="headerRight container">
-                            <button type="button btn-nav" class="btn btn-default btn-lg pull-right btn-nav">Create account</button>
-                            <button type="button btn-nav" class="btn btn-default btn-lg pull-right pressedButton btn-nav">Login</button>
-                        </div>			  	
-                    </div>
-                </div>	
+                <div class="container navbar-static">
+                    <div>
+                        <button id="bntLogin" type="button btn-nav" class="btn btnHeader btn-link pull-right btn-nav" name="btnRegister" value="btnRegister">Create account</button>
+                        <button id="btnCreateAccount" type="button btn-nav" class="btn btnHeader btn-link pull-right pressedButton btn-nav" name="btnLogin" value="btnLogin">Login</button>
+                    </div>			  	
+                </div>
             </div>
             <div class="container">
-                
+                 
                 
                 
