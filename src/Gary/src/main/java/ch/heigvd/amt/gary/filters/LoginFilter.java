@@ -71,8 +71,8 @@ public class LoginFilter implements Filter
        * If the user has been authenticated before, then the AuthenticationServlet has placed
        * an object (in this case a String) in the HTTP session. We can retrieve it.
        */
-      String userEmail = (String) httpRequest.getSession().getAttribute("email");
-      if (userEmail == null && isTargetUrlProtected) 
+      
+      if (httpRequest.getSession().getAttribute("email") == null && isTargetUrlProtected) 
       {
         /*
          * The user has not been authenticated and tries to access a protected resource,
