@@ -6,6 +6,7 @@
 package ch.heigvd.amt.gary.controllers;
 
 import static ch.heigvd.amt.gary.controllers.RegistrationServlet.ATT_RESULT;
+import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.services.LoginServiceLocal;
 import ch.heigvd.amt.gary.services.dao.AccountDAO;
 import java.io.IOException;
@@ -80,11 +81,13 @@ public class LoginServlet extends HttpServlet
         
         if(action.equals("login"))
         {
-            if(loginService.verifyLogin(email, password) != null)
+            Account account = loginService.verifyLogin(email, password);
+            
+            if(account != null)
             {
                 request.getSession().setAttribute("email", email);
+                request.getSession().setAttribute("id", account.getId());
                 response.sendRedirect("/WEB-INF/views/appslist.jsp");
-                //    this.getServletContext().getRequestDispatcher( "/WEB-INF/views/appslist.jsp" ).forward( request, response );
             } 
             else 
             {
