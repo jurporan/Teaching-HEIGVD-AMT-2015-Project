@@ -37,7 +37,7 @@ public class AppsListServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
-         Object apps = appsManager.getAllApps();
+         Object apps = appsManager.getAllApps((long)request.getSession().getAttribute("id"));
          
          request.setAttribute("pageTitle", "Your apps");
          request.setAttribute("apps", apps);
