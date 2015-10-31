@@ -1,6 +1,8 @@
 /*
- * The servlet that manage and show the list of applications.
- * Created on 01.10.2015 by Miguel Santamaria
+ * Created on : 25 sept. 2015, 10:03:50
+ * Author     : Miguel Santamaria
+ * Goal       : This servlet manages and shows the list of the connected user.
+ *              A pagination system is implemented.
  */
 package ch.heigvd.amt.gary.controllers;
 
