@@ -8,7 +8,6 @@ package ch.heigvd.amt.gary.controllers;
 import ch.heigvd.amt.gary.services.AppsManagerLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.util.UUID;
 import javax.ejb.EJB;
 import javax.json.*;

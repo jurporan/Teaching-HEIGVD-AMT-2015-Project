@@ -14,6 +14,8 @@
       * parameters, to simulate a app's edition, all of this when a click on an app's
       * status button occurs.
       * In this case we only want to edit the app's status.
+      * @param buttonId The app-to-edit's ID.
+      * @param action The action that indicate the new status (enable or disable).
       */
       function sendStatusChangeWithAjax(buttonId, action)
       {
