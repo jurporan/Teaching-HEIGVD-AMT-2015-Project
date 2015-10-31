@@ -24,7 +24,7 @@ public interface AppsManagerLocal {
                          int numberOfUsers, boolean active, long userId);
    
    /**
-    * Edit an given app with the given parameters.
+    * Edit a given app with the given parameters.
     * @param id The app-to-edit's ID.
     * @param name The new app's name.
     * @param description The new app's description.

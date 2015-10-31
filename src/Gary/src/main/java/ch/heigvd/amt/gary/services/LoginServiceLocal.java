@@ -16,4 +16,14 @@ import javax.ejb.Local;
 public interface LoginServiceLocal
 {
     Account verifyLogin(String login, String password);
+    
+    void passwordValidation(String password, String passwordConfirmation) throws Exception;
+    
+    void firstnameAndLastnameValidation (String firstname, String lastname) throws Exception;
+   
+    void emailValidation(String email) throws Exception;
+    
+    boolean isValidEmailAddress(String email);
 }
+
+
