@@ -36,7 +36,6 @@
                 <label for="password" class="col-sm-2 control-label">Password</label>
                 <div class="col-sm-10">
                     <input id="password" name="password" type="password" class="form-control" placeholder="password" value ="password" maxlength="20" required />
-                    <span class="errors">${errors['password']}</span>
                 </div>
             </div>
             

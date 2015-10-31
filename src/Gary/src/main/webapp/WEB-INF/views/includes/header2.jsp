@@ -36,10 +36,10 @@
                 <%-- <a href="" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a> --%>
                 
                 <div class="container navbar-static">
-                    <a href="" class="title">Gary</a>
+                    <a href="" id="linkLogo" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a>
                     <div>
-                        <button id="bntLogin" type="button btn-nav" class="btn btnHeader btn-link pull-right btn-nav" name="btnRegister" value="btnRegister">Create account</button>
-                        <button id="btnCreateAccount" type="button btn-nav" class="btn btnHeader btn-link pull-right pressedButton btn-nav" name="btnLogin" value="btnLogin">Login</button>
+                        <button id="bntLogin" type="button btn-nav" class="btn btnHeader btn-link pull-right btn-nav" name="btnRegister" value="btnRegister" onClick="location.href='registration';">Create account</button>
+                        <button id="btnCreateAccount" type="button btn-nav" class="btn btnHeader btn-link pull-right pressedButton btn-nav" name="btnLogin" value="btnLogin" onClick="location.href='login';">Login</button>
                     </div>			  	
                 </div>
             </div>
