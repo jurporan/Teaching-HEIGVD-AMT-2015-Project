@@ -5,10 +5,8 @@
  */
 package ch.heigvd.amt.gary.controllers;
 
-import static ch.heigvd.amt.gary.controllers.RegistrationServlet.ATT_RESULT;
 import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.services.LoginServiceLocal;
-import ch.heigvd.amt.gary.services.dao.AccountDAO;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;

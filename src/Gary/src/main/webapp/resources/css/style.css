@@ -3,7 +3,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : 18 sept. 2015, 11:37:12
     Author     : Miguel
 */
@@ -152,8 +152,8 @@ form .succes {
 }
 
 .navbar-static {
-    padding-top: 1%;
-    padding-left: 0px; 
+    padding-top: 13px;
+    padding-left: 0px;
     padding-right: 0px;
 }
 
@@ -161,16 +161,7 @@ form {
     margin-left: 15%;
     margin-right: 15%;
 }
-/*
- 
 
-.btn-nav {
-    color: #FFFFFF;
-    box-shadow: none;
-    border-radius:0;
+.btn-login {
+    margin-right: 15px;
 }
-
-.btn{
-    box-shadow: none;
-}
-*/

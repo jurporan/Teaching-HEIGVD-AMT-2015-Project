@@ -41,6 +41,7 @@ public class UsersListServlet extends HttpServlet {
          request.setAttribute("pageTitle", "List of users");
          request.setAttribute("email", request.getSession().getAttribute("email"));
          request.setAttribute("appName", app.getName());
+         request.setAttribute("selectedHeaderElem", "apps");
          request.getRequestDispatcher("WEB-INF/views/userslist.jsp").forward(request, response);
       }
    }

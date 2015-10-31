@@ -35,7 +35,9 @@ public class AppActionServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
-         // Here we have both GET and POST request's parameters, so we need to do the
+         request.setAttribute("selectedHeaderElem", "apps");
+         
+// Here we have both GET and POST request's parameters, so we need to do the
          // operations in the processRequest method.
          // GET request's parameter. Indicate the action (edit or add) to apply to the app.
          String action = request.getParameter("action") == null ? 

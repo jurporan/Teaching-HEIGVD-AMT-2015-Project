@@ -38,8 +38,8 @@
                 <div class="container navbar-static">
                     <a href="" id="linkLogo" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a>
                     <div>
-                        <button id="bntLogin" type="button btn-nav" class="btn btnHeader btn-link pull-right btn-nav" name="btnRegister" value="btnRegister" onClick="location.href='registration';">Create account</button>
-                        <button id="btnCreateAccount" type="button btn-nav" class="btn btnHeader btn-link pull-right pressedButton btn-nav" name="btnLogin" value="btnLogin" onClick="location.href='login';">Login</button>
+                        <button id="bntLogin" type="button btn-nav" class="btn pull-right btn-gary" name="btnRegister" value="btnRegister" onClick="location.href='registration';">Create account</button>
+                        <button id="btnCreateAccount" type="button btn-nav" class="btn pull-right btn-login btn-gary" name="btnLogin" value="btnLogin" onClick="location.href='login';">Login</button>
                     </div>			  	
                 </div>
             </div>
