@@ -60,7 +60,7 @@
                         <a href="appslist?page=${pageNumber + 1}&per_page=${itemsPerPage}">Next page</a>
                     </c:when>
                     <c:otherwise>
-                        Previous page
+                        Next page
                     </c:otherwise>
                 </c:choose>
             </td>
