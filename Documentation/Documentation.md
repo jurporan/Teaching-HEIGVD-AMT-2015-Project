@@ -74,5 +74,11 @@ Dans ce cas précis, le DAO responsable de gérer les comptes est injecté dans 
 
 Nous avons défini cette structure de *DAO* dans notre application:
 
-IMAGE
+![DAO](img/DAOclasses.png)
 
+La superclasse ```DAO``` sert uniquement à récupérer le contexte de persistence et à stocker la référence vers l'```EntityManager``` que vont utiliser les classes qui en héritent.
+
+- AppDAO sert à gérer les objets représentant les applications, les ```App```
+- AccountDAO sert à gérer les objets représentant les comptes, les ```Account```
+
+Pour plus de détails concernant l'utilisation et le rôle de chaque méthodes fournies par les DAO, référez-vous à la javadoc de ces derniers.
