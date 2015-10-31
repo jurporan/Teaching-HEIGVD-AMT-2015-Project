@@ -2,7 +2,7 @@
     Document   : header
     Created on : 29 sept. 2015, 14:11:19
     Author     : Miguel Santamaria
-    Goal       : 
+    Goal       : The header of pages that the connected user can see.
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -36,4 +36,5 @@
          </div>
       </div>
       <div class="container">
+         <br/>
       
