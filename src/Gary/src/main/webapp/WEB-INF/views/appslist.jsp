@@ -22,7 +22,7 @@
           // The AJAX POST request's parameters.
           var dataString = "formAction=edit&state=" + 
                             (action === "enable" ? "Enabled" : "Disabled") + 
-                            "&ajax=true"
+                            "&ajax=true";
           
           // Make an AJAX POST request to the AppActionServlet to update the app's status.
           // We expect to receive back JSON as a response.
@@ -31,7 +31,7 @@
             url:  "app?action=edit&app=" + buttonId,
             data: dataString,
             dataType: 'json',
-            // Occurs when the AJAX request successfully executed.
+            // Occurs when the AJAX request was successfully executed.
             success: function (data)
             {
                 // In case of success, we change the concerned button's rendering,
