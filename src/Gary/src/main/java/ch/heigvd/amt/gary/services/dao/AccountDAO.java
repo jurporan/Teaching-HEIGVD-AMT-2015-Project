@@ -7,8 +7,6 @@ package ch.heigvd.amt.gary.services.dao;
 import javax.ejb.Stateless;
 import ch.heigvd.amt.gary.models.entities.Account;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Stateless
 public class AccountDAO extends DAO {
@@ -82,8 +80,7 @@ public class AccountDAO extends DAO {
         // Here we create a custom query to fetch the accounts having the provided email address, should contain 1 or 0 element
         List l = em.createQuery("SELECT a FROM Account a WHERE a.mail = :mail").setParameter("mail", mail).getResultList();
         
-        if (l.isEmpty()) {return false;}
-        return true;
+        return !l.isEmpty();
     }
     
     /**
