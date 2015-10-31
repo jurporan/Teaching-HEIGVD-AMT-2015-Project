@@ -36,6 +36,7 @@ public class AppActionServlet extends HttpServlet {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
          request.setAttribute("selectedHeaderElem", "apps");
+         request.setAttribute("email", request.getSession().getAttribute("email"));
          
          // Here we have both GET and POST request's parameters, so we need to do the
          // operations in the processRequest method.
@@ -74,7 +75,7 @@ public class AppActionServlet extends HttpServlet {
                }
                
                request.setAttribute("pageTitle", "Register new app");
-               request.getRequestDispatcher("WEB-INF/views/registerapp.jsp").forward(request, response);
+               request.getRequestDispatcher("WEB-INF/views/appaction.jsp").forward(request, response);
                break;
             case "edit":
                // If the user clicked on the "Edit" button, we need to edit the new app
@@ -138,8 +139,7 @@ public class AppActionServlet extends HttpServlet {
                
                request.setAttribute("app", app);
                request.setAttribute("pageTitle", "App details");
-               request.setAttribute("email", request.getSession().getAttribute("email"));
-               request.getRequestDispatcher("WEB-INF/views/editapp.jsp").forward(request, response);
+               request.getRequestDispatcher("WEB-INF/views/appaction.jsp").forward(request, response);
                break;
             default:
                response.sendRedirect("appslist");
