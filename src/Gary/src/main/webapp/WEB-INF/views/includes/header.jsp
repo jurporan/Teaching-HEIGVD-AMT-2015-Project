@@ -29,8 +29,11 @@
          <div class="container navbar-static">
             <a href="" id="linkLogo" class="title"><img class="titleImg" src="resources/img/logo.png" />Gary</a>
             
+            <!-- Depending on the user's status (connected or not), we show different buttons. -->
             <c:choose>
                 <c:when test="${not empty email}">
+                <!-- If the user is currently connected, he can navigate through apps and his account manager's page. -->
+                    <!-- Select the right header's link, depending on the page where the user currently is. -->
                     <c:choose>
                         <c:when test="${selectedHeaderElem == 'apps'}">                
                             <button id="btnHeaderApps" class="btn btnHeaderSelected btn-link" type="button" onClick="location.href='appslist';">Apps</button>
@@ -47,6 +50,7 @@
                     </div>
                 </c:when>
                 <c:otherwise>
+                <!-- If the user is not connected, he can connect or create a new account. -->
                     <div>
                         <button id="bntLogin" type="button btn-nav" class="btn pull-right btn-gary" name="btnRegister" value="btnRegister" onClick="location.href='registration';">Create account</button>
                         <button id="btnCreateAccount" type="button btn-nav" class="btn pull-right btn-login btn-gary" name="btnLogin" value="btnLogin" onClick="location.href='login';">Login</button>
