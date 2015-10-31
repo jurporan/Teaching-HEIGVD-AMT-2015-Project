@@ -7,7 +7,7 @@
 <%@include file="includes/header.jsp" %>
 
     <form method="POST" action="editaccount">
-        <input type="hidden" name="action" value="editaccount"/>
+        <input type="hidden" name="action" value="editaccount" class="form-horizontal"/>
 
         <div class="form-group">
             <label for="firstname" class="col-sm-2 control-label">First name</label>

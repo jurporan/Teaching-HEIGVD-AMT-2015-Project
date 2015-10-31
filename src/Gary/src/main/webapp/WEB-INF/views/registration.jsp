@@ -6,7 +6,7 @@
 
 <%@include file="includes/header.jsp" %>
 
-    <form method="POST" action="registration">
+    <form method="POST" action="registration" class="form-horizontal">
         <input type="hidden" name="action" value="registration"/>
 
         <div class="form-group">
