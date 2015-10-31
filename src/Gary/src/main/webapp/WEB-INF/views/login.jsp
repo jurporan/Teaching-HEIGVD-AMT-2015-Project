@@ -4,7 +4,7 @@
     Author     : mel
 --%>
 
-<%@include file="includes/header2.jsp" %>
+<%@include file="includes/header.jsp" %>
 
         <form method="POST" action="login"> 
             <input type="hidden" name="action" value="login" />

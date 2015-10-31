@@ -24,8 +24,8 @@
         
     <script type="text/javascript">
         document.getElementById("btnLogin").onclick = function() {
-        location.href = "/login";
-    };
+            location.href = "/login";
+        };
     </script>
            
     </head>
