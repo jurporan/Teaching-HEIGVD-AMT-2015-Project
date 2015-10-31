@@ -1,6 +1,8 @@
 /*
- * Represent the objet that define an application.
- * Created on 01.10.2015 by Miguel Santamaria
+ * Created on : 03.10.2015
+ * Author     : Miguel Santamaria
+ * Goal       : This entity represent an APP object got from the database.
+ *              Gives a constructor, the attributes and the linked getters/setters.
  */
 package ch.heigvd.amt.gary.models.entities;
 
@@ -11,10 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-/**
- *
- * @author Miguel
- */
 @Entity
 public class App implements Serializable
 {    

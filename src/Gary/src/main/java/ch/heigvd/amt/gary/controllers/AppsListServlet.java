@@ -1,6 +1,8 @@
 /*
- * The servlet that manage and show the list of applications.
- * Created on 01.10.2015 by Miguel Santamaria
+ * Created on : 10.10.2015
+ * Author     : Miguel Santamaria
+ * Goal       : This servlet manages and shows the list of the connected user.
+ *              A pagination system is implemented.
  */
 package ch.heigvd.amt.gary.controllers;
 
@@ -14,10 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Miguel
- */
 @WebServlet(name = "ServletAppsList", urlPatterns = {"/appslist"})
 public class AppsListServlet extends HttpServlet {
 
@@ -37,22 +35,6 @@ public class AppsListServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
-         int pageNumber = request.getParameter("page") == null ? 
-                                       1 : Integer.parseInt(request.getParameter("page"));
-         int itemsPerPage = request.getParameter("per_page") == null ? 
-                                       10 : Integer.parseInt(request.getParameter("per_page"));
-         int numberOfPages = (int)Math.ceil(appsManager.countForAccount((long)request.getSession().getAttribute("id")) / (double)itemsPerPage);
-         
-         Object apps = appsManager.getUserApps((long)request.getSession().getAttribute("id"), 
-                                               pageNumber, 
-                                               itemsPerPage);
-         
-         request.setAttribute("pageTitle", "Your apps");
-         request.setAttribute("apps", apps);
-         request.setAttribute("email", request.getSession().getAttribute("email"));
-         request.setAttribute("pageNumber", pageNumber);
-         request.setAttribute("itemsPerPage", itemsPerPage);
-         request.setAttribute("numberOfPages", numberOfPages);
          request.getRequestDispatcher("WEB-INF/views/appslist.jsp").forward(request, response);
       }
    }
@@ -69,6 +51,29 @@ public class AppsListServlet extends HttpServlet {
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
+      // GET method parameters.
+      // Get the current page's number, or a default one if not specified in the URL.
+      int pageNumber = request.getParameter("page") == null ? 
+                                    1 : Integer.parseInt(request.getParameter("page"));
+      // Get the desired number of items per page, or a default one if not specified in the URL.
+      int itemsPerPage = request.getParameter("per_page") == null ? 
+                                    10 : Integer.parseInt(request.getParameter("per_page"));
+      
+      // Calculate the total number of pages, by realizing a ceil (the smallest integer that is greater than or equal to the argument)
+      // on the division.
+      int numberOfPages = (int)Math.ceil(appsManager.countForAccount((long)request.getSession().getAttribute("id")) / (double)itemsPerPage);
+      // Get the apps to show in the current page.
+      Object apps = appsManager.getUserApps((long)request.getSession().getAttribute("id"), 
+                                            pageNumber, 
+                                            itemsPerPage);
+      
+      request.setAttribute("pageTitle", "Your apps");
+      request.setAttribute("apps", apps);
+      request.setAttribute("email", request.getSession().getAttribute("email"));
+      request.setAttribute("pageNumber", pageNumber);
+      request.setAttribute("itemsPerPage", itemsPerPage);
+      request.setAttribute("numberOfPages", numberOfPages);
+      
       processRequest(request, response);
    }
 
@@ -93,7 +98,7 @@ public class AppsListServlet extends HttpServlet {
     */
    @Override
    public String getServletInfo() {
-      return "Short description";
+      return "Manages and shows the list of the connected user.";
    }// </editor-fold>
 
 }
