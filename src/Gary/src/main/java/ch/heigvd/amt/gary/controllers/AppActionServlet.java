@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.UUID;
 import javax.ejb.EJB;
+import javax.json.*;
+import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -77,21 +79,47 @@ public class AppActionServlet extends HttpServlet {
                // in the databse.
                if (formAction.equals("edit"))
                {
-                  String name = request.getParameter("name");
-                  
-                  // Check if fields are correctly filled. If not, send an error to the view.
-                  if (name.isEmpty())
+                  // Check id the request is an AJAX one, coming from the appslist page.
+                  boolean isAnAjaxRequest = (request.getParameter("ajax") != null);
+
+                  // If this is not an AJAX request, we want to edit all app's attributes,
+                  // and then redirect back the client to the apps' list.
+                  if (!isAnAjaxRequest)
                   {
-                     request.setAttribute("error", "You must fill the name field.");
+                     String name = request.getParameter("name");
+
+                     // Check if fields are correctly filled. If not, send an error to the view.
+                     if (name.isEmpty())
+                     {
+                        request.setAttribute("error", "You must fill the name field.");
+                     }
+                     else
+                     {
+                        // Edit the app.
+                        appsManager.editApp(Long.valueOf(request.getParameter("app")), 
+                                             request.getParameter("name"), 
+                                             request.getParameter("description"), 
+                                             request.getParameter("state").equals("Enabled"));
+
+                        response.sendRedirect("appslist");
+                        break;
+                     }
                   }
+                  // If this IS an AJAX request, we only want to update the app's
+                  // status, then build a succes JSON response, and send it back 
+                  // to the AJAX requester.
                   else
                   {
-                     // Edit the app and redirect back the user to the apps' list.
-                     appsManager.editApp(Long.valueOf(request.getParameter("app")), 
-                                         request.getParameter("name"), 
-                                         request.getParameter("description"), 
-                                         request.getParameter("state").equals("Enabled"));
-                     response.sendRedirect("appslist");
+                     // Edit the app's status.
+                     appsManager.editAppStatus(Long.valueOf(request.getParameter("app")), 
+                                               request.getParameter("state").equals("Enabled"));
+
+                     // Create a JSON object which contains the success information.
+                     JsonObject jsonResponse = Json.createObjectBuilder()
+                                                   .add("success", true)
+                                                   .build();
+                     // Send back the JSON response to the requester (in appslist.jsp).
+                     out.println(jsonResponse.toString());
                      break;
                   }
                }

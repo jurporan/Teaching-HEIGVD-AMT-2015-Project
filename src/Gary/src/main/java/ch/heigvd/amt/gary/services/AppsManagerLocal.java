@@ -33,6 +33,13 @@ public interface AppsManagerLocal {
    public void editApp(long id, String name, String description, boolean active);
    
    /**
+    * Edit the given app's status.
+    * @param id The app-to-edit's ID.
+    * @param active The new app's status.
+    */
+   public void editAppStatus(long id, boolean active);
+   
+   /**
     * Get the app which corresponds to the given ID.
     * @param id The ID of the app we're looking for.
     * @return The app whose ID is corresponding.
