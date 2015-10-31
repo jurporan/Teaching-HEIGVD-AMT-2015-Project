@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Created on : 10.10.2015
+ * Author     : Miguel Santamaria
+ * Goal       : This servlet allows the user to add or edit apps of his own.
  */
 package ch.heigvd.amt.gary.controllers;
 
