@@ -101,4 +101,9 @@ public class App implements Serializable
    {
       this.active = active;
    }
+   
+   public Account getCreator()
+   {
+       return creator;
+   }
 }
