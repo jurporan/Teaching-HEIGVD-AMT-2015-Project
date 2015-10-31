@@ -41,7 +41,7 @@ public class AppsListServlet extends HttpServlet {
                                        1 : Integer.parseInt(request.getParameter("page"));
          int itemsPerPage = request.getParameter("per_page") == null ? 
                                        10 : Integer.parseInt(request.getParameter("per_page"));
-         int numberOfPages = 10;
+         int numberOfPages = (int)Math.ceil(appsManager.countForAccount((long)request.getSession().getAttribute("id")) / itemsPerPage);
          
          Object apps = appsManager.getUserApps((long)request.getSession().getAttribute("id"), 
                                                pageNumber, 

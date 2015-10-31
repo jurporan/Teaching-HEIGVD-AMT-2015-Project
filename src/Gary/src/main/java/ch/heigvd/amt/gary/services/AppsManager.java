@@ -47,6 +47,13 @@ public class AppsManager implements AppsManagerLocal {
    }
    
    @Override
+   public long countForAccount(long userId)
+   {
+      Account a = accountDao.get(userId);
+      return appDao.countForAccount(a);
+   }
+   
+   @Override
    public List<App> getUserApps(long userId, int pageNo, int nbItemsPerPage)
    {
       Account a = accountDao.get(userId);
