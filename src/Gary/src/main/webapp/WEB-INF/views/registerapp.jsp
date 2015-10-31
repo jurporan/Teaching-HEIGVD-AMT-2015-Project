@@ -1,7 +1,8 @@
 <%-- 
     Document   : editapp
     Created on : 6 oct. 2015, 10:07:33
-    Author     : Miguel
+    Author     : Miguel Santamaria
+    Goal       : Allows the connected user to add a new app of his own.
 --%>
 
 <%@include file="includes/header.jsp" %>
@@ -9,6 +10,7 @@
    <script type="text/javascript">
    <!--
       $(document).ready(function() {
+         // When the user clicks on the status button, the color and the text change.
          $("#btnState").click(function() {
             var enableValue = "Enabled";
             var disableValue = "Disabled";
@@ -64,7 +66,8 @@
             </span>
          </div>
       </div>
-         
+      
+      <!-- If there is an error, we show it. -->
       <c:if test="${not empty error}">
          <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

@@ -1,7 +1,8 @@
 <%-- 
     Document   : editapp
     Created on : 6 oct. 2015, 10:07:33
-    Author     : Miguel
+    Author     : Miguel Santamaria
+    Goal       : Allows the connected user to edit one of his apps.
 --%>
 
 <%@include file="includes/header.jsp" %>
@@ -9,6 +10,7 @@
    <script type="text/javascript">
    <!--
       $(document).ready(function() {
+         // When the user clicks on the status button, the color and the text change.
          $("#btnState").click(function() {
             var enableValue = "Enabled";
             var disableValue = "Disabled";
@@ -36,7 +38,7 @@
    
    <br/>
    
-      <form method="POST" action="app?action=edit&app=${app.id}" role="form" class="form-horizontal">
+   <form method="POST" action="app?action=edit&app=${app.id}" role="form" class="form-horizontal">
       <div class="form-group">
          <label class="control-label col-sm-2" for="name">Name *</label>
          <div class="col-sm-10">
@@ -68,6 +70,7 @@
       <div class="form-group">
          <label class="control-label col-sm-2" for="btnState">State *</label>
          <div class="col-sm-10">
+            <!-- The status button rendering is different, depending on the status itself. -->
             <c:choose>
                <c:when test="${app.active}">
                   <input id="inputState" type="hidden" name="state" value="Enabled" />
@@ -87,6 +90,7 @@
          </div>
       </div>
       
+      <!-- If there is an error, we show it. -->
       <c:if test="${not empty error}">
          <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
