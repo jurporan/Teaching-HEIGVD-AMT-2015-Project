@@ -2,7 +2,8 @@
     Document   : editapp
     Created on : 6 oct. 2015, 10:07:33
     Author     : Miguel Santamaria
-    Goal       : Allows the connected user to edit one of his apps.
+    Goal       : Allows the connected user to add a new app or to edit one of 
+                 his apps.
 --%>
 
 <%@include file="includes/header.jsp" %>
@@ -38,6 +39,7 @@
    
    <br/>
    
+   <!-- Set the form action and the fields' values, depending on if the user is currently adding or editind an app. -->
    <form method="POST" action="${not empty app ? 'app?action=edit&app='.concat(app.id) : 'app?action=add'}" role="form" class="form-horizontal">
       <div class="form-group">
          <label class="control-label col-sm-2" for="name">Name *</label>
@@ -53,28 +55,28 @@
          </div>
       </div>
       
-      <c:choose>
-          <c:when test="${not empty app}">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="apiKey">API Key *</label>
-                <div class="col-sm-10">
-                   <p name="apiKey" class="form-control-static">${app.apiKey}</p>
-                </div>
+      <!-- Show more fields if the user is editing the app. -->
+      <c:if test="${not empty app}">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="apiKey">API Key *</label>
+            <div class="col-sm-10">
+               <p name="apiKey" class="form-control-static">${app.apiKey}</p>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="nbUsers"># Users *</label>
-                <div class="col-sm-10">
-                   <p name="nbUsers" class="form-control-static">${app.numberOfUsers}</p>
-                </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="nbUsers"># Users *</label>
+            <div class="col-sm-10">
+               <p name="nbUsers" class="form-control-static">${app.numberOfUsers}</p>
             </div>
-          </c:when>
-      </c:choose>
+        </div>
+      </c:if>
          
       <div class="form-group">
          <label class="control-label col-sm-2" for="btnStatus">State *</label>
          <div class="col-sm-10">
-            <!-- The status button rendering is different, depending on the status itself. -->
+            <!-- The status button rendering is different, depending on the status itself.-->
+            <!-- For the adding page, it is enabled by default. -->
             <c:choose>
                <c:when test="${empty app or app.active}">
                   <input id="inputState" type="hidden" name="state" value="Enabled" />
