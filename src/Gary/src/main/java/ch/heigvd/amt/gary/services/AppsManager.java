@@ -38,6 +38,13 @@ public class AppsManager implements AppsManagerLocal {
       app.setDescription(description);
       app.setActive(active);
    }
+   
+   @Override
+   public void editAppStatus(long id, boolean active)
+   {
+      App app = getApp(id);
+      app.setActive(active);
+   }
 
    @Override
    public App getApp(long id) {

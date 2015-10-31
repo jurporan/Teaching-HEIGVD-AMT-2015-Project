@@ -11,20 +11,20 @@
    <!--
       $(document).ready(function() {
          // When the user clicks on the status button, the color and the text change.
-         $("#btnState").click(function() {
+         $("#btnStatus").click(function() {
             var enableValue = "Enabled";
             var disableValue = "Disabled";
             
             if($("#inputState").val() === enableValue)
             {
-               $("#btnState")
+               $("#btnStatus")
                        .attr("class", "btn btnStatus btn-danger")
                        .text(disableValue);
                $("#inputState").attr("value", disableValue);
             }
             else
             {
-               $("#btnState")
+               $("#btnStatus")
                        .attr("class", "btn btnS</tatus btn-success")
                        .text(enableValue);
                $("#inputState").attr("value", enableValue);
@@ -54,10 +54,10 @@
       </div>
       
       <div class="form-group">
-         <label class="control-label col-sm-2" for="btnState">State *</label>
+         <label class="control-label col-sm-2" for="btnStatus">State *</label>
          <div class="col-sm-10">
             <input id="inputState" type="hidden" name="state" value="Enabled" />
-            <button id="btnState" name="btnState" class="btn btnStatus btn-success" type="button">Enabled</button>
+            <button id="btnStatus" name="btnStatus" class="btn btnStatus btn-success" type="button">Enabled</button>
             
             <span class="span-btn-form">
                <span class="mandatoryFields">* Mandatory fields</span>
