@@ -58,4 +58,10 @@ public class AppDAO extends DAO {
         List<App> l = em.createQuery("SELECT a FROM App a WHERE a.creator = :creator").setParameter("creator", a).setFirstResult(pageNo * nbPerPage).setMaxResults(nbPerPage).getResultList();
         return l;
     }
+    
+    public long countForAccount(Account a)
+    {
+        long count = (long) em.createQuery("SELECT COUNT(a) FROM App a WHERE a.creator = :account").setParameter("account", a).getSingleResult();
+        return count;
+    }
 }
