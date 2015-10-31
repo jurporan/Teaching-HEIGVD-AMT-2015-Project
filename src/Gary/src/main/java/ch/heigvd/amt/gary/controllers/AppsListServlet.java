@@ -51,6 +51,7 @@ public class AppsListServlet extends HttpServlet {
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
+      // GET method parameters.
       // Get the current page's number, or a default one if not specified in the URL.
       int pageNumber = request.getParameter("page") == null ? 
                                     1 : Integer.parseInt(request.getParameter("page"));
@@ -97,7 +98,7 @@ public class AppsListServlet extends HttpServlet {
     */
    @Override
    public String getServletInfo() {
-      return "Short description";
+      return "Manages and shows the list of the connected user.";
    }// </editor-fold>
 
 }

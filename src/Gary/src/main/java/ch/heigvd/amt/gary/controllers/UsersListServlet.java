@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Created on : 10.10.2015
+ * Author     : Miguel Santamaria
+ * Goal       : This servlet shows the users' list of the given app.
+ *              NB : For the moment this is just a static page. It will be 
+ *                   updated in the future.
  */
 package ch.heigvd.amt.gary.controllers;
 
@@ -15,10 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Miguel
- */
 public class UsersListServlet extends HttpServlet {
    
    @EJB
@@ -37,6 +35,7 @@ public class UsersListServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
+         // Get app's name, based on the given id in the GET method.
          App app = appsManager.getApp(Long.valueOf(request.getParameter("app")));                  
          
          request.setAttribute("pageTitle", "List of users");
@@ -82,7 +81,7 @@ public class UsersListServlet extends HttpServlet {
     */
    @Override
    public String getServletInfo() {
-      return "Short description";
+      return "Shows the users' list of the given app.";
    }// </editor-fold>
 
 }

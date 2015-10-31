@@ -15,10 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Miguel
- */
 public class AppActionServlet extends HttpServlet {
 
    @EJB
@@ -37,22 +33,33 @@ public class AppActionServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
+         // Here we have both GET and POST request's parameters, so we need to do the
+         // operations in the processRequest method.
+         // GET request's parameter. Indicate the action (edit or add) to apply to the app.
          String action = request.getParameter("action") == null ? 
                                        "null" : request.getParameter("action");
+         // POST request's parameter. If will be used to know if the user just loaded the
+         // page (null value) or if he clicked on the "Create"/"Edit" button.
          String formAction = request.getParameter("formAction") == null ? 
                                        "null" : request.getParameter("formAction");
+         
+         // Depending on the app's action, we need to operate differently.
          switch (action) {
             case "add":
+               // If the user clicked on the "Create" button, we need to add the new app
+               // in the databse.
                if (formAction.equals("create"))
                {
                   String name = request.getParameter("name");
                   
+                  // Check if fields are correctly filled. If not, send an error to the view.
                   if (name.isEmpty())
                   {
                      request.setAttribute("error", "You must fill the name field.");
                   }
                   else
                   {
+                     // Create the app and redirect back the user to the apps' list.
                      appsManager.createApp(name, request.getParameter("description"),
                                            UUID.randomUUID().toString(), 0, 
                                            request.getParameter("state").equals("Enabled"), 
@@ -66,16 +73,20 @@ public class AppActionServlet extends HttpServlet {
                request.getRequestDispatcher("WEB-INF/views/registerapp.jsp").forward(request, response);
                break;
             case "edit":
+               // If the user clicked on the "Edit" button, we need to edit the new app
+               // in the databse.
                if (formAction.equals("edit"))
                {
                   String name = request.getParameter("name");
                   
+                  // Check if fields are correctly filled. If not, send an error to the view.
                   if (name.isEmpty())
                   {
                      request.setAttribute("error", "You must fill the name field.");
                   }
                   else
                   {
+                     // Edit the app and redirect back the user to the apps' list.
                      appsManager.editApp(Long.valueOf(request.getParameter("app")), 
                                          request.getParameter("name"), 
                                          request.getParameter("description"), 
@@ -84,12 +95,15 @@ public class AppActionServlet extends HttpServlet {
                      break;
                   }
                }
+               // If there is no action indicated for the app, we simply redirect back the user to the
+               // apps' list.
                else if (request.getParameter("app") == null || request.getParameter("app").equals(""))
                {
                   response.sendRedirect("appslist");
                   break;
                }
                
+               // If the user just accessed to the edit page, we load the concerned app's details.
                Object app = appsManager.getApp(Long.valueOf(request.getParameter("app")));
                
                request.setAttribute("app", app);
@@ -140,7 +154,7 @@ public class AppActionServlet extends HttpServlet {
     */
    @Override
    public String getServletInfo() {
-      return "Short description";
+      return "Allows the user to add or edit apps of his own.";
    }// </editor-fold>
 
 }
