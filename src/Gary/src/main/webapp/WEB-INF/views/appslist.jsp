@@ -37,5 +37,36 @@
          </tr>
       </c:forEach>
    </table>
+   <br/><br/><br/><br/>
+    <table>
+        <tr>
+            <td>Page ${pageNumber}/${numberOfPages}</td>
+            <td><a href="appslist?page=1&per_page=${itemsPerPage}">First page</a></td>
+            
+            <td>
+                <c:choose>
+                    <c:when test="${pageNumber > 1}">
+                        <a href="appslist?page=${pageNumber - 1}&per_page=${itemsPerPage}">Previous page</a>
+                    </c:when>
+                    <c:otherwise>
+                        Previous page
+                    </c:otherwise>
+                </c:choose>
+            </td>
+                    
+            <td>
+                <c:choose>
+                    <c:when test="${pageNumber < numberOfPages}">
+                        <a href="appslist?page=${pageNumber + 1}&per_page=${itemsPerPage}">Next page</a>
+                    </c:when>
+                    <c:otherwise>
+                        Previous page
+                    </c:otherwise>
+                </c:choose>
+            </td>
+                    
+            <td><a href="appslist?page=${numberOfPages}&per_page=${itemsPerPage}">Last page</a></td>
+        </tr>
+    </table>
 
 <%@include file="includes/footer.jsp" %>

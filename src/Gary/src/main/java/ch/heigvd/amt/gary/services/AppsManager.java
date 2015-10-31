@@ -47,13 +47,9 @@ public class AppsManager implements AppsManagerLocal {
    }
    
    @Override
-   public List<App> getAllApps(long userId)
+   public List<App> getUserApps(long userId, int pageNo, int nbItemsPerPage)
    {
-      //return appsDataStore.getAllApps();
-      //Account a = accountDao.create("steakdecheval@orangerie.ch", "Benoist", "Wolleb", "pass123$");
-      Account a = accountDao.get((long)userId);
-      //App b = appDao.create("ULTIMATE APPLICATION 2015", "THIZ IZ DA APP", "jsdlawkjhdjérôme", 123, true, a);
-      //App c = appDao.create("Chattor", "PRO", "lalalalilili", 30, true, a);
-      return a.getApps();
+      Account a = accountDao.get(userId);
+      return appDao.getUserApps(a, pageNo, nbItemsPerPage);
    }
 }

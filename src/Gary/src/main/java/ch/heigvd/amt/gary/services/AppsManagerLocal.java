@@ -19,5 +19,5 @@ public interface AppsManagerLocal {
                          int numberOfUsers, boolean active, long userId);
    public void editApp(long id, String name, String description, boolean active);
    public App getApp(long id);
-   public List<App> getAllApps(long userId);
+   public List<App> getUserApps(long userId, int pageNo, int nbItemsPerPage);
 }

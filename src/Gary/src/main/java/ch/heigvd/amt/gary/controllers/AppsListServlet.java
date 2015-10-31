@@ -37,11 +37,22 @@ public class AppsListServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
-         Object apps = appsManager.getAllApps((long)request.getSession().getAttribute("id"));
+         int pageNumber = request.getParameter("page") == null ? 
+                                       1 : Integer.parseInt(request.getParameter("page"));
+         int itemsPerPage = request.getParameter("per_page") == null ? 
+                                       10 : Integer.parseInt(request.getParameter("per_page"));
+         int numberOfPages = 10;
+         
+         Object apps = appsManager.getUserApps((long)request.getSession().getAttribute("id"), 
+                                               pageNumber, 
+                                               itemsPerPage);
          
          request.setAttribute("pageTitle", "Your apps");
          request.setAttribute("apps", apps);
          request.setAttribute("email", request.getSession().getAttribute("email"));
+         request.setAttribute("pageNumber", pageNumber);
+         request.setAttribute("itemsPerPage", itemsPerPage);
+         request.setAttribute("numberOfPages", numberOfPages);
          request.getRequestDispatcher("WEB-INF/views/appslist.jsp").forward(request, response);
       }
    }
