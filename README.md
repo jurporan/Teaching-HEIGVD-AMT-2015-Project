@@ -9,6 +9,11 @@ Welcome to the home of the AMT Project. This is where you will find information 
 * Miguel Santamaria
 * Benois Wolleb
 
+
+Link to our [documentation](Documentation/Documentation.md)
+
+Link to our [tests](Documentation/Tests.md)
+
 ## How to use this repo
 
 ### What should we do with this repo?
