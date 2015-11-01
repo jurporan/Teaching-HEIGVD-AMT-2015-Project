@@ -4,7 +4,7 @@
     Author     : mel
 --%>
 
-<%@include file="includes/header2.jsp" %>
+<%@include file="includes/header.jsp" %>
 			
 <div class="container" >
     <h1 class="mainTitle">Welcome to Gary</h1>

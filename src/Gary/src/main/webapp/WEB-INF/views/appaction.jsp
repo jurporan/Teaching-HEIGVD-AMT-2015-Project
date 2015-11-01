@@ -2,7 +2,8 @@
     Document   : editapp
     Created on : 6 oct. 2015, 10:07:33
     Author     : Miguel Santamaria
-    Goal       : Allows the connected user to edit one of his apps.
+    Goal       : Allows the connected user to add a new app or to edit one of 
+                 his apps.
 --%>
 
 <%@include file="includes/header.jsp" %>
@@ -38,41 +39,46 @@
    
    <br/>
    
-   <form method="POST" action="app?action=edit&app=${app.id}" role="form" class="form-horizontal">
+   <!-- Set the form action and the fields' values, depending on if the user is currently adding or editind an app. -->
+   <form method="POST" action="${not empty app ? 'app?action=edit&app='.concat(app.id) : 'app?action=add'}" role="form" class="form-horizontal">
       <div class="form-group">
          <label class="control-label col-sm-2" for="name">Name *</label>
          <div class="col-sm-10">
-            <input id="appName" type="text" name="name" class="form-control" placeholder="Enter name" required="required" value="${app.name}" />
+            <input id="appName" type="text" name="name" class="form-control" placeholder="Enter name" required="required" value="${not empty app ? app.name : ''}" />
          </div>
       </div>
       
       <div class="form-group">
          <label class="control-label col-sm-2" for="description">Description</label>
          <div class="col-sm-10">
-            <textarea id="appDescription" name="description" class="form-control" placeholder="Enter description">${app.description}</textarea>
+            <textarea id="appDescription" name="description" class="form-control" placeholder="Enter description">${not empty app ? app.description : ''}</textarea>
          </div>
       </div>
       
-      <div class="form-group">
-         <label class="control-label col-sm-2" for="apiKey">API Key *</label>
-         <div class="col-sm-10">
-            <p name="apiKey" class="form-control-static">${app.apiKey}</p>
-         </div>
-      </div>
-      
-      <div class="form-group">
-         <label class="control-label col-sm-2" for="nbUsers"># Users *</label>
-         <div class="col-sm-10">
-            <p name="nbUsers" class="form-control-static">${app.numberOfUsers}</p>
-         </div>
-      </div>
+      <!-- Show more fields if the user is editing the app. -->
+      <c:if test="${not empty app}">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="apiKey">API Key *</label>
+            <div class="col-sm-10">
+               <p name="apiKey" class="form-control-static">${app.apiKey}</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="nbUsers"># Users *</label>
+            <div class="col-sm-10">
+               <p name="nbUsers" class="form-control-static">${app.numberOfUsers}</p>
+            </div>
+        </div>
+      </c:if>
          
       <div class="form-group">
          <label class="control-label col-sm-2" for="btnStatus">State *</label>
          <div class="col-sm-10">
-            <!-- The status button rendering is different, depending on the status itself. -->
+            <!-- The status button rendering is different, depending on the status itself.-->
+            <!-- For the adding page, it is enabled by default. -->
             <c:choose>
-               <c:when test="${app.active}">
+               <c:when test="${empty app or app.active}">
                   <input id="inputState" type="hidden" name="state" value="Enabled" />
                   <button id="btnStatus" name="btnStatus" class="btn btnStatus btn-success" type="button">Enabled</button>
                </c:when>
@@ -85,7 +91,7 @@
             <span class="span-btn-form">
                <span class="mandatoryFields">* Mandatory fields</span>
                <button name="formAction" id="btnCancel" class="btn btn-gary btn-form" type="button" value="cancel" onClick="location.href='appslist';">Cancel</button>
-               <button name="formAction" id="btnEdit" class="btn btn-gary btn-form" type="submit" value="edit">Edit</button>
+               <button name="formAction" id="btnAction" class="btn btn-gary btn-form" type="submit" value="${not empty app ? 'edit' : 'create'}">${not empty app ? "Edit" : "Create"}</button>
             </span>
          </div>
       </div>

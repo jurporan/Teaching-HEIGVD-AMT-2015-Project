@@ -35,6 +35,7 @@ public class AppsListServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
+         request.setAttribute("selectedHeaderElem", "apps");
          request.getRequestDispatcher("WEB-INF/views/appslist.jsp").forward(request, response);
       }
    }

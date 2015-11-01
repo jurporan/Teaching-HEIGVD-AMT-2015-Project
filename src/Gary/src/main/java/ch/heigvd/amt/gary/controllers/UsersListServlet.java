@@ -35,13 +35,24 @@ public class UsersListServlet extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
-         // Get app's name, based on the given id in the GET method.
-         App app = appsManager.getApp(Long.valueOf(request.getParameter("app")));                  
+         String action = request.getParameter("app") == null ? 
+                                       "null" : request.getParameter("app");
          
-         request.setAttribute("pageTitle", "List of users");
-         request.setAttribute("email", request.getSession().getAttribute("email"));
-         request.setAttribute("appName", app.getName());
-         request.getRequestDispatcher("WEB-INF/views/userslist.jsp").forward(request, response);
+         if (action.equals("null"))
+         {
+            response.sendRedirect("appslist");
+         }
+         else
+         {
+            // Get app's name, based on the given id in the GET method.
+            App app = appsManager.getApp(Long.valueOf(request.getParameter("app")));                  
+
+            request.setAttribute("pageTitle", "List of users");
+            request.setAttribute("email", request.getSession().getAttribute("email"));
+            request.setAttribute("appName", app.getName());
+            request.setAttribute("selectedHeaderElem", "apps");
+            request.getRequestDispatcher("WEB-INF/views/userslist.jsp").forward(request, response);
+         }
       }
    }
 

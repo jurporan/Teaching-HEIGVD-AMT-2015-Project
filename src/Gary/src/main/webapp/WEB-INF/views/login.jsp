@@ -4,9 +4,9 @@
     Author     : mel
 --%>
 
-<%@include file="includes/header2.jsp" %>
+<%@include file="includes/header.jsp" %>
 
-        <form method="POST" action="login"> 
+        <form method="POST" action="login" class="form-horizontal"> 
             <input type="hidden" name="action" value="login" />
 
             <div class="form-group">

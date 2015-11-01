@@ -95,7 +95,7 @@
             <td id="nameApp${app.id}">${app.name}</td>
             <td id="descriptionApp${app.id}">${app.description}</td>
             <td>${app.apiKey}</td>
-            <td><a id="linkUsersApp" href="userslist?app=${app.id}&page=1">${app.numberOfUsers}</a></td>
+            <td><a id="linkUsersApp" href="userslist?app=${app.id}&page=1&per_page=10">${app.numberOfUsers}</a></td>
             <td class="appButtons">
                <button id="btnEdit${app.id}" class="btn btn-default" type="submit" onClick="location.href='app?action=edit&app=${app.id}';">Edit</button>
                <!-- The status' button rendering is different depending on the status itself. -->
