@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.heigvd.amt.gary.controllers;
 
 import static ch.heigvd.amt.gary.controllers.RegistrationServlet.ATT_ERRORS;
@@ -18,10 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author mel
- */
 @WebServlet(name = "EditAccountServlet", urlPatterns = {"/EditAccountServlet"})
 public class EditAccountServlet extends HttpServlet {
     
@@ -77,9 +68,11 @@ public class EditAccountServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        
         String result;
         Map<String, String> errors = new HashMap<>();
         
+        // The parameters sent by the user
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         String email = request.getParameter("email");
@@ -89,26 +82,33 @@ public class EditAccountServlet extends HttpServlet {
         
         if(action.equals("editaccount"))
         {
+            // Verify if the firstname and the lastname are valids
             try {
                 loginService.firstnameAndLastnameValidation(firstname, lastname);        
             } catch (Exception e) {
                 errors.put(FIELD_NAMES, e.getMessage());
             }
+            // Verify if the password and the password confirmations are valids
             try {
                 loginService.passwordValidation(password, passwordConfirmation);         
             } catch (Exception e) {
                 errors.put(FIELD_PWD, e.getMessage());
             }
 
+            // If there is no error
             if(errors.isEmpty())
             {
+                // Get the user's id
                 long id = (long)request.getSession().getAttribute("id");
+                // The account is eddited
                 loginService.editAccount(id, action, action, password);
-                result = "Changements enregistrés.";
+                // Tell the user that 
+                result = "Modifications saved";
             }
             else
             {
-                result = "Erreur dans l'édition du compte.";
+                // Tell the user that there is something wrong
+                result = "Modifications ignored";
             }   
 
             request.setAttribute(ATT_ERRORS, errors);

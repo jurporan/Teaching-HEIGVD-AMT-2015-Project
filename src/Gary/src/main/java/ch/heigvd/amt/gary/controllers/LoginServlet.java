@@ -60,11 +60,14 @@ public class LoginServlet extends HttpServlet
          String action = request.getParameter("action") == null ? 
                                        "null" : request.getParameter("action");
         
+         // If the user wants to logout, invalidate his session and 
+         // redirect him to the welcome page
          if(action.equals("logout"))
          {
             request.getSession().invalidate();
             response.sendRedirect("welcome");   
          }
+         // If the user wants to login, redirect him to the login page
          else
          {
             request.setAttribute("pageTitle", "Login");
@@ -84,6 +87,7 @@ public class LoginServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        // Get the parameters sent by the user
         String result;
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -91,16 +95,20 @@ public class LoginServlet extends HttpServlet
         
         if(action.equals("login"))
         {
+            // Verify the couple email / password
             Account account = loginService.verifyLogin(email, password);
             
+            // Verify if the account exists
             if(account != null)
             {
+                // Get his email and session ID
                request.getSession().setAttribute("email", email);
                request.getSession().setAttribute("id", account.getId());
                response.sendRedirect("appslist");
             } 
             else 
             {
+                // The user cannot login
                  result = "Echec de l'authentification.";
                  request.setAttribute("result", result);
                  this.getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp")
