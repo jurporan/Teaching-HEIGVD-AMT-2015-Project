@@ -33,7 +33,9 @@ La suite de la mise en place est nettement plus simple. Elle requiert un environ
 
 - Construire le projet et le déployer sur le serveur d'application Glassfish inclus
 
--La page devrait s'être ouverte automatiquement, sinon l'URL par défaut est [http://localhost:8080/Gary](http://localhost:8080/Gary)
+- La page devrait s'être ouverte automatiquement, sinon l'URL par défaut est [http://localhost:8080/Gary](http://localhost:8080/Gary)
+
+Vous pouvez maintenant utiliser normalement notre application.
 
 Schéma de persistence
 ==========================
