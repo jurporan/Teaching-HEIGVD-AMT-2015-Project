@@ -63,6 +63,7 @@ public class RegistrationServlet extends HttpServlet
             throws ServletException, IOException
     {
         // Display registration page
+        request.setAttribute("pageTitle", "Registration");
         this.getServletContext().getRequestDispatcher(REGISTRATION_VIEW)
                                 .forward(request, response);
     }

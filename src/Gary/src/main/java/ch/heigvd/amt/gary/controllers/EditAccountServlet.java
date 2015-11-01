@@ -48,6 +48,7 @@ public class EditAccountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setAttribute("pageTitle", "Edit Account");
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/editaccount.jsp").forward(request, response);
     }
 

@@ -44,6 +44,7 @@ public class LoginFilter implements Filter
 
         if (httpRequest.getSession().getAttribute("email") == null && isTargetUrlProtected) 
         {
+            request.setAttribute("pageTitle", "Login");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         } 
 
