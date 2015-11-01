@@ -12,6 +12,12 @@ import javax.ejb.Local;
 @Local
 public interface AppsManagerLocal {
    /**
+    * Return the total number of existing apps.
+    * @return The total number of existing apps.
+    */
+   public long countTotalApps();
+   
+   /**
     * Create an app, with the given parameters.
     * @param name The app's name.
     * @param description The app's description.

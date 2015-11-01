@@ -15,6 +15,12 @@ import javax.ejb.Local;
 @Local
 public interface LoginServiceLocal
 {
+   /**
+    * Return the total number of existing accounts.
+    * @return The total number of existing accounts.
+    */
+   public long countTotalAccounts();
+   
     Account verifyLogin(String login, String password);
     
     void passwordValidation(String password, String passwordConfirmation) throws Exception;
@@ -24,6 +30,14 @@ public interface LoginServiceLocal
     void emailValidation(String email) throws Exception;
     
     boolean isValidEmailAddress(String email);
+    
+    /**
+     * Edit the firstname, lastename and password of a given account
+     * @param firstname the new firstname
+     * @param lastname the new lastname
+     * @param password  the new password
+     */
+    public void editAccount(long id, String firstname, String lastname, String password);
 }
 
 

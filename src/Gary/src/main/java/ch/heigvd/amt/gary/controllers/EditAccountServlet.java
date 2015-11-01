@@ -7,7 +7,6 @@ package ch.heigvd.amt.gary.controllers;
 
 import static ch.heigvd.amt.gary.controllers.RegistrationServlet.ATT_ERRORS;
 import static ch.heigvd.amt.gary.controllers.RegistrationServlet.ATT_RESULT;
-import ch.heigvd.amt.gary.services.EditAccountServiceLocal;
 import ch.heigvd.amt.gary.services.LoginServiceLocal;
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,9 +24,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "EditAccountServlet", urlPatterns = {"/EditAccountServlet"})
 public class EditAccountServlet extends HttpServlet {
-    
-    @EJB
-    EditAccountServiceLocal editAccountService;
     
     @EJB
     LoginServiceLocal loginService;
@@ -107,7 +103,7 @@ public class EditAccountServlet extends HttpServlet {
             if(errors.isEmpty())
             {
                 long id = (long)request.getSession().getAttribute("id");
-                editAccountService.editAccount(id, action, action, password);
+                loginService.editAccount(id, action, action, password);
                 result = "Changements enregistrés.";
             }
             else

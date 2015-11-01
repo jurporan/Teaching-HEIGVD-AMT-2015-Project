@@ -156,3 +156,14 @@ form {
 .btn-login {
     margin-right: 15px;
 }
+
+.stats {
+    font-size: 25px;
+    margin-top: 150px;
+    text-align: center;
+}
+
+.inscrutions {
+    margin-top: 150px;
+    text-align: center;
+}

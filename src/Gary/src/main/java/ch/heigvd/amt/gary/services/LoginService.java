@@ -21,6 +21,12 @@ public class LoginService implements LoginServiceLocal
     AccountDAO account;
 
     @Override
+    public long countTotalAccounts()
+    {
+       return account.count();
+    }
+    
+    @Override
     public Account verifyLogin(String login, String password)
     {
         return account.login(login, password);     
@@ -78,4 +84,12 @@ public class LoginService implements LoginServiceLocal
            return m.matches();
     }
  
+    @Override
+    public void editAccount(long id, String firstname, String lastname, String password)
+    {
+        Account a = account.get(id);
+        a.setFirstName(firstname);
+        a.setLastName(lastname);
+        a.setPassword(password);
+    }
 }

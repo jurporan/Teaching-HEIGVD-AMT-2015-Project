@@ -24,6 +24,12 @@ public class AppsManager implements AppsManagerLocal {
    
    // Methods' headers are in the AppsManagerLocal interface.
    @Override
+   public long countTotalApps()
+   {
+      return appDao.count();
+   }
+   
+   @Override
    public void createApp(String name, String description, String apiKey, 
                          int numberOfUsers, boolean active, long userId)
    {

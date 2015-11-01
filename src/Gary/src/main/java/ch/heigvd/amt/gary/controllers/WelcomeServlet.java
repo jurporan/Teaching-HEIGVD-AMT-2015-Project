@@ -5,7 +5,10 @@
  */
 package ch.heigvd.amt.gary.controllers;
 
+import ch.heigvd.amt.gary.services.AppsManagerLocal;
+import ch.heigvd.amt.gary.services.LoginServiceLocal;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +26,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "WelcomeServlet", urlPatterns = {"/welcome"})
 public class WelcomeServlet extends HttpServlet
 {
-
+   @EJB
+   LoginServiceLocal loginService;
+   
+   @EJB
+   AppsManagerLocal appsManager;
+   
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,9 +44,11 @@ public class WelcomeServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        request.setAttribute("totalOfAccounts", loginService.countTotalAccounts());
+        request.setAttribute("totalOfApps", appsManager.countTotalApps());
+        request.setAttribute("numberOfUsersCreatedByApplicationsDuringThe30LastDays", 0);
+        request.setAttribute("pageTitle", "Welcome");
         request.getRequestDispatcher("/WEB-INF/views/welcome.jsp").forward(request, response);
-        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-        request.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(request, response);
     }
 
     /**
@@ -53,8 +63,7 @@ public class WelcomeServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        request.setAttribute("pageTitle", "Welcome");
-        request.getRequestDispatcher("/WEB-INF/views/welcome.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
