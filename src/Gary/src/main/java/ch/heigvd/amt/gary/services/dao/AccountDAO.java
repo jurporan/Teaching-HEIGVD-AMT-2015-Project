@@ -27,6 +27,9 @@ public class AccountDAO extends DAO {
         
         // Make it persistent
         em.persist(a);
+        
+        // We flush so the id is assigned
+        em.flush();
         return a;
     }
     
