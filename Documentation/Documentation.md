@@ -27,9 +27,9 @@ Pour stocker les données, nous avons défini plusieurs entités que JPA utilise
 
 Actuellement, dans la première partie, nous gérons deux unités principales:
 
-- Les comptes, identité d'un administrateur d'applications. Les comptes sont créés et modifiés depuis l'interface Web. Un utilisateur qui se crée un compte peut alors créer et gérer ses propres applications. Un compte est caractérisé par les propriétés suivantes:
-
 ![modèle des entités](img/entites.png)
+
+- Les comptes, identité d'un administrateur d'applications. Les comptes sont créés et modifiés depuis l'interface Web. Un utilisateur qui se crée un compte peut alors créer et gérer ses propres applications. Un compte est caractérisé par les propriétés suivantes:
 
     - id : identifiant unique attribué automatiquement par la base de données
 
@@ -58,6 +58,7 @@ Actuellement, dans la première partie, nous gérons deux unités principales:
 
     - creator : lien vers l'identité de la personne qui a créé l'application et qui peut l'administrer
 
+Une troisième entité ```Role``` permettant d'assigner des rôles aux comptes existe mais n'est pas utilisée dans cette première partie. Néanmoins, l'entité est déjà prête pour son utilisation future.
 
 Gestion des données
 ==================

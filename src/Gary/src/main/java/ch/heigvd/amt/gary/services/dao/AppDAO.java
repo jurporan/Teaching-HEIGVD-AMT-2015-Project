@@ -58,6 +58,9 @@ public class AppDAO extends DAO {
         
         // Make the app persistent
         em.persist(app);
+        
+        // We flush so the id is assigned
+        em.flush();
         return app;
     }
     
