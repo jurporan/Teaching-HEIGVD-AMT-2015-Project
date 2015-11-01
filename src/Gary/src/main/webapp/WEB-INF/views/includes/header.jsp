@@ -52,8 +52,8 @@
                 <c:otherwise>
                 <!-- If the user is not connected, he can connect or create a new account. -->
                     <div>
-                        <button id="bntLogin" type="button btn-nav" class="btn pull-right btn-gary" name="btnRegister" value="btnRegister" onClick="location.href='registration';">Create account</button>
-                        <button id="btnCreateAccount" type="button btn-nav" class="btn pull-right btn-login btn-gary" name="btnLogin" value="btnLogin" onClick="location.href='login';">Login</button>
+                        <button id="btnCreateAccount" type="button btn-nav" class="btn pull-right btn-gary" name="btnRegister" value="btnRegister" onClick="location.href='registration';">Create account</button>
+                        <button  id="btnLogin" type="button btn-nav" class="btn pull-right btn-login btn-gary" name="btnLogin" value="btnLogin" onClick="location.href='login';">Login</button>
                     </div>
                 </c:otherwise>
             </c:choose>
