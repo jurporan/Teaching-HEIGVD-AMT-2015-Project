@@ -21,6 +21,20 @@ Où l'URL équivaut à : ```jdbc:mysql://<IP du serveur MySQL>:3306/Gary?zeroDat
 
 Enfin, il faut créer une ressource JDBC liée à ce pool de connexion et portant le  nom ```jdbc/GaryDatasource```.
 
+Application
+-----------
+La suite de la mise en place est nettement plus simple. Elle requiert un environnement de développement pour Java Entreprise Edition ainsi qu'un serveur d'application. L'application a été testée avec un environnement Netbeans + Glassfish.
+
+- Installer l'environnement de développement complet disponible sur [le site de netbeans](https://netbeans.org/downloads/)
+
+- Cloner [le dépôt](https://github.com/jurporan/Teaching-HEIGVD-AMT-2015-Project.git) contenant l'application
+
+- Ouvrir le projet avec Netbeans (les fichiers à ouvrir se situent dans ```src/Gary/```)
+
+- Construire le projet et le déployer sur le serveur d'application Glassfish inclus
+
+-La page devrait s'être ouverte automatiquement, sinon l'URL par défaut est [http://localhost:8080/Gary](http://localhost:8080/Gary)
+
 Schéma de persistence
 ==========================
 Pour stocker les données, nous avons défini plusieurs entités que JPA utilise pour créer et gérer la base de données. Ces entités représentent les unités logiques de l'application.
