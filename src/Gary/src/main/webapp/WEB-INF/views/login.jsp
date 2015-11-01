@@ -24,7 +24,7 @@
             </div>
             
                 <div>
-                    <button type="submit" value="login" class="btn btn-default  pull-right">Login</button>
+                    <button id="submitLogin"type="submit" value="login" class="btn btn-default  pull-right">Login</button>
                     <p class="errors">${result}</p>
                 </div>
          

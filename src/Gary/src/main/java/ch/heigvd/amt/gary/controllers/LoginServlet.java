@@ -67,6 +67,7 @@ public class LoginServlet extends HttpServlet
          }
          else
          {
+            request.setAttribute("pageTitle", "Login");
             this.getServletContext().getRequestDispatcher( "/WEB-INF/views/login.jsp" ).forward( request, response );
          }
     }

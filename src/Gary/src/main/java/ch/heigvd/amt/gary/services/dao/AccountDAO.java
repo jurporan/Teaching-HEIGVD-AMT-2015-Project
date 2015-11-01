@@ -81,6 +81,7 @@ public class AccountDAO extends DAO {
     public boolean exists(String mail)
     {
         // Here we create a custom query to fetch the accounts having the provided email address, should contain 1 or 0 element
+        System.out.println("fjsafodsajfoioijdsaoifdaoifrewourwqewruoiwuruewqroiewuoiruewqoiroiwqruoiwqurowqroiewq" + mail);
         List l = em.createQuery("SELECT a FROM Account a WHERE a.mail = :mail").setParameter("mail", mail).getResultList();
         
         return !l.isEmpty();
