@@ -8,10 +8,7 @@ package ch.heigvd.amt.gary.services;
 import ch.heigvd.amt.gary.models.entities.Account;
 import javax.ejb.Local;
 
-/**
- *
- * @author franz
- */
+
 @Local
 public interface LoginServiceLocal
 {
@@ -23,12 +20,36 @@ public interface LoginServiceLocal
    
     Account verifyLogin(String login, String password);
     
+    /**
+     * Verify if the password has at least 8 characters and if the password
+     * matches its confirmation
+     * @param password
+     * @param passwordConfirmation
+     * @throws Exception 
+     */
     void passwordValidation(String password, String passwordConfirmation) throws Exception;
     
+    /**
+     * Verify if the given firstname and lastname have at leat 3 characters.
+     * @param firstname the firstname to verify
+     * @param lastname the lastname to verify
+     * @throws Exception 
+     */
     void firstnameAndLastnameValidation (String firstname, String lastname) throws Exception;
    
+    /**
+     * Verify if the new email address is not in the database,
+     * if it is a valid email string and if its length is not null.
+     * @param email the address to verify
+     * @throws Exception 
+     */
     void emailValidation(String email) throws Exception;
     
+    /**
+     * Verify if the given email is a valid email string
+     * @param email the address to verify
+     * @return 
+     */
     boolean isValidEmailAddress(String email);
     
     /**
