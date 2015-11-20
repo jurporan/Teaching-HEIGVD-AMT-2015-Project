@@ -7,6 +7,7 @@ package ch.heigvd.amt.gary.models.entities;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,6 +36,12 @@ public class App implements Serializable
     @OneToMany
     private List<Rule> rules = new LinkedList<>();
     
+    @OneToMany(mappedBy = "app", cascade = CascadeType.ALL)
+    private List<EndUser> users = new LinkedList<EndUser>();
+    
+    @OneToMany
+    private List<Badge> badges = new LinkedList<Badge>();
+
     /**
     * Creates a new empty App
     */
@@ -210,5 +217,45 @@ public class App implements Serializable
     public List<Rule> getRules()
     {
         return rules;
+    }
+    
+    /**
+    * Get the list of every users of this application
+    *
+    * @return an list of EndUsers linked to this application
+    */
+    public List<EndUser> getUsers()
+    {
+        return users;
+    }
+    
+    /**
+    * Add a new user to this application
+    *
+    * @param user the user to add
+    */
+    public void addUser(EndUser user)
+    {
+        users.add(user);
+    }
+    
+    /**
+    * Get the list of badges available this application
+    *
+    * @return an list of badges
+    */
+    public List<Badge> getBadges()
+    {
+        return badges;
+    }
+    
+    /**
+    * Add a new badge to this application
+    *
+    * @param badge the badge to add
+    */
+    public void addBadge(Badge badge)
+    {
+        badges.add(badge);
     }
 }
