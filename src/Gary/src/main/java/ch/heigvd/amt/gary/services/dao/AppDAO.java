@@ -6,6 +6,7 @@ package ch.heigvd.amt.gary.services.dao;
 
 import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.models.entities.App;
+import ch.heigvd.amt.gary.models.entities.Badge;
 import ch.heigvd.amt.gary.models.entities.EndUser;
 import java.util.List;
 import javax.ejb.EJB;
@@ -137,8 +138,24 @@ public class AppDAO extends DAO {
     {
         EndUser user = new EndUser(app, id);
         em.merge(app);
-        app.addUser(user);
         em.persist(user);
+        app.addUser(user);
         return user;
+    }
+    
+    /**
+    * Create a new badge that will be available in the application.
+    * 
+    * @param app the application that will contain the badge
+    * @param url the url to the image of the badge
+    * @return the newly created user
+    */
+    public Badge createBadge(App app, String url)
+    {
+        Badge badge = new Badge(url);
+        em.merge(app);
+        em.persist(badge);
+        app.addBadge(badge);
+        return badge;
     }
 }
