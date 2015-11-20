@@ -5,11 +5,14 @@
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class App implements Serializable
@@ -28,7 +31,10 @@ public class App implements Serializable
     // Applications are linked to their creator
     @ManyToOne
     private Account creator;
-
+    
+    @OneToMany
+    private List<Rule> rules = new LinkedList<>();
+    
     /**
     * Creates a new empty App
     */
@@ -41,7 +47,7 @@ public class App implements Serializable
     * @param description the description of the application
     * @param apiKey the generated UUID used as a key
     * @param numberOfUsers the maximum number of users
-    * @param active set the applicaiton as enabled/disabled
+    * @param active set the application as enabled/disabled
     * @param creator the Account object that represents the creator of the application
     */
     public App(String name, String description, String apiKey, int numberOfUsers, boolean active, Account creator)
@@ -69,7 +75,7 @@ public class App implements Serializable
     /**
     * Set the ID of the application, should be set automatically by the data store
     *
-    * @param the ID to set
+    * @param id the ID to set
     */
     public void setId(Long id)
     {
@@ -184,5 +190,25 @@ public class App implements Serializable
     public Account getCreator()
     {
         return creator;
+    }
+    
+    /**
+     * Add a rule to the application.
+     * 
+     * @param rule The rule to had to the application.
+     */
+    public void addRule(Rule rule)
+    {
+        rules.add(rule);
+    }
+    
+    /**
+     * Get the list of the application's rules.
+     * 
+     * @return the list of rules.
+     */
+    public List<Rule> getRules()
+    {
+        return rules;
     }
 }
