@@ -6,6 +6,7 @@ package ch.heigvd.amt.gary.services.dao;
 
 import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.models.entities.App;
+import ch.heigvd.amt.gary.models.entities.EndUser;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -123,5 +124,21 @@ public class AppDAO extends DAO {
     {
         long count = (long) em.createQuery("SELECT COUNT(a) FROM App a WHERE a.creator = :account").setParameter("account", account).getSingleResult();
         return count;
+    }
+    
+    /**
+    * Create a new end user of the application. The new user will be identified by the app itself and the user id used in the remote application.
+    * 
+    * @param app the application that will contain the user
+    * @param id the internal id identifying the user in the remote app
+    * @return the newly created user
+    */
+    public EndUser createNewUser(App app, Long id)
+    {
+        EndUser user = new EndUser(app, id);
+        em.merge(app);
+        app.addUser(user);
+        em.persist(user);
+        return user;
     }
 }

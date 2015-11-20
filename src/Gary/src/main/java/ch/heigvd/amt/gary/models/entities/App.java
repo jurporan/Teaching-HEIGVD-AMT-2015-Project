@@ -5,11 +5,15 @@
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class App implements Serializable
@@ -28,6 +32,9 @@ public class App implements Serializable
     // Applications are linked to their creator
     @ManyToOne
     private Account creator;
+    
+    @OneToMany(mappedBy = "app", cascade = CascadeType.ALL)
+    private List<EndUser> users = new LinkedList<EndUser>();
 
     /**
     * Creates a new empty App
@@ -184,5 +191,25 @@ public class App implements Serializable
     public Account getCreator()
     {
         return creator;
+    }
+    
+    /**
+    * Get the list of every users of this application
+    *
+    * @return an list of EndUsers linked to this application
+    */
+    public List<EndUser> getUsers()
+    {
+        return users;
+    }
+    
+    /**
+    * Add a new user to this application
+    *
+    * @param the user to add
+    */
+    public void addUser(EndUser user)
+    {
+        users.add(user);
     }
 }
