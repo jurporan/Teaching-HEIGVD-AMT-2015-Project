@@ -1,8 +1,134 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: url("/img/background.png") no-repeat center center fixed;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    text-align: center;
+    width: 100%;
+    -webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
+}
+
+.garyImg {
+    height: 70px;
+    left: 30%;
+    position: relative;
+}
+
+.interactiveContent {
+    background-color: white;
+    border: 1px solid #31708f;
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.actionTable {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.actionTable td:not(:last-child) {
+    padding-right: 100px;
+}
+
+.actionTable select, input:not(.sendButton) {
+    width: 250px;
+}
+
+.sendButton {
+    width: 100px;
+}
+
+.actionLabel {
+    margin-right: 10px;
+}
+
+.results {
+    /*display: none;*/
+}
+
+.resultTitle {
+    margin-top: 90px;
+}
+
+.currentLevel, .nextLevel {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.currentLevel {
+    float: left;
+}
+
+.nextLevel {
+    float: right;
+}
+
+.levelProgressbar {
+    cursor: pointer;
+    margin-left: 28px;
+    margin-right: 28px;
+    margin-top: 12px;
+}
+
+.currentPoints {
+    font-size: 20px;
+}
+
+.badgesTable {
+    margin: auto;
+}
+
+.badgesTable td {
+    border: 1px solid #31708f;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    height: 200px;
+    width: 200px;
+}
+
+.badgeImg {
+    height: 150px;
+    width: 150px;
+}
+
+.lockedBadge {
+    background-color: #E7E7E7;
+    color: #31708f;
+}
+
+.lockedBadge:hover {
+    background-color: #CFCFCF;
+}
+
+.unlockedBadge {
+    background-color: #d9edf7;
+    color: #31708f;
+}
+
+.unlockedBadge:hover {
+    background-color: #93d4f5;
+}
+
+.leaderboardTable {
+    margin: auto;
+}
+
+.leaderboardTable th, .leaderboardTable td {
+    border: 1px solid #31708f;
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
+    width: 333px;
+}
+
+.currentUser {
+    background-color: #d9edf7;
+    color: #31708f;
 }
