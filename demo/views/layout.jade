@@ -1,9 +1,10 @@
 doctype html
-html(lang='en')
+html(lang='en' ng-app="garyDemo")
     head
         meta(charset='UTF-8')
         meta(name='viewport', content='width=device-width')
         title= title
+        link(rel='shortcut icon' href='/img/logo.png')
         block css
             link(rel='stylesheet', href='/css/style.css')
             link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.css')
@@ -12,7 +13,10 @@ html(lang='en')
                 script(src='http://localhost:35729/livereload.js')
             script(src='/components/jquery/dist/jquery.min.js')
             script(src='/components/bootstrap/dist/js/bootstrap.js')
-    body
-        .page
-            .content
-                block content
+            // Load core AngularJS before any other AngularJS module.
+            script(src='components/angular/angular.js')            
+            // My Angular components.
+            script(src='js/app.js')
+    body(ng-controller="PageController")
+        .content
+            block content

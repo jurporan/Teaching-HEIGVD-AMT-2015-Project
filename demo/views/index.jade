@@ -1,143 +1,171 @@
 extends layout
 
-block content    
-    img.garyImg(src="/img/gary.png")
-    .interactiveContent  
-        h3.intro Let your imagination float in the meanders of your mind and run some events for your favorite user!
+block content
+    #topPanel.topPanel
+        .title #{title}
+        h4#form.intro Let your imagination float in the meanders of your mind and run some events for your favorite user!
+        #options.options
+            .form-group
+                label(for='userSelect') User:
+                select#userSelect.form-control(ng-model='userSelect')
+                    option(disabled='disabled' selected='selected' style='display: none;' value='') Select an user...
+                    option(value='123') edri
+                    option(value='321') Jean-Mich'
+                    option(value='132') Blairôme
+            
+            .form-group
+                label(for='eventSelect') Event:
+                select#eventSelect.form-control(disabled='disabled' ng-model='eventSelect')
+                    option(disabled='disabled' selected='selected' style='display: none;' value='') Select an event...
+                    option(value='456') Add points...
+                    option(value='654') Add a badge...
+                    option(value='465') Post a comment...
         
-        form
-            table.actionTable
-                tr
-                    td
-                        span.actionLabel 1. 
-                        select#userSelect
-                            option(disabled='disabled' selected='selected' style='display: none;' value='none') Select an user...
-                            option(value='123') edri
-                            option(value='321') Jean-Mich'
-                            option(value='132') Blairôme
-                    td
-                        span.actionLabel 2. 
-                        select#eventSelect(disabled='disabled')
-                            option(disabled='disabled' selected='selected' style='display: none;' value='none') Select an event...
-                            option(value='456') Add points...
-                            option(value='654') Add a badge...
-                            option(value='465') Post a comment...
-                    td
-                        span.actionLabel 3. 
-                        input#eventProperties(disabled='disabled' type='text' value='Please select an event.')
-                    td
-                        span.actionLabel 4. 
-                        input#sendButton.btn.btn-primary.sendButton(disabled='disabled' type='button' value='Run!')
+            .form-group
+                label(for='eventProperties') Event's properties:
+                input#eventProperties.form-control(disabled='disabled' ng-model='txtEventProperties' placeholder='Please select an event...' type='text')
         
-        #results.results
-            h3.resultTitle AW YEAH! Now let's have a look at the current 
-                b edri
-                | 's level...
+            br
+        
+            button.btn.btnApp.sendButton(disabled='disabled' name="sendButton" ng-click='showGamification()' type='button') Run!
+        
+        img#garyImg.garyImg(src='/img/gary.png')
+    
+    #bottomPanel.bottomPanel
+        #fillForm.fillForm
+            h1 Please fill the 
+                a(href="#form") form
+                | 
+                | and press the
+                button.btn.btnApp(disabled='disabled' name="sendButton" ng-click='showGamification()' style='margin: 0 12px 5px 12px;') Run!
+                | button.
+        
+        #resultsTabs.resultsTabs
+            ul#resultsTabs.nav.nav-tabs(role='tablist')
+                li.active(role='presentation')
+                    a(aria-controls='level', data-toggle='tab', href='#level', role='tab', style='outline: 0 none;') Level
+                li(role='presentation')
+                    a(aria-controls='badges', data-toggle='tab', href='#badges', role='tab', style='outline: 0 none;') Badges
+                li(role='presentation')
+                    a(aria-controls='leaderboard', data-toggle='tab', href='#leaderboard', role='tab', style='outline: 0 none;') LeaderBoard
             
-            .level
-                span.currentLevel Level 1
-                span.nextLevel Level 2
-                br
-                .progress.progress-bar-info.levelProgressbar(style="height: 60px;")
-                    .progress-bar.progress-bar-primary.currentPoints(role='progressbar' style='width:40%; padding-top: 19px;')
-                        span.currentPoints 120 / 300 points
-            
-            h3.resultTitle Okay, that's nice... But what about the badges?
-            
-            table.badgesTable
-                tr
-                    td.lockedBadge
-                        span(class="glyphicon glyphicon-lock" aria-hidden="true")
+            .tab-content.resultsTab
+                #level.tab-pane.fade.in.active(role='tabpanel')
+                    h3 AW YEAH! Now let's have a look at the current 
+                        b edri
+                        | 's level..
+                
+                    .level(ng-controller="ProgressController")
+                        span.currentLevel Level {{level}}
+                        span.nextLevel Level {{level + 1}}
                         br
-                        | Locked
-                    td.unlockedBadge
-                        img.badgeImg(src="/img/dahu.svg")
-                        br
-                        | First answer!
-                        td.lockedBadge
-                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
-                            br
-                            | Locked
-                        td.lockedBadge
-                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
-                            br
-                            | Locked
-                        td.lockedBadge
-                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
-                            br
-                            | Locked
-                    tr
-                        td.lockedBadge
-                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
-                            br
-                            | Locked
-                        td.lockedBadge
-                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
-                            br
-                            | Locked
-                        td.lockedBadge
-                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
-                            br
-                            | Locked
-                        td.lockedBadge
-                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
-                            br
-                            | Locked
-                        td.lockedBadge
-                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
-                            br
-                            | Locked
-                    
-                    
-            h3.resultTitle Yay! How high are you in the leaderboard?
-            
-            table.leaderboardTable
-                tr
-                    th Position
-                    th User
-                    th Points
-                tr.currentUser
-                    td #1
-                    td edri
-                    td 120
-                tr
-                    td #2
-                    td blairôme
-                    td 100
-                tr
-                    td #3
-                    td jean-mich
-                    td 60
+                        .progress.levelProgressbar(style="height: 60px;")
+                            span#currentPoints.currentPoints {{numberOfPoints}} / {{pointsToNextLevel}} points
+                            #progressBarCurrent.progress-bar.progress-bar-info(role='progressbar' style='width:{{progressBarPercentage}}%; padding-top: 19px;')
+                            
+                #badges.tab-pane.fade(role='tabpanel')
+                    h3 Okay, what about the badges?
+                            
+                    table.badgesTable(ng-controller="BadgesController")
+                        tr(ng-repeat="(x, yArray) in badgesArchitecture")
+                            td(ng-class="(y.locked && !showProject[y.id]) ? 'lockedBadge' : 'unlockedBadge'" ng-repeat="y in yArray")
+                                div(class="lockedBadgeContent" id="lockedBadgeContent{{y.id}}" name="lockedBadgeContent" ng-if="y.locked && !showProject[y.id]")
+                                    #hiddenBadgeContent.hiddenBadgeContent
+                                        {{y.title}}
+                                        br
+                                        img.badgeImg(ng-src="/img/badges/{{y.id}}.svg")
+                                        br
+                                        div.badgeText {{y.text}}
+                                    .shownBadgeDiv
+                                        .shownBadgeContent
+                                            span(aria-hidden="true" class="glyphicon glyphicon-lock")
+                                            br
+                                            | Locked
+                                div(ng-if="!y.locked || showProject[y.id]")
+                                    {{y.title}}
+                                    br
+                                    img.badgeImg(ng-src="/img/badges/{{y.id}}.svg")
+                                    br
+                                    div.badgeText {{y.text}}
+                                    
+                #leaderboard.tab-pane.fade(role='tabpanel')
+                    h3 Yay! How high are you in the leaderboard?
+                                    
+                    table.leaderboardTable
+                        tr
+                            th Position
+                            th User
+                            th Points
+                        tr.currentUser
+                            td #1
+                            td edri
+                            td 120
+                        tr
+                            td #2
+                            td blairôme
+                            td 100
+                        tr
+                            td #3
+                            td jean-mich
+                            td 60
+
     script.
-        $("#userSelect").change(function() {
-            if ($("#userSelect").val() != "none")
-            {
-                console.log("New selected user: " + $("#userSelect").val());
-                $("#eventSelect").prop("disabled" , false);
-            }
-        });
-        
-        $("#eventSelect").change(function() {
-            if ($("#eventSelect").val() != "none")
-            {
-                console.log("New selected event: " + $("#eventSelect").val());
-                $("#eventProperties").prop("disabled" , false);
-                $("#eventProperties").attr("value" , "");
-                $("#eventProperties").attr("placeholder" , "Enter properties...");
-            }
-        });
-        
-        $("#eventProperties").bind("input", function() {
-            if ($("#eventProperties").val())
-            {
-                $("#sendButton").prop("disabled" , false);
-            }
-            else
-            {
-                $("#sendButton").prop("disabled" , true);
-            }
-        });
-        
-        $("#sendButton").click(function() {
-            $("#results").slideDown("fast");
+        $(document).ready(function() {
+            var screenHeight = $("#topPanel").height();
+            var topPanelPaddingTop = parseInt($("#topPanel").css("padding-top").replace("px", ""));
+            var topPanelMinHeight = parseInt($("#topPanel").css("min-height").replace("px", ""));
+            var topPanelOriginalHeight = (screenHeight + topPanelPaddingTop);
+            var infoTextTop = $("#form").offset().top;
+            
+            $(window).on("scroll", function () {
+                var panelHeight = (infoTextTop - $(window).scrollTop()) / (infoTextTop / (topPanelOriginalHeight - topPanelMinHeight)) + topPanelMinHeight;
+                var garyLeft = $(window).scrollTop() / 10 + 30;
+                
+                $("#topPanel").css("height", Math.min(panelHeight, topPanelOriginalHeight) + "px");
+                $("#garyImg").css("left", Math.min(garyLeft, 80) + "%");
+            });
+            
+            $("#userSelect").change(function() {
+                if ($("#userSelect").val() != "none")
+                {
+                    console.log("New selected user: " + $("#userSelect").val());
+                    $("#eventSelect").prop("disabled" , false);
+                }
+            });
+            
+            $("#eventSelect").change(function() {
+                if ($("#eventSelect").val() != "none")
+                {
+                    console.log("New selected event: " + $("#eventSelect").val());
+                    $("#eventProperties").prop("disabled" , false);
+                    $("#eventProperties").attr("value" , "");
+                    $("#eventProperties").attr("placeholder" , "Enter properties...");
+                }
+            });
+            
+            $("#eventProperties").bind("input", function() {
+                if ($("#eventProperties").val())
+                {
+                    $("button[name='sendButton']").prop("disabled" , false);
+                }
+                else
+                {
+                    $("button[name='sendButton']").prop("disabled" , true);
+                }
+            });
+            
+            $("div[name='lockedBadgeContent']").hover(
+                function() {
+                    $("#hiddenBadgeContent", this).addClass("hiddenBadgeContentDisplayed");
+                },
+                function() {
+                    $("#hiddenBadgeContent", this).removeClass("hiddenBadgeContentDisplayed");
+                }
+            );
+            
+            // Enable tabbable tabs on the results panel.
+            $("#resultsTabs a").click(function(event) {
+                event.preventDefault();
+                $(this).tab("show");
+            });
         });
