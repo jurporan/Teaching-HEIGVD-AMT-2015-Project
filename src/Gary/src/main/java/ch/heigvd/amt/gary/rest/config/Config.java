@@ -1,13 +1,9 @@
-package ch.heigvd.amt.gary.rest.ressources;
+package ch.heigvd.amt.gary.rest.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.Application;
-import jersey.repackaged.com.google.common.collect.ImmutableSet;
 
 
 // Just a temporary config class for testing JAX-RS.
@@ -37,6 +33,8 @@ public class Config extends Application
 
   private void addRestResourceClasses(Set<Class<?>> resources) 
   {
+    resources.add(ch.heigvd.amt.gary.rest.config.GaryExceptionMapper.class);
+    resources.add(ch.heigvd.amt.gary.rest.config.ObjectMapperProvider.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.Badges.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.EndUser.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.Levels.class);
