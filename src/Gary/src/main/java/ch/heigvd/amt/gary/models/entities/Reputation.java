@@ -7,12 +7,7 @@ package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
 import java.util.*;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  *
@@ -26,8 +21,11 @@ public class Reputation implements Serializable
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    private int points;
+    
     @ManyToMany
     private List<Badge> badges = new LinkedList<>();
+    @OneToMany
     private List<Award> awards = new LinkedList<>();
 
     public Long getId()
@@ -84,4 +82,26 @@ public class Reputation implements Serializable
     {
         badges.remove(badge);
     }
+
+    public List<Badge> getBadges()
+    {
+        return badges;
+    }
+
+    public List<Award> getAwards()
+    {
+        return awards;
+    }
+
+    public int getPoints()
+    {
+        return points;
+    }
+
+    public void setPoints(int points)
+    {
+        this.points = points;
+    }
+    
+    
 }
