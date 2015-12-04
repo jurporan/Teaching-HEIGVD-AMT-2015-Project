@@ -56,4 +56,13 @@ public class BadgeDTO
         return badge;
     }
     
+    public static BadgeDTO fromEntity(Badge badge)
+    {
+        BadgeDTO dto = new BadgeDTO();
+        dto.imageUrl = badge.getImageUrl();
+        dto.name = badge.getName();
+        dto.description = badge.getDescription();
+        return dto;
+    }
+    
 }

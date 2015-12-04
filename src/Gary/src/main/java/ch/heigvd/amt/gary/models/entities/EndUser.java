@@ -5,12 +5,15 @@
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 
 @Entity
 public class EndUser implements Serializable
@@ -27,12 +30,16 @@ public class EndUser implements Serializable
     @Id
     Long externalId;
     
-    public EndUser(){}
+    @Temporal(DATE)
+    private Date date;
+    
+    public EndUser(){date = new Date();}
     
     public EndUser(App app, Long id)
     {
         this.app = app;
         externalId = id;
+        date = new Date();
     }
 
     public App getApp()
@@ -93,5 +100,10 @@ public class EndUser implements Serializable
     public String toString()
     {
         return "ch.heigvd.amt.gary.models.entities.EndUser[ id=" + externalId + ", app=" + app + " ]";
+    }
+
+    public Date getDate()
+    {
+        return date;
     }
 }
