@@ -15,14 +15,14 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 @Stateless
-@Path("/applications/{apikey}/rules")
+@Path("/applications/{apikey}/levels")
 public class Levels
 {
     @EJB AppDAO appDAO;
     
     @POST
     @Consumes("application/json")
-    public Response submitNewRule(LevelDTO level, @PathParam("apikey") String apikey)
+    public Response submitNewLevel(LevelDTO level, @PathParam("apikey") String apikey)
     {
         appDAO.addLevel(appDAO.get(apikey), level.toEntity());
         return Response.ok().build();

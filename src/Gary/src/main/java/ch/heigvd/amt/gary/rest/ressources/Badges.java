@@ -17,7 +17,7 @@ public class Badges
     
     @POST
     @Consumes("application/json")
-    public Response submitNewRule(BadgeDTO badge, @PathParam("apikey") String apikey)
+    public Response submitNewBadge(BadgeDTO badge, @PathParam("apikey") String apikey)
     {
         appDAO.addBadge(appDAO.get(apikey), badge.toEntity());
         return Response.ok().build();
