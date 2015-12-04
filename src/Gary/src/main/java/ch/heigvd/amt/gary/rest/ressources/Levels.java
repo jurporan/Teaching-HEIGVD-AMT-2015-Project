@@ -5,9 +5,10 @@
  */
 package ch.heigvd.amt.gary.rest.ressources;
 
+import ch.heigvd.amt.gary.models.entities.Level;
 import ch.heigvd.amt.gary.rest.dto.LevelDTO;
-import ch.heigvd.amt.gary.rest.dto.RuleDTO;
 import ch.heigvd.amt.gary.services.dao.AppDAO;
+import java.util.*;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.*;
@@ -25,5 +26,16 @@ public class Levels
     {
         appDAO.addLevel(appDAO.get(apikey), level.toEntity());
         return Response.ok().build();
+    }
+    
+    @GET
+    @Produces("application/json")
+    public Response getAllLevels(@PathParam("apikey") String apikey)
+    {
+        List<Level> levels = appDAO.get(apikey).getLevels();
+        List<LevelDTO> levelsDto = new LinkedList<>();
+        
+        for (Level l : levels) {levelsDto.add(LevelDTO.fromEntity(l));}
+        return Response.ok().entity(levelsDto).build();
     }
 }

@@ -251,6 +251,11 @@ public class App implements Serializable
     {
         return badges;
     }
+
+    public List<Level> getLevels()
+    {
+        return levels;
+    }
     
     /**
     * Add a new badge to this application

@@ -43,4 +43,12 @@ public class LevelDTO
         level.setMinPoints(minPoints);
         return level;
     }
+    
+    public static LevelDTO fromEntity(Level level)
+    {
+        LevelDTO dto = new LevelDTO();
+        dto.name = level.getName();
+        dto.minPoints = level.getMinPoints();
+        return dto;
+    }
 }
