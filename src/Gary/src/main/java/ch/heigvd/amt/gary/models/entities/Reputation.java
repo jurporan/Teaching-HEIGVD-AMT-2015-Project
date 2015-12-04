@@ -1,64 +1,34 @@
 /*
-* Author     : Benoist Wolleb
-* Goal       : -
-*/
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
+import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
+/**
+ *
+ * @author lyuyhn
+ */
 @Entity
-public class Badge implements Serializable
+public class Reputation implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String imageUrl;
-    private String name;
-    private String description;
     
-    public Badge(){}
-    
-    public Badge(String imageUrl, String name, String description)
-    {
-        this.imageUrl = imageUrl;
-        this.name = name;
-        this.description = description;
-    }
-
-    public String getImageUrl()
-    {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl)
-    {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+    @ManyToMany
+    private List<Badge> badges = new LinkedList<>();
+    private List<Award> awards = new LinkedList<>();
 
     public Long getId()
     {
@@ -82,11 +52,11 @@ public class Badge implements Serializable
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Badge))
+        if (!(object instanceof Reputation))
         {
             return false;
         }
-        Badge other = (Badge) object;
+        Reputation other = (Reputation) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
         {
             return false;
@@ -97,7 +67,21 @@ public class Badge implements Serializable
     @Override
     public String toString()
     {
-        return "ch.heigvd.amt.gary.models.entities.Badge[ id=" + id + " ]";
+        return "ch.heigvd.amt.gary.models.entities.Reputation[ id=" + id + " ]";
     }
     
+    public void addAward(Award award)
+    {
+        awards.add(award);
+    }
+    
+    public void addBadge(Badge badge)
+    {
+        badges.add(badge);
+    }
+    
+    public void removeBadge(Badge badge)
+    {
+        badges.remove(badge);
+    }
 }

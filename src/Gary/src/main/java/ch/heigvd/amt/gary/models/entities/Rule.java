@@ -25,6 +25,8 @@ public class Rule implements Serializable
     private long ruleParameter;
     private boolean isPenalty;
     private eventType type;
+    
+    public Rule(){}
 
     public Rule(String typeOfEvent, long ruleParameter, boolean isPenalty, eventType type)
     {

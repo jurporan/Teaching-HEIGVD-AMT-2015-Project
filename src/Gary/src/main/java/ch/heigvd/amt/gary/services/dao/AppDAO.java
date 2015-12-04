@@ -8,6 +8,7 @@ import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.models.entities.App;
 import ch.heigvd.amt.gary.models.entities.Badge;
 import ch.heigvd.amt.gary.models.entities.EndUser;
+import ch.heigvd.amt.gary.models.entities.Rule;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -147,15 +148,31 @@ public class AppDAO extends DAO {
     * Create a new badge that will be available in the application.
     * 
     * @param app the application that will contain the badge
-    * @param url the url to the image of the badge
-    * @return the newly created user
+    * @param imageUrl the url to the image of the badge
+    * @param name the name of the badge
+    * @param description the description of the badge
+    * @return the newly created badge
     */
-    public Badge createBadge(App app, String url)
+    public Badge createBadge(App app, String imageUrl, String name, String description)
     {
-        Badge badge = new Badge(url);
+        Badge badge = new Badge(imageUrl, name, description);
         em.merge(app);
         em.persist(badge);
         app.addBadge(badge);
         return badge;
+    }
+    
+    public void addRule(App app, Rule rule)
+    {
+        app = em.merge(app);
+        em.persist(rule);
+        app.addRule(rule);
+    }
+    
+    public void addBadge(App app, Badge badge)
+    {
+        app = em.merge(app);
+        em.persist(badge);
+        app.addBadge(badge);
     }
 }

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class EndUser implements Serializable
@@ -20,8 +21,13 @@ public class EndUser implements Serializable
     @ManyToOne(optional = false)
     private App app;
     
+    @OneToOne
+    private Reputation reputation;
+    
     @Id
     Long externalId;
+    
+    public EndUser(){}
     
     public EndUser(App app, Long id)
     {
@@ -55,6 +61,16 @@ public class EndUser implements Serializable
         int hash = 0;
         hash += (externalId != null ? externalId.hashCode() : 0) + app.hashCode();
         return hash;
+    }
+
+    public Reputation getReputation()
+    {
+        return reputation;
+    }
+
+    public void setReputation(Reputation reputation)
+    {
+        this.reputation = reputation;
     }
 
     @Override
