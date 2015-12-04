@@ -53,7 +53,7 @@ public class RuleDTO
         return rewardType;
     }
 
-    public void setRewardType(int rewardType)
+    public void setRewardType(byte rewardType)
     {
         this.rewardType = rewardType;
     }
