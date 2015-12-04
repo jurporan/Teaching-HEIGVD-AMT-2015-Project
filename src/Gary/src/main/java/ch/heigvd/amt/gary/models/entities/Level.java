@@ -1,7 +1,8 @@
 /*
-* Author     : Benoist Wolleb
-* Goal       : -
-*/
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
@@ -10,34 +11,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ *
+ * @author lyuyhn
+ */
 @Entity
-public class Badge implements Serializable
+public class Level implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String imageUrl;
+    
     private String name;
-    private String description;
-    
-    public Badge(){}
-    
-    public Badge(String imageUrl, String name, String description)
+    private int minPoints;
+
+    public Long getId()
     {
-        this.imageUrl = imageUrl;
-        this.name = name;
-        this.description = description;
+        return id;
     }
 
-    public String getImageUrl()
+    public void setId(Long id)
     {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl)
-    {
-        this.imageUrl = imageUrl;
+        this.id = id;
     }
 
     public String getName()
@@ -50,24 +46,14 @@ public class Badge implements Serializable
         this.name = name;
     }
 
-    public String getDescription()
+    public int getMinPoints()
     {
-        return description;
+        return minPoints;
     }
 
-    public void setDescription(String description)
+    public void setMinPoints(int minPoints)
     {
-        this.description = description;
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
-
-    public void setId(Long id)
-    {
-        this.id = id;
+        this.minPoints = minPoints;
     }
 
     @Override
@@ -82,11 +68,11 @@ public class Badge implements Serializable
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Badge))
+        if (!(object instanceof Level))
         {
             return false;
         }
-        Badge other = (Badge) object;
+        Level other = (Level) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
         {
             return false;
@@ -97,7 +83,7 @@ public class Badge implements Serializable
     @Override
     public String toString()
     {
-        return "ch.heigvd.amt.gary.models.entities.Badge[ id=" + id + " ]";
+        return "ch.heigvd.amt.gary.models.entities.Level[ id=" + id + " ]";
     }
     
 }
