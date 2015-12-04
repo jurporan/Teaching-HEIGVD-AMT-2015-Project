@@ -1,5 +1,143 @@
 extends layout
 
-block content
-  h1= title
-  p Welcome to #{title}
+block content    
+    img.garyImg(src="/img/gary.png")
+    .interactiveContent  
+        h3.intro Let your imagination float in the meanders of your mind and run some events for your favorite user!
+        
+        form
+            table.actionTable
+                tr
+                    td
+                        span.actionLabel 1. 
+                        select#userSelect
+                            option(disabled='disabled' selected='selected' style='display: none;' value='none') Select an user...
+                            option(value='123') edri
+                            option(value='321') Jean-Mich'
+                            option(value='132') Blairôme
+                    td
+                        span.actionLabel 2. 
+                        select#eventSelect(disabled='disabled')
+                            option(disabled='disabled' selected='selected' style='display: none;' value='none') Select an event...
+                            option(value='456') Add points...
+                            option(value='654') Add a badge...
+                            option(value='465') Post a comment...
+                    td
+                        span.actionLabel 3. 
+                        input#eventProperties(disabled='disabled' type='text' value='Please select an event.')
+                    td
+                        span.actionLabel 4. 
+                        input#sendButton.btn.btn-primary.sendButton(disabled='disabled' type='button' value='Run!')
+        
+        #results.results
+            h3.resultTitle AW YEAH! Now let's have a look at the current 
+                b edri
+                | 's level...
+            
+            .level
+                span.currentLevel Level 1
+                span.nextLevel Level 2
+                br
+                .progress.progress-bar-info.levelProgressbar(style="height: 60px;")
+                    .progress-bar.progress-bar-primary.currentPoints(role='progressbar' style='width:40%; padding-top: 19px;')
+                        span.currentPoints 120 / 300 points
+            
+            h3.resultTitle Okay, that's nice... But what about the badges?
+            
+            table.badgesTable
+                tr
+                    td.lockedBadge
+                        span(class="glyphicon glyphicon-lock" aria-hidden="true")
+                        br
+                        | Locked
+                    td.unlockedBadge
+                        img.badgeImg(src="/img/dahu.svg")
+                        br
+                        | First answer!
+                        td.lockedBadge
+                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
+                            br
+                            | Locked
+                        td.lockedBadge
+                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
+                            br
+                            | Locked
+                        td.lockedBadge
+                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
+                            br
+                            | Locked
+                    tr
+                        td.lockedBadge
+                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
+                            br
+                            | Locked
+                        td.lockedBadge
+                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
+                            br
+                            | Locked
+                        td.lockedBadge
+                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
+                            br
+                            | Locked
+                        td.lockedBadge
+                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
+                            br
+                            | Locked
+                        td.lockedBadge
+                            span(class="glyphicon glyphicon-lock" aria-hidden="true")
+                            br
+                            | Locked
+                    
+                    
+            h3.resultTitle Yay! How high are you in the leaderboard?
+            
+            table.leaderboardTable
+                tr
+                    th Position
+                    th User
+                    th Points
+                tr.currentUser
+                    td #1
+                    td edri
+                    td 120
+                tr
+                    td #2
+                    td blairôme
+                    td 100
+                tr
+                    td #3
+                    td jean-mich
+                    td 60
+    script.
+        $("#userSelect").change(function() {
+            if ($("#userSelect").val() != "none")
+            {
+                console.log("New selected user: " + $("#userSelect").val());
+                $("#eventSelect").prop("disabled" , false);
+            }
+        });
+        
+        $("#eventSelect").change(function() {
+            if ($("#eventSelect").val() != "none")
+            {
+                console.log("New selected event: " + $("#eventSelect").val());
+                $("#eventProperties").prop("disabled" , false);
+                $("#eventProperties").attr("value" , "");
+                $("#eventProperties").attr("placeholder" , "Enter properties...");
+            }
+        });
+        
+        $("#eventProperties").bind("input", function() {
+            if ($("#eventProperties").val())
+            {
+                $("#sendButton").prop("disabled" , false);
+            }
+            else
+            {
+                $("#sendButton").prop("disabled" , true);
+            }
+        });
+        
+        $("#sendButton").click(function() {
+            $("#results").slideDown("fast");
+        });
