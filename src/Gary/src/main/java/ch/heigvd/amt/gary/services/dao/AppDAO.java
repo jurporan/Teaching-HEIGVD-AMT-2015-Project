@@ -8,6 +8,7 @@ import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.models.entities.App;
 import ch.heigvd.amt.gary.models.entities.Badge;
 import ch.heigvd.amt.gary.models.entities.EndUser;
+import ch.heigvd.amt.gary.models.entities.Level;
 import ch.heigvd.amt.gary.models.entities.Rule;
 import java.util.List;
 import javax.ejb.EJB;
@@ -174,5 +175,12 @@ public class AppDAO extends DAO {
         app = em.merge(app);
         em.persist(badge);
         app.addBadge(badge);
+    }
+    
+    public void addLevel(App app, Level level)
+    {
+        app = em.merge(app);
+        em.persist(level);
+        app.addLevel(level);
     }
 }
