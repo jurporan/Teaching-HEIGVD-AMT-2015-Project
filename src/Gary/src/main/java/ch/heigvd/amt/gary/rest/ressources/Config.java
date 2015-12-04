@@ -33,6 +33,7 @@ public class Config extends Application
 
   private void addRestResourceClasses(Set<Class<?>> resources) 
   {
+    resources.add(ch.heigvd.amt.gary.rest.ressources.EndUser.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.Levels.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.Rules.class);
   }
