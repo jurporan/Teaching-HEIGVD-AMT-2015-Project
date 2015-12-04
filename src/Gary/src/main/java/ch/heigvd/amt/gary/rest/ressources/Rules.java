@@ -15,18 +15,18 @@ import javax.ws.rs.core.Response;
  * @author Jan Purro
  */
 @Stateless
-@Path("/applications/{applicationId}/rules")
+@Path("/applications/{apiKey}/rules")
 public class Rules
 {
     @EJB AppDAO appDAO;
             
     @POST
     @Consumes("application/json")
-    public Response submitNewRule(RuleDTO rule, @PathParam("ApplicationId") long applicationId)
+    public Response submitNewRule(RuleDTO rule, @PathParam("apiKey") String apiKey)
     {
         try
         {
-            appDAO.addRule(appDAO.get(applicationId), rule.toEntity());
+            appDAO.addRule(appDAO.get(apiKey), rule.toEntity());
         }
         catch (Exception e)
         {
