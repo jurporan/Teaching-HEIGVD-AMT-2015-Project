@@ -24,8 +24,9 @@ public class Levels
     @Consumes("application/json")
     public Response submitNewLevel(LevelDTO level, @PathParam("apikey") String apikey)
     {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         appDAO.addLevel(appDAO.get(apikey), level.toEntity());
-        return Response.ok().build();
+        return Response.ok().entity("Pouet").build();
     }
     
     @GET
