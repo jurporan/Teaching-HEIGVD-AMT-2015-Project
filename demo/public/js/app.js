@@ -1,8 +1,12 @@
 (function() {
     var appModule = angular.module("garyDemo", [])
+        // Returns level progression's bar's values.
         .factory("progressBarValues", function() {
+            // Current progression.
             var current = 0;
+            // Progression-to-next-level.
             var max = 300;
+            // Current level.
             var level = 1;
 
             return {
@@ -11,7 +15,9 @@
                 level
             };
         })
+        // Returns badges data.
         .factory("badgesValues", function() {
+            // We can have more than one line ; just indicate a new line with "x2", etc.
             return {
                 "x1": [
                     {
@@ -47,9 +53,33 @@
                 ]
             };
         })
-        .controller("PageController", function($scope, progressBarValues, badgesValues) {
-            $scope.showProject = [];
+        // Returns leaderboard scores.
+        .factory("leaderboardScores", function() {
+            var scores = [
+                {
+                    "userId": 132,
+                    "username": "Blairôme",
+                    "points": 100
+                },
+                {
+                    "userId": 123,
+                    "username": "edri",
+                    "points": 0
+                },
+                {
+                    "userId": 321,
+                    "username": "Jean-Mich'",
+                    "points": 60
+                }
+            ];
 
+            return scores;
+        })
+        // The main page's controller.
+        // Contains functions which allow the user to add points and badges.
+        .controller("PageController", function($scope, progressBarValues, badgesValues, leaderboardScores) {
+            // This will contain all user's badges' status (loccked/unlocked).
+            $scope.showBadge = [];
             // This will be used for concurrency issues.
             var levelLoading = false;
 
@@ -83,9 +113,16 @@
                         console.log("Points to next level : " + progressBarValues.max + ".")
                     }
                     // Otherwise we need to add the number filled by the user in the event
-                    // properties' field.
+                    // properties' field and update the user's score in the database.
                     else {
                         tmpCurrent = progressBarValues.current + parseInt($scope.txtEventProperties);
+
+                        $.each(leaderboardScores, function(score) {
+                            if (this.userId == $scope.userSelect) {
+                                this.points += parseInt($scope.txtEventProperties);
+                                return false;
+                            }
+                        });
                     }
 
                     // If the new points value if lesser than the maximum points value of
@@ -99,50 +136,73 @@
                     // the current level, we'll have to recursively call this function to
                     // add the extra points to the next level.
                     // NB : If there is still too many points for the next level, the
-                    // function will be called recursively again, etc.
+                    //      function will be called recursively again, etc.
                     else {
                         // First entirely fill the progress bar in its content, to show
                         // the user he's going to level up.
                         progressBarValues.current = progressBarValues.max;
                         console.log("NEXT LEVEL!");
 
-                        // Wait for the end of the progress bar's transition to the maximum
-                        // number of points.
-                        $("#progressBarCurrent").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function() {
-                            // Temporary remove transitions on the progress bar, for resetting
-                            // it properly, then fade it out.
-                            $("#progressBarCurrent").addClass("notransition");
-                            $("#progressBarCurrent").fadeOut("fast", function() {
-                                // Reset the progress bar's width.
-                                progressBarValues.current = 0;
-                                // Manually apply the scope changings, because no user action will
-                                // trigger it automatically.
-                                $scope.$apply();
-                            // Fade the progress bar in after a delay of 300 ms, and then put back
-                            // transitions on it.
-                            }).delay(300).fadeIn("fast", function() {
-                                $("#progressBarCurrent").removeClass("notransition");
-                                // Calculate the next level's extra points.
-                                var extraPoints = tmpCurrent - progressBarValues.max;
-                                // Level up and set new level's maximum points value.
-                                progressBarValues.level++;
-                                progressBarValues.max += 100;
-                                // Set the new progress bar's value ; if there is too many
-                                // points for the level, just entirely fill it in the container.
-                                // A recursive call will be executed just below.
-                                progressBarValues.current = Math.min(extraPoints, progressBarValues.max);
-                                // Apply manually the scope changings, because no user action will trigger it.
-                                $scope.$apply();
+                        // Behaviour is different, depending on the progress bar's visibility.
+                        // If we try to fadeOut a hidden element, we'll have some issues...
+                        if($("#progressBarCurrent").is(":visible")) {
+                            // Wait for the end of the progress bar's transition to the maximum
+                            // number of points.
+                            $("#progressBarCurrent").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function() {
+                                // Temporary remove transitions on the progress bar, for resetting
+                                // it properly, then fade it out.
+                                $("#progressBarCurrent").addClass("notransition");
+                                $("#progressBarCurrent").fadeOut("fast", function() {
+                                    // Reset the progress bar's width.
+                                    progressBarValues.current = 0;
+                                    // Manually apply the scope changings, because no user action will
+                                    // trigger it automatically.
+                                    $scope.$apply();
+                                // Fade the progress bar in after a delay of 300 ms, and then put back
+                                // transitions on it.
+                                }).delay(300).fadeIn("fast", function() {
+                                    $("#progressBarCurrent").removeClass("notransition");
+                                    // Calculate the next level's extra points.
+                                    var extraPoints = tmpCurrent - progressBarValues.max;
+                                    // Level up and set new level's maximum points value.
+                                    progressBarValues.level++;
+                                    progressBarValues.max += 100;
+                                    // Set the new progress bar's value ; if there is too many
+                                    // points for the level, just entirely fill it in the container.
+                                    // A recursive call will be executed just below.
+                                    progressBarValues.current = Math.min(extraPoints, progressBarValues.max);
+                                    // Apply manually the scope changings, because no user action will trigger it.
+                                    $scope.$apply();
 
-                                // If there is still too many points for the current level, recursively
-                                // call the function to consider them.
-                                if (extraPoints >= progressBarValues.max - 100) {
-                                    addPoints(extraPoints);
-                                }
+                                    // If there is still too many points for the current level, recursively
+                                    // call the function to consider them.
+                                    if (extraPoints >= progressBarValues.max - 100) {
+                                        addPoints(extraPoints);
+                                    }
 
-                                levelLoading = false;
+                                    levelLoading = false;
+                                });
                             });
-                        });
+                        }
+                        else {
+                            // Calculate the next level's extra points.
+                            var extraPoints = tmpCurrent - progressBarValues.max;
+                            // Level up and set new level's maximum points value.
+                            progressBarValues.level++;
+                            progressBarValues.max += 100;
+                            // Set the new progress bar's value ; if there is too many
+                            // points for the level, just entirely fill it in the container.
+                            // A recursive call will be executed just below.
+                            progressBarValues.current = Math.min(extraPoints, progressBarValues.max);
+
+                            // If there is still too many points for the current level, recursively
+                            // call the function to consider them.
+                            if (extraPoints >= progressBarValues.max - 100) {
+                                addPoints(extraPoints);
+                            }
+
+                            levelLoading = false;
+                        }
                     }
                 }
             }
@@ -154,8 +214,7 @@
                     $.each(badgesValues, function(text, value) {
                         $.each(value, function() {
                             if (this.id == $scope.txtEventProperties) {
-                                $scope.progressBarPercentage = 50;
-                                $scope.showProject[this.id] = true;
+                                $scope.showBadge[this.id] = true;
                                 $scope.$apply();
                                 return false;
                             }
@@ -169,13 +228,17 @@
              * Triggered when the user clicked on the "Run!" button.
              */
             $scope.showGamification = function() {
-                $("#fillForm").fadeOut("fast", function() {
-                    $("#resultsTabs").fadeIn("fast", function() {
+                // Hide information panel and show the results one.
+                $("#fillForm").hide();
+                $("#resultsTabs").fadeIn("fast");
+                // Scroll to results if we are above the form.
+                if ($("#form").offset().top > $(window).scrollTop()) {
+                    $('html, body').animate({
+                        scrollTop: $("#form").offset().top
+                    }, 800);
+                }
 
-
-                    });
-                });
-
+                // Add points or a badge, depending on the user event's selection.
                 if ($scope.eventSelect == 456) {
                     addPoints();
                 }
@@ -183,21 +246,39 @@
                     addBadge();
                 }
 
-                $('html, body').animate({
-                    scrollTop: $("#form").offset().top
-                }, 800);
-
+                // Sort scores (greater on top).
+                leaderboardScores.sort(function(score1, score2) {
+                    return parseInt(score2.points) - parseInt(score1.points);
+                });
+                // Send back leaderboard's scores to view.
+                $scope.leaderboardScores = leaderboardScores;
             };
         })
+        // Controller relative to the progress bar's rendering.
         .controller("ProgressController", function($scope, progressBarValues) {
-            $scope.$watchCollection(function() { return [progressBarValues.current, progressBarValues.max, progressBarValues.level] }, function (newValues, oldValues) {
+            // Watchs every progress bar's parameter ; if one of them changes, enters the callback function.
+            $scope.$watchCollection(function() { return [progressBarValues.current, progressBarValues.max, progressBarValues.level]; }, function (newValues, oldValues) {
+                // Set new scope's values.
                 $scope.level = newValues[2];
                 $scope.numberOfPoints = newValues[0];
                 $scope.pointsToNextLevel = newValues[1];
                 $scope.progressBarPercentage = newValues[0] / (newValues[1] / 100);
             });
         })
+        // Controller relative to the badges' table's rendering.
         .controller("BadgesController", function($scope, badgesValues) {
+            // Load badges data.
             $scope.badgesArchitecture = badgesValues;
+        })
+        // Controller relative to the leaderboard's table's rendering.
+        .controller("LeaderboardController", function($scope, leaderboardScores) {
+            $scope.watch(function() {return leaderboardScores.points; }, function(newValue, oldValue) {
+                // Sort scores (greater on top).
+                leaderboardScores.sort(function(score1, score2) {
+                    return parseInt(score2.points) - parseInt(score1.points);
+                });
+                // Send back leaderboard's scores to view.
+                $scope.leaderboardScores = leaderboardScores;
+            });
         });
 })();
