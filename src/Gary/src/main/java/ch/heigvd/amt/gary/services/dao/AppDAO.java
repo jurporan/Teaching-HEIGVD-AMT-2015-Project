@@ -99,6 +99,25 @@ public class AppDAO extends DAO {
     }
     
     /**
+    * Get an App with its API key
+    *
+    * @param key API key to look for
+    * @return an App object representing the application, or null if none exists with this ID
+    */
+    public App get(String key)
+    {
+        // Here we create a custom query to fetch the applications corresponding to the provided key, should contain 1 or 0 element
+        List l = em.createQuery("SELECT a FROM App a WHERE a.apiKey = :key").setParameter("key", key).getResultList();
+        
+        // If the result list is empty, no account exists with this ID, we return null
+        if (l.isEmpty()) {return null;}
+        
+        // Otherwise, we return the first (and only) app of the list
+        App a = (App) l.get(0);
+        return a;
+    }
+    
+    /**
     * Get a list of applications created by a specific user, as it takes boundaries, this function is used for pagination
     *
     * @param account the creator of the apps we are looking for
