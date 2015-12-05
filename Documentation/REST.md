@@ -97,4 +97,21 @@ Les champs minValue et maxValue servent à indiquer des éventuels  bornes condi
 
 Le champ rewardType indique le type de récompense : 1 pour des points, 2 pour des badges. Toute autre valeur lévera une erreur.
 
+## Événements
+
+**POST** ```/api/applications/<apikey>/users/<userId>/events``` : L'event sera traité. Le JSON doit être envoyé sous la forme :
+
+```
+   {
+        type : <nom de l'événement>,
+        parameter : <valeur du paramètre>
+   }
+```
+
+Le champ *type* permet d'identifier l'événement. Si une règle de la même application pour ce type d'événement, cette dernière sera appliquée. Si aucune règle n'existe, rien ne se produira.
+
+Le champ *parameter* est optionnel. S'il est présent il doit s'agir d'un entier. Sinon il doit prendre la valeur *null*. Si *parameter* vaut *null* la règle s'appliquera dans tous les cas. Si au contraire *parameter* n'est pas nul, la règle ne s'appliquera uniquement si *parameter* est plus grand ou égal à l'attribut *minValue* de la règle et plus petit ou égal à l'attribut *maxValue* de la règle.
+
+## Erreurs
+
 Les erreurs sont signalées par le code de status HTTP 400 (Bad Request) et contiennent un message indiquant l'erreur, par exemple ```This app doesn't seem to exist``` si la requêtee contient une API Key erronnée.
