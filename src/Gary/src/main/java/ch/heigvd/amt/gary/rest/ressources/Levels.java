@@ -5,6 +5,7 @@
  */
 package ch.heigvd.amt.gary.rest.ressources;
 
+import ch.heigvd.amt.gary.models.entities.App;
 import ch.heigvd.amt.gary.models.entities.Level;
 import ch.heigvd.amt.gary.rest.dto.LevelDTO;
 import ch.heigvd.amt.gary.services.dao.AppDAO;
@@ -24,16 +25,19 @@ public class Levels
     @Consumes("application/json")
     public Response submitNewLevel(LevelDTO level, @PathParam("apikey") String apikey)
     {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        appDAO.addLevel(appDAO.get(apikey), level.toEntity());
-        return Response.ok().entity("Pouet").build();
+        App a = appDAO.get(apikey);
+        if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        appDAO.addLevel(a, level.toEntity());
+        return Response.ok().build();
     }
     
     @GET
     @Produces("application/json")
     public Response getAllLevels(@PathParam("apikey") String apikey)
     {
-        List<Level> levels = appDAO.get(apikey).getLevels();
+        App a = appDAO.get(apikey);
+        if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        List<Level> levels = a.getLevels();
         List<LevelDTO> levelsDto = new LinkedList<>();
         
         for (Level l : levels) {levelsDto.add(LevelDTO.fromEntity(l));}

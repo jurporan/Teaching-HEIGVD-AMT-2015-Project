@@ -106,9 +106,12 @@ public class AppDAO extends DAO {
     */
     public App get(String key)
     {
+        System.out.println("Recherche de l'app " + key);
         // Here we create a custom query to fetch the applications corresponding to the provided key, should contain 1 or 0 element
+
         List l = em.createQuery("SELECT a FROM App a WHERE a.apiKey = :key").setParameter("key", key).getResultList();
         
+        System.out.println("nb " + l.size());
         // If the result list is empty, no account exists with this ID, we return null
         if (l.isEmpty()) {return null;}
         
