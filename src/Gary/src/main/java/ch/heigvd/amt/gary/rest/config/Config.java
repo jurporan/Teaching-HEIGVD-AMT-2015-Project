@@ -38,7 +38,7 @@ public class Config extends Application
     resources.add(ch.heigvd.amt.gary.rest.ressources.Badges.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.EndUsers.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.Levels.class);
-    resources.add(ch.heigvd.amt.gary.rest.ressources.Rules.class);
+        resources.add(ch.heigvd.amt.gary.rest.ressources.Rules.class);
   }
 
 }
