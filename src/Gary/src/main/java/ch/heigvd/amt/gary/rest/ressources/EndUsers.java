@@ -36,7 +36,7 @@ public class EndUsers
         App a = appDAO.get(apiKey);
         if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
         userDAO.createUser(a, user.getId());
-        return Response.ok().build();
+        return Response.ok().entity("User Added").build();
     }
     
     @GET

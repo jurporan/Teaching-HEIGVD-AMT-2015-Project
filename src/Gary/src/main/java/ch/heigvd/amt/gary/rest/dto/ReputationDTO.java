@@ -15,15 +15,15 @@ import java.util.*;
  */
 public class ReputationDTO
 {
-    private int points;
+    private long points;
     private List<BadgeDTO> badges = new LinkedList<>();
 
-    public int getPoints()
+    public long getPoints()
     {
         return points;
     }
 
-    public void setPoints(int points)
+    public void setPoints(long points)
     {
         this.points = points;
     }
