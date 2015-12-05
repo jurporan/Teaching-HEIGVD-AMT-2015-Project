@@ -33,12 +33,13 @@ public class Config extends Application
 
   private void addRestResourceClasses(Set<Class<?>> resources) 
   {
+    resources.add(ch.heigvd.amt.gary.filters.RestFilter.class);
     resources.add(ch.heigvd.amt.gary.rest.config.GaryExceptionMapper.class);
     resources.add(ch.heigvd.amt.gary.rest.config.ObjectMapperProvider.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.Badges.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.EndUsers.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.Levels.class);
-        resources.add(ch.heigvd.amt.gary.rest.ressources.Rules.class);
+    resources.add(ch.heigvd.amt.gary.rest.ressources.Rules.class);
   }
 
 }
