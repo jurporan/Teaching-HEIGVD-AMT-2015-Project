@@ -1,7 +1,7 @@
 package ch.heigvd.amt.gary.rest.ressources;
 
 import ch.heigvd.amt.gary.models.entities.App;
-import static ch.heigvd.amt.gary.models.entities.App_.apiKey;
+// import static ch.heigvd.amt.gary.models.entities.App_.apiKey;
 import ch.heigvd.amt.gary.models.entities.EndUser;
 import ch.heigvd.amt.gary.rest.dto.EndUserDTO;
 import ch.heigvd.amt.gary.rest.dto.ReputationDTO;
