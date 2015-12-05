@@ -1,5 +1,5 @@
 body {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font: "Lucida Grande", Helvetica, Arial, sans-serif;
     text-align: center;
 }
 
@@ -17,10 +17,11 @@ a {
 
 .title {
     color: white;
+    font-family: 'Raleway', sans-serif;
     font-size: 40px;
     font-weight: bold;
     margin-bottom: 100px;
-    text-shadow: 2px 2px gray;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .intro {
@@ -28,10 +29,9 @@ a {
 }
 
 .options {
-    background-color: #BBE5F1;
-    border: 1px solid #3B889E;
-    border-radius: 15px;
-    box-shadow: 1px 1px 10px grey;
+    background-color: #bbe5f1;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     margin: auto;
     padding: 25px;
     width: 50%;
