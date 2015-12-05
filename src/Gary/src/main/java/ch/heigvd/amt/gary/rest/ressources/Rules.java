@@ -1,5 +1,6 @@
 package ch.heigvd.amt.gary.rest.ressources;
 
+import ch.heigvd.amt.gary.models.entities.App;
 import ch.heigvd.amt.gary.rest.dto.RuleDTO;
 import ch.heigvd.amt.gary.services.dao.AppDAO;
 import javax.ejb.EJB;
@@ -26,7 +27,9 @@ public class Rules
     {
         try
         {
-            appDAO.addRule(appDAO.get(apiKey), rule.toEntity());
+             App app = appDAO.get(apiKey);
+             if (app == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+            appDAO.addRule(app, rule.toEntity());
         }
         catch (Exception e)
         {

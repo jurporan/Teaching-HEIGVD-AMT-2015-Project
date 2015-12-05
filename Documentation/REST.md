@@ -75,4 +75,26 @@ Où la structure ```{user}``` correspond à la définition du point ci-dessus.
     }
 ```
 
+Règles
+------
+
+**POST** ```/api/applications/<apikey>/rules``` : Crée une nouvelle règle pour l'application. Le JSON envoyé doit être de forme:
+
+```
+   {
+        typeOfEvent : <nom de l'événement concerner>,
+        ruleParameter : <le nombre de point ou l'id du badge concerné>,
+        penalty : [false|true],
+        minValue : <valeur minimum>,
+        maxValue : <valeur maximum>,
+        rewardType : [1|2]
+   }
+```
+
+Le champ penalty indique s'il s'agit d'une punition ou non. Les points (ou le badge) seront enlevés respectivement ajoutés lors d'un événement.
+
+Les champs minValue et maxValue servent à indiquer des éventuels  bornes conditionnant l'obtention de la récompense (comparé avec un paramètre de l'évent)
+
+Le champ rewardType indique le type de récompense : 1 pour des points, 2 pour des badges. Toute autre valeur lévera une erreur.
+
 Les erreurs sont signalées par le code de status HTTP 400 (Bad Request) et contiennent un message indiquant l'erreur, par exemple ```This app doesn't seem to exist``` si la requêtee contient une API Key erronnée.
