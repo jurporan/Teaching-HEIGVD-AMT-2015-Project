@@ -66,7 +66,7 @@ L'identifiant correspond bel et bien à l'identifiant utilisé à l'interne de l
 
 Où la structure ```{user}``` correspond à la définition du point ci-dessus.
 
-- **GET** ```/api/applications/<apikey>/users/<userid>``` : Récupère la réputation de l'utilisateur sous la forme:
+- **GET** ```/api/applications/<apikey>/users/<userid>/reputation``` : Récupère la réputation de l'utilisateur sous la forme:
 
 ```
     {
