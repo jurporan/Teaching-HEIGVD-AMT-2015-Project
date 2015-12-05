@@ -11,11 +11,13 @@ public class RuleDTO
     private String typeOfEvent;
     private long ruleParameter;
     private boolean penalty;
+    private int minValue;
+    private int maxValue;
     private byte rewardType;
 
     public Rule toEntity() throws Exception
     {
-        return new Rule(typeOfEvent, ruleParameter, penalty, rewardType);
+        return new Rule(typeOfEvent, ruleParameter, penalty, minValue, maxValue, rewardType);
     }
     
     public String getTypeOfEvent()
@@ -46,6 +48,26 @@ public class RuleDTO
     public void setPenalty(boolean penalty)
     {
         this.penalty = penalty;
+    }
+
+    public int getMinValue()
+    {
+        return minValue;
+    }
+
+    public void setMinValue(int minValue)
+    {
+        this.minValue = minValue;
+    }
+
+    public int getMaxValue()
+    {
+        return maxValue;
+    }
+
+    public void setMaxValue(int maxValue)
+    {
+        this.maxValue = maxValue;
     }
 
     public int getRewardType()

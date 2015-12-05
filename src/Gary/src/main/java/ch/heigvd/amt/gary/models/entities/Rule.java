@@ -24,15 +24,20 @@ public class Rule implements Serializable
 
     private String typeOfEvent;
     private long ruleParameter;
-    private boolean isPenalty;
+    private boolean penalty;
+    private int minValueParameter;
+    private int maxValueParameter;
     private byte type;
+    
     public Rule(){}
 
-    public Rule(String typeOfEvent, long ruleParameter, boolean isPenalty, byte type) throws Exception
+    public Rule(String typeOfEvent, long ruleParameter, boolean penalty, int minValueParameter, int maxValueParameter, byte type) throws Exception
     {
         this.typeOfEvent = typeOfEvent;
         this.ruleParameter = ruleParameter;
-        this.isPenalty = isPenalty;
+        this.penalty = penalty;
+        this.minValueParameter = minValueParameter;
+        this.maxValueParameter = maxValueParameter;
         
         switch (type)
         {
@@ -78,20 +83,40 @@ public class Rule implements Serializable
 
     public boolean isPenalty()
     {
-        return isPenalty;
-    }
-    
-    public void isPenalty(boolean isPenalty)
-    {
-        this.isPenalty = isPenalty;
+        return penalty;
     }
 
-    public byte getEventType()
+    public void setPenalty(boolean penalty)
+    {
+        this.penalty = penalty;
+    }
+
+    public int getMinValueParameter()
+    {
+        return minValueParameter;
+    }
+
+    public void setMinValueParameter(int minValueParameter)
+    {
+        this.minValueParameter = minValueParameter;
+    }
+
+    public int getMaxValueParameter()
+    {
+        return maxValueParameter;
+    }
+
+    public void setMaxValueParameter(int maxValueParameter)
+    {
+        this.maxValueParameter = maxValueParameter;
+    }
+    
+    public byte getType()
     {
         return type;
     }
 
-    public void setEventType(byte type)
+    public void setType(byte type)
     {
         this.type = type;
     }

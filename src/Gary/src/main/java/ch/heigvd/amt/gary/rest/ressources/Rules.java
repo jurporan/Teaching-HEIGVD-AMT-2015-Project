@@ -32,6 +32,6 @@ public class Rules
         {
             return Response.serverError().entity("Unknown award type.").build();
         }
-        return Response.ok().build();
+        return Response.ok().entity("Rule was added succesfully").build();
     }
 }
