@@ -14,7 +14,8 @@ import javax.persistence.Id;
 public class Rule implements Serializable
 {
 
-    public enum eventType {POINT_EVENT, BADGE_EVENT};
+    public static final byte POINT_EVENT = 1;
+    public static final byte BADGE_EVENT = 2;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -24,16 +25,25 @@ public class Rule implements Serializable
     private String typeOfEvent;
     private long ruleParameter;
     private boolean isPenalty;
-    private eventType type;
-    
+    private byte type;
     public Rule(){}
 
-    public Rule(String typeOfEvent, long ruleParameter, boolean isPenalty, eventType type)
+    public Rule(String typeOfEvent, long ruleParameter, boolean isPenalty, byte type) throws Exception
     {
         this.typeOfEvent = typeOfEvent;
         this.ruleParameter = ruleParameter;
         this.isPenalty = isPenalty;
-        this.type = type;
+        
+        switch (type)
+        {
+            case POINT_EVENT:
+            case BADGE_EVENT:
+            this.type = type;
+            break;
+            
+            default:
+            throw new Exception();
+        }
     }
     
     public Long getId()
@@ -76,12 +86,12 @@ public class Rule implements Serializable
         this.isPenalty = isPenalty;
     }
 
-    public eventType getEventType()
+    public byte getEventType()
     {
         return type;
     }
 
-    public void setEventType(eventType type)
+    public void setEventType(byte type)
     {
         this.type = type;
     }

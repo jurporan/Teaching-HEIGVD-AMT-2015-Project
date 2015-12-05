@@ -8,6 +8,7 @@ import ch.heigvd.amt.gary.models.entities.Account;
 import ch.heigvd.amt.gary.models.entities.App;
 import ch.heigvd.amt.gary.models.entities.Badge;
 import ch.heigvd.amt.gary.models.entities.EndUser;
+import ch.heigvd.amt.gary.models.entities.Level;
 import ch.heigvd.amt.gary.models.entities.Rule;
 import java.util.List;
 import javax.ejb.EJB;
@@ -98,6 +99,27 @@ public class AppDAO extends DAO {
     }
     
     /**
+    * Get an App with its API key
+    *
+    * @param key API key to look for
+    * @return an App object representing the application, or null if none exists with this ID
+    */
+    public App get(String key)
+    {
+        // Here we create a custom query to fetch the applications corresponding to the provided key, should contain 1 or 0 element
+
+        List l = em.createQuery("SELECT a FROM App a WHERE a.apiKey = :key").setParameter("key", key).getResultList();
+        
+        System.out.println("nb " + l.size());
+        // If the result list is empty, no account exists with this ID, we return null
+        if (l.isEmpty()) {return null;}
+        
+        // Otherwise, we return the first (and only) app of the list
+        App a = (App) l.get(0);
+        return a;
+    }
+    
+    /**
     * Get a list of applications created by a specific user, as it takes boundaries, this function is used for pagination
     *
     * @param account the creator of the apps we are looking for
@@ -174,5 +196,12 @@ public class AppDAO extends DAO {
         app = em.merge(app);
         em.persist(badge);
         app.addBadge(badge);
+    }
+    
+    public void addLevel(App app, Level level)
+    {
+        app = em.merge(app);
+        em.persist(level);
+        app.addLevel(level);
     }
 }

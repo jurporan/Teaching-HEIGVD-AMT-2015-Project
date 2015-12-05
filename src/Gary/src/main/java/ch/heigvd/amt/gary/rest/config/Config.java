@@ -1,4 +1,4 @@
-package ch.heigvd.amt.gary.rest.ressources;
+package ch.heigvd.amt.gary.rest.config;
 
 import java.util.Set;
 import java.util.logging.Level;
@@ -33,7 +33,12 @@ public class Config extends Application
 
   private void addRestResourceClasses(Set<Class<?>> resources) 
   {
-    resources.add(ch.heigvd.amt.gary.rest.ressources.Test.class);
+    resources.add(ch.heigvd.amt.gary.rest.config.GaryExceptionMapper.class);
+    resources.add(ch.heigvd.amt.gary.rest.config.ObjectMapperProvider.class);
+    resources.add(ch.heigvd.amt.gary.rest.ressources.Badges.class);
+    resources.add(ch.heigvd.amt.gary.rest.ressources.EndUsers.class);
+    resources.add(ch.heigvd.amt.gary.rest.ressources.Levels.class);
+        resources.add(ch.heigvd.amt.gary.rest.ressources.Rules.class);
   }
 
 }

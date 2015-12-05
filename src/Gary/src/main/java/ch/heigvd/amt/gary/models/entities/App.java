@@ -37,10 +37,13 @@ public class App implements Serializable
     private List<Rule> rules = new LinkedList<>();
     
     @OneToMany(mappedBy = "app", cascade = CascadeType.ALL)
-    private List<EndUser> users = new LinkedList<EndUser>();
+    private List<EndUser> users = new LinkedList<>();
     
     @OneToMany
-    private List<Badge> badges = new LinkedList<Badge>();
+    private List<Badge> badges = new LinkedList<>();
+    
+    @OneToMany
+    private List<Level> levels = new LinkedList<>();
 
     /**
     * Creates a new empty App
@@ -248,6 +251,11 @@ public class App implements Serializable
     {
         return badges;
     }
+
+    public List<Level> getLevels()
+    {
+        return levels;
+    }
     
     /**
     * Add a new badge to this application
@@ -257,5 +265,10 @@ public class App implements Serializable
     public void addBadge(Badge badge)
     {
         badges.add(badge);
+    }
+    
+    public void addLevel(Level level)
+    {
+        levels.add(level);
     }
 }
