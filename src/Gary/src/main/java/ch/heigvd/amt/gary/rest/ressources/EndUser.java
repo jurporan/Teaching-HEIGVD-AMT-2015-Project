@@ -1,5 +1,6 @@
 package ch.heigvd.amt.gary.rest.ressources;
 
+import ch.heigvd.amt.gary.models.entities.App;
 import ch.heigvd.amt.gary.rest.dto.EndUserDTO;
 import ch.heigvd.amt.gary.services.dao.AppDAO;
 import ch.heigvd.amt.gary.services.dao.EndUserDAO;
@@ -26,7 +27,9 @@ public class EndUser
     @Consumes("application/json")
     public Response addUser(EndUserDTO user, @PathParam("apiKey") String apiKey)
     {
-        userDAO.createUser(appDAO.get(apiKey), user.getId());
+        App a = appDAO.get(apiKey);
+        if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        userDAO.createUser(a, user.getId());
         return Response.ok().build();
     }
     
