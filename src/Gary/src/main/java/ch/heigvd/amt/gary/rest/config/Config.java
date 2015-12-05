@@ -36,9 +36,9 @@ public class Config extends Application
     resources.add(ch.heigvd.amt.gary.rest.config.GaryExceptionMapper.class);
     resources.add(ch.heigvd.amt.gary.rest.config.ObjectMapperProvider.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.Badges.class);
-    resources.add(ch.heigvd.amt.gary.rest.ressources.EndUser.class);
+    resources.add(ch.heigvd.amt.gary.rest.ressources.EndUsers.class);
     resources.add(ch.heigvd.amt.gary.rest.ressources.Levels.class);
-    resources.add(ch.heigvd.amt.gary.rest.ressources.Rules.class);
+        resources.add(ch.heigvd.amt.gary.rest.ressources.Rules.class);
   }
 
 }

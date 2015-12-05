@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.DATE;
+import javax.persistence.Version;
 
 @Entity
 public class EndUser implements Serializable
@@ -32,6 +33,9 @@ public class EndUser implements Serializable
     
     @Temporal(DATE)
     private Date date;
+    
+    @Version
+    private long version;
     
     public EndUser(){date = new Date();}
     

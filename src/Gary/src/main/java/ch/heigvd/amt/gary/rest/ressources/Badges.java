@@ -1,5 +1,6 @@
 package ch.heigvd.amt.gary.rest.ressources;
 
+import ch.heigvd.amt.gary.models.entities.App;
 import ch.heigvd.amt.gary.models.entities.Badge;
 import ch.heigvd.amt.gary.rest.dto.BadgeDTO;
 import ch.heigvd.amt.gary.services.dao.AppDAO;
@@ -19,7 +20,9 @@ public class Badges
     @Consumes("application/json")
     public Response submitNewBadge(BadgeDTO badge, @PathParam("apikey") String apikey)
     {
-        appDAO.addBadge(appDAO.get(apikey), badge.toEntity());
+        App a = appDAO.get(apikey);
+        if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        appDAO.addBadge(a, badge.toEntity());
         return Response.ok().build();
     }
     
@@ -27,7 +30,10 @@ public class Badges
     @Produces("application/json")
     public Response getAllBadges(@PathParam("apikey") String apikey)
     {
-        List<Badge> badges = appDAO.get(apikey).getBadges();
+        App a = appDAO.get(apikey);
+        if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        
+        List<Badge> badges = a.getBadges();
         List<BadgeDTO> badgesDto = new LinkedList<>();
         
         for (Badge l : badges) {badgesDto.add(BadgeDTO.fromEntity(l));}
