@@ -1,4 +1,7 @@
 (function() {
+    // Static application's API key.
+    var apiKey = "de9b55a9-bcac-4cb0-8fcc-0e736b175813";
+
     var appModule = angular.module("garyDemo", [])
         // Returns level progression's bar's values.
         .factory("progressBarValues", function() {
@@ -77,7 +80,18 @@
         })
         // The main page's controller.
         // Contains functions which allow the user to add points and badges.
-        .controller("PageController", function($scope, progressBarValues, badgesValues, leaderboardScores) {
+        .controller("PageController", function($scope, $http, progressBarValues, badgesValues, leaderboardScores) {
+            console.log("Get application's users...");
+            $http.get('http://localhost:8080/Gary/api/applications/' + apiKey + '/users').then(
+                function success(response) {
+                    console.log("OK: " + response);
+                    return response;
+                }, function error(response) {
+                    console.log("ERROR: " + response);
+                    return response;
+                }
+            );
+
             // This will contain all user's badges' status (loccked/unlocked).
             $scope.showBadge = [];
             // This will be used for concurrency issues.
