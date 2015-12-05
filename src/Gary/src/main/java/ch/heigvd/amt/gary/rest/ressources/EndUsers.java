@@ -7,6 +7,7 @@ import ch.heigvd.amt.gary.rest.dto.EndUserDTO;
 import ch.heigvd.amt.gary.rest.dto.ReputationDTO;
 import ch.heigvd.amt.gary.services.dao.AppDAO;
 import ch.heigvd.amt.gary.services.dao.EndUserDAO;
+import java.util.*;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -36,6 +37,20 @@ public class EndUsers
         if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
         userDAO.createUser(a, user.getId());
         return Response.ok().build();
+    }
+    
+    @GET
+    @Produces("application/json")
+    public Response getUsers(@PathParam("apiKey") String apiKey)
+    {
+        App app = appDAO.get(apiKey);
+        if (app == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        
+        List<EndUser> users = app.getUsers();
+        List<EndUserDTO> usersDto = new LinkedList<>();
+        
+        for (EndUser u : users) {usersDto.add(EndUserDTO.fromEntity(u));}
+        return Response.ok().entity(usersDto).build();
     }
     
     @GET
