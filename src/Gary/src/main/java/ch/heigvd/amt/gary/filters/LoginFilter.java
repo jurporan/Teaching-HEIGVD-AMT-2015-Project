@@ -80,7 +80,7 @@ public class LoginFilter implements Filter
         else if (path.startsWith("/api/")) 
         {
             isTargetUrlProtected = false;
-            isAccessibleToLoggedUser = false;
+            isAccessibleToLoggedUser = true;
         }
         
         // If the user is not logged in and the url is protected we redirect him
