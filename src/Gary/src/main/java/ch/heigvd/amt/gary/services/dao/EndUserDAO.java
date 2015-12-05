@@ -34,7 +34,7 @@ public class EndUserDAO extends DAO
     public EndUser getUserForApp(App app, Long externalId)
     {
         // Here we create a custom query to fetch the applications corresponding to the provided id, should contain 1 or 0 element
-        List l = em.createQuery("SELECT u FROM EndUser u WHERE u.app = :app AND u.externalId = externalId").setParameter("app", app).setParameter("externalId", externalId).getResultList();
+        List l = em.createQuery("SELECT u FROM EndUser u WHERE u.app = :app AND u.externalId = :externalId").setParameter("app", app).setParameter("externalId", externalId).getResultList();
         
         // If the result list is empty, no account exists with this ID, we return null
         if (l.isEmpty()) {return null;}
