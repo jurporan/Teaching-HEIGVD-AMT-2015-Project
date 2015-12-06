@@ -1,21 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* Author     : Benoist Wolleb
+* Goal       : This class represents a level, very similar to the entity, but will wrap the properties so it can be transparently serialized into JSON. It is then usable to communicate between the client and the server.
+*/
+
 package ch.heigvd.amt.gary.rest.dto;
 
 import ch.heigvd.amt.gary.models.entities.Level;
 
-/**
- *
- * @author lyuyhn
- */
 public class LevelDTO
 {
+    // Properties
     private String name;
     private int minPoints;
-
+    
+    // Getters and Setters, not very interessant
+    
     public String getName()
     {
         return name;
@@ -36,6 +35,11 @@ public class LevelDTO
         this.minPoints = minPoints;
     }
     
+    /**
+    * Creates the entity corresponding to the dto content
+    *
+    * @return the Level entity
+    */
     public Level toEntity()
     {
         Level level = new Level();
@@ -44,6 +48,11 @@ public class LevelDTO
         return level;
     }
     
+    /**
+    * Initialize the DTO with the content of the associated entity
+    *
+    * @param level the corresponding Level
+    */
     public static LevelDTO fromEntity(Level level)
     {
         LevelDTO dto = new LevelDTO();
