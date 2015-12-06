@@ -2,6 +2,7 @@
  * Author     : Benoist Wolleb
  * Goal       : This DAO inherits the DAO superclass and have access to the EntityManager of the persistence context. This DAO is used to manage Apps.
  */
+
 package ch.heigvd.amt.gary.services.dao;
 
 import ch.heigvd.amt.gary.models.entities.Account;
@@ -108,7 +109,6 @@ public class AppDAO extends DAO {
     public App get(String key)
     {
         // Here we create a custom query to fetch the applications corresponding to the provided key, should contain 1 or 0 element
-
         List l = em.createQuery("SELECT a FROM App a WHERE a.apiKey = :key").setParameter("key", key).getResultList();
         
         // If the result list is empty, no account exists with this ID, we return null
@@ -139,7 +139,7 @@ public class AppDAO extends DAO {
     }
     
     /**
-    * Count the number of applications that a specific user have created, used for pagination to compute the total number of pages
+    * Count the number of applications that a specific user has created, used for pagination to compute the total number of pages
     * 
     * @param account the creator of the apps we are looking for
     * @return a long number of applications
@@ -184,6 +184,12 @@ public class AppDAO extends DAO {
         return badge;
     }
     
+    /**
+    * Add a new rule in an existing application
+    * 
+    * @param app the application that will contain the rule
+    * @param rule the rule to add
+    */
     public void addRule(App app, Rule rule)
     {
         app = em.merge(app);
@@ -191,6 +197,12 @@ public class AppDAO extends DAO {
         app.addRule(rule);
     }
     
+    /**
+    * Add a new badge in an existing application
+    * 
+    * @param app the application that will contain the badge
+    * @param badge the badge to add
+    */
     public void addBadge(App app, Badge badge)
     {
         app = em.merge(app);
@@ -198,6 +210,12 @@ public class AppDAO extends DAO {
         app.addBadge(badge);
     }
     
+    /**
+    * Add a new level in an existing application
+    * 
+    * @param app the application that will contain the level
+    * @param level the level to add
+    */
     public void addLevel(App app, Level level)
     {
         app = em.merge(app);
@@ -205,14 +223,21 @@ public class AppDAO extends DAO {
         app.addLevel(level);
     }
     
+    /**
+    * Get a badge with its id
+    * 
+    * @param id the id of the badge to look for
+    * @return the badge if found, null otherwise
+    */
     public Badge getBadge(Long id)
     {
+        // We create the query to fetch all the badges created by the specified id, should return 1 or 0 element as the id should be unique
         List l = em.createQuery("SELECT b FROM Badge b WHERE b.id = :id").setParameter("id", id).getResultList();
         
         // If the result list is empty, no account exists with this ID, we return null
         if (l.isEmpty()) {return null;}
         
-        // Otherwise, we return the first (and only) app of the list
+        // Otherwise, we return the first (and only) badge of the list
         Badge b = (Badge) l.get(0);
         return b;
     }
