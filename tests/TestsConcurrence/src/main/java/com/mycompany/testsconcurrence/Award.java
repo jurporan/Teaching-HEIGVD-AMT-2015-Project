@@ -1,31 +1,20 @@
 /*
-* Author     : Benoist Wolleb
-* Goal       : This class represents an award that can be given to a user. This class won't be used as it is, but through its subclasses. An award can be positive or negative.
-*/
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mycompany.testsconcurrence;
 
-package ch.heigvd.amt.gary.models.entities;
-
-import java.util.Date;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Temporal;
-import static javax.persistence.TemporalType.DATE;
+import java.util.Date;
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+
 public class Award implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
-    
-    @Temporal(DATE)
+
     private Date timestamp;
     private String reason;
     private boolean  isPenalty;

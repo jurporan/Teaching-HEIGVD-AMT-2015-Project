@@ -1,39 +1,26 @@
 /*
-* Author     : Benoist Wolleb
-* Goal       : This class represents a specific user of an app. It is identified with the external number used in the remote application and the app that it is associated with. A created user has an automatic timestamp that is set to its creation date.
-*/
-
-package ch.heigvd.amt.gary.models.entities;
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mycompany.testsconcurrence;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import static javax.persistence.TemporalType.DATE;
-import javax.persistence.Version;
 
-@Entity
+
 public class EndUser implements Serializable
 {
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @ManyToOne(optional = false)
     private App app;
-    
-    @OneToOne
+
     private Reputation reputation;
-    
-    @Id
+
     Long externalId;
-    
-    @Temporal(DATE)
+
     private Date date;
-    
-    @Version
+
     private long version;
     
     /**
