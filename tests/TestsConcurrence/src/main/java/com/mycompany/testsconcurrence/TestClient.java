@@ -24,7 +24,9 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 public class TestClient {
     
     private final Client client;
+    // Api key of the application 
     private String apiKey;
+    // Number of thread who will run
     private final int numberOfConcurrentThreads; 
     private static final Logger LOG = Logger.getLogger(TestClient.class.getName());
     private ExpectedState expectedState = null;
@@ -43,6 +45,10 @@ public class TestClient {
         this.apiKey = apiKey;
     }
 
+    /**
+     * Create a user
+     * @param id the id of the new user
+     */
     private void createEndUser(int id)
     {
         EndUserDTO endUser = new EndUserDTO();
@@ -58,6 +64,15 @@ public class TestClient {
         }
     }
     
+    /**
+     * Create a rule
+     * @param typeOfEvent
+     * @param ruleParameter
+     * @param penalty
+     * @param minValue
+     * @param maxValue
+     * @param rewardType 
+     */
     private void createRule(String typeOfEvent, long ruleParameter, boolean penalty, int minValue,
             int maxValue, byte rewardType)
     {
@@ -76,6 +91,11 @@ public class TestClient {
         }
     }
     
+    /**
+     * Get the current number of point from a user
+     * @param userID the id of the user
+     * @return the number of point from a certain user
+     */
     private long getPointsFromEndUser(long userID)
     {
         long points = 0;
@@ -101,6 +121,11 @@ public class TestClient {
         return points;
     }
     
+    /**
+     * Post an event
+     * @param eventType the type of the event
+     * @param userID The id of the user related to the event
+     */
     private void postEvent(String eventType, long userID)
     {
         EventDTO event = new EventDTO();
@@ -125,6 +150,10 @@ public class TestClient {
         }
     }
     
+    /**
+     * Get the user list from an application
+     * @return the user list
+     */
     private List<EndUserDTO> getUserListFromServer()
     {
         final WebTarget target = client
@@ -162,6 +191,7 @@ public class TestClient {
         
         // Get the id of the first end user of the list
         final long userID = userList.get(0).getId();
+        // Get the initial number of points from the user
         long userPoints = getPointsFromEndUser(userID);
         
         expectedState = new ExpectedState(userPoints, addedPoints, deductedPoints);
@@ -208,7 +238,8 @@ public class TestClient {
             Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, e);
         }
         LOG.info("Done.");
-              
+        
+        // Print the errors      
         List<String> errors = validateExpectedAgainstActualState(userID);
         LOG.info("Errors: " + errors.toString());
         
@@ -230,6 +261,11 @@ public class TestClient {
     }
     
       
+    /**
+     * Check if the user has received the correct number of points
+     * @param userID id of the user
+     * @return List of errors
+     */
     private List<String> validateExpectedAgainstActualState(long userID) {
 
         List<String> errors = new ArrayList<>();
