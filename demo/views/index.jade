@@ -7,6 +7,9 @@ block content
             .panel.panel-danger.errorPanel
                 .panel-heading.error
                     | #{error}
+                    br
+                    button.btn.btn-danger.btnReload(name="reloadButton" onClick="window.location.reload()" type='button') Reload page
+        img#garyImg.garyImg(src='/img/gary.png')
     else
         #topPanel.topPanel
             .title #{title}
@@ -68,7 +71,7 @@ block content
                                 span#currentPoints.currentPoints {{numberOfPoints}} / {{pointsToNextLevel}} points
                                 #progressBarCurrent.progress-bar.progress-bar-info(role='progressbar' style='width:{{progressBarPercentage}}%; padding-top: 19px;')
                                 
-                    #badges.tab-pane.fade(role='tabpanel')
+                    #badges.tab-pane.fade(ng-init='badges=#{JSON.stringify(badges)}' role='tabpanel')
                         h3 Okay, what about the badges?
                                 
                         // Display a 2D table which contains badges.
@@ -76,24 +79,24 @@ block content
                         table.badgesTable(ng-controller="BadgesController")
                             tr(ng-repeat="(x, yArray) in badgesArchitecture")
                                 td(ng-class="(y.locked && !showBadge[y.id]) ? 'lockedBadge' : 'unlockedBadge'" ng-repeat="y in yArray")
-                                    div(class="lockedBadgeContent" id="lockedBadgeContent{{y.id}}" name="lockedBadgeContent" ng-if="y.locked && !showBadge[y.id]")
+                                    div(class="lockedBadgeContent" name="lockedBadgeContent" ng-if="y.locked && !showBadge[y.id]")
                                         #hiddenBadgeContent.hiddenBadgeContent
-                                            {{y.title}}
+                                            {{y.name}}
                                             br
-                                            img.badgeImg(ng-src="/img/badges/{{y.id}}.svg")
+                                            img.badgeImg(ng-src="/img/badges/{{y.imageUrl}}")
                                             br
-                                            div.badgeText {{y.text}}
+                                            div.badgeText {{y.description}}
                                         .shownBadgeDiv
                                             .shownBadgeContent
                                                 span(aria-hidden="true" class="glyphicon glyphicon-lock")
                                                 br
                                                 | Locked
                                     div(ng-if="!y.locked || showBadge[y.id]")
-                                        {{y.title}}
+                                        {{y.name}}
                                         br
-                                        img.badgeImg(ng-src="/img/badges/{{y.id}}.svg")
+                                        img.badgeImg(ng-src="/img/badges/{{y.imageUrl}}")
                                         br
-                                        div.badgeText {{y.text}}
+                                        div.badgeText {{y.description}}
                                         
                     #leaderboard.tab-pane.fade(role='tabpanel')
                         h3 Yay! How high are you in the leaderboard?
