@@ -10,6 +10,7 @@ import ch.heigvd.amt.gary.services.dao.AppDAO;
 import ch.heigvd.amt.gary.services.dao.EndUserDAO;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.OptimisticLockException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -71,7 +72,22 @@ public class Events
                         award.setIsPenalty(rule.isPenalty());
                         award.setNbPoints(rule.getRuleParameter());
                         award.setReason(event.getType());
-                        userDAO.givePointAward(user, award);
+                        /* We used optimistic concurency control.
+                           If an exception is raised, it means there was a concurent
+                           access and the transaction failed. In this case we 
+                           try to rerun the transaction. */
+                        while (true)
+                        {
+                            try
+                            {
+                                userDAO.givePointAward(user, award);
+                            }
+                            catch (OptimisticLockException e)
+                            {
+                                continue;
+                            }
+                            break;
+                        }
                     }
 
                     else if (rule.getType() == Rule.BADGE_EVENT)
@@ -80,7 +96,22 @@ public class Events
                         award.setIsPenalty(rule.isPenalty());
                         award.setBadge(appDAO.getBadge(rule.getRuleParameter()));
                         award.setReason(event.getType());
-                        userDAO.giveBadgeAward(user, award);
+                        /* We used optimistic concurency control.
+                           If an exception is raised, it means there was a concurent
+                           access and the transaction failed. In this case we 
+                           try to rerun the transaction. */
+                        while (true)
+                        {
+                            try
+                            {
+                                userDAO.giveBadgeAward(user, award);
+                            }
+                            catch (OptimisticLockException e)
+                            {
+                                continue;
+                            }
+                            break;
+                        }
                     }
                 }
             }
