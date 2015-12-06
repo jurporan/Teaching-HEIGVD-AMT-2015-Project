@@ -83,13 +83,18 @@ public class EndUserDAO extends DAO
     public void giveBadgeAward(EndUser user, BadgeAward award)
     {
         user = em.merge(user);
-        em.persist(award);
         
-        // We store the award in the list
-        user.getReputation().addAward(award);
-        
-        // We update the list of badges in the reputation
-        if (award.isIsPenalty()) {user.getReputation().removeBadge(award.getBadge());}
-        else {user.getReputation().addBadge(award.getBadge());}
+        // If the user already has this badge, we don't add it
+        if (!user.getReputation().getBadges().contains(award.getBadge()))
+        {
+            em.persist(award);
+
+            // We store the award in the list
+            user.getReputation().addAward(award);
+
+            // We update the list of badges in the reputation
+            if (award.isIsPenalty()) {user.getReputation().removeBadge(award.getBadge());}
+            else {user.getReputation().addBadge(award.getBadge());}
+        }
     }
 }
