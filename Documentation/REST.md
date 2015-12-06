@@ -46,6 +46,8 @@ Badges
     }
 ```
 
+Lorsque le badge est créé, le serveur renvoie l'identifiant du badge, ainsi l'application peut se servir de ce numéro dans les règles qu'il postera concernant les badges.
+
 - **GET** ```/api/applications/<apikey>/badges``` : Récupère la liste de tous les badges définis pour l'application sous la forme d'un tableau:
 
 ```

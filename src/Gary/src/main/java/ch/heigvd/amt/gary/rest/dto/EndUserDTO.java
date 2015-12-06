@@ -1,3 +1,8 @@
+/*
+* Author     : Benoist Wolleb
+* Goal       : This class represents an end user, very similar to the entity, but will wrap the properties so it can be transparently serialized into JSON. It is then usable to communicate between the client and the server.
+*/
+
 package ch.heigvd.amt.gary.rest.dto;
 
 import ch.heigvd.amt.gary.models.entities.EndUser;
@@ -9,7 +14,9 @@ import ch.heigvd.amt.gary.models.entities.EndUser;
  */
 public class EndUserDTO
 {
+    // Property
     private long id;
+
 
     /**
      * Create a new DTO from an entity.
@@ -23,8 +30,9 @@ public class EndUserDTO
         dto.id = user.getExternalId();
         return dto;
     }
+
     
-    // Getter and Setter
+    // Getters and Setters, not very interessant
     public long getId()
     {
         return id;

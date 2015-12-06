@@ -31,39 +31,9 @@
         // Returns badges data.
         .factory("badgesValues", function() {
             // We can have more than one line ; just indicate a new line with "x2", etc.
+            // The array is filled in the 'BadgesController' controller.
             return {
-                "x1": [
-                    {
-                        "id": 1,
-                        locked: true,
-                        "title": "Title1",
-                        "text": "test1"
-                    },
-                    {
-                        "id": 2,
-                        locked: false,
-                        "title": "First answer!",
-                        "text": "You successfully posted your first answer!"
-                    },
-                    {
-                        "id": 3,
-                        locked: true,
-                        "title": "Title2",
-                        "text": "test2"
-                    },
-                    {
-                        "id": 4,
-                        locked: true,
-                        "title": "Title3",
-                        "text": "test3"
-                    },
-                    {
-                        "id": 5,
-                        locked: true,
-                        "title": "Title4",
-                        "text": "test4"
-                    }
-                ]
+                "x1": []
             };
         })
         // Returns leaderboard scores.
@@ -245,7 +215,7 @@
                     .then(
                         function success(response) {
                             console.log("Current points: " + response.data.points);
-                            console.log("Current badges: " + JSON.stringify(response.data.badges));                            
+                            console.log("Current badges: " + JSON.stringify(response.data.badges));
                             progressBarValues.current = parseInt(response.data.points);
                         },
                         function error(response) {
@@ -298,6 +268,23 @@
         })
         // Controller relative to the badges' table's rendering.
         .controller("BadgesController", function($scope, badgesValues) {
+            var i = 0;
+            // Fill the badges' array.
+            $.each($scope.badges, function() {
+                // Set badge's ID.
+                this.id = parseInt(i) + 1;
+                // Every badge is locked by default, except the "Welcome" one.
+                if (this.name === "Welcome") {
+                    this.locked = false;
+                }
+                else {
+                    this.locked = true;
+                }
+                // 5 badges per table's line.
+                badgesValues['x' + (Math.floor(i / 5) + 1)][i] = this;
+                ++i;
+            });
+
             // Load badges data.
             $scope.badgesArchitecture = badgesValues;
         })

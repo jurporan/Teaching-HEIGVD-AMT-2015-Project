@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* Author     : Benoist Wolleb
+* Goal       : This is the JAX-RS endpoint for our REST API which handles the requests on /api/application/{apikey}/levels. See our documentation for more details.
+*/
+
 package ch.heigvd.amt.gary.rest.ressources;
 
 import ch.heigvd.amt.gary.models.entities.App;
@@ -35,9 +35,11 @@ public class Levels
     @Consumes("application/json")
     public Response submitNewLevel(LevelDTO level, @PathParam("apikey") String apikey)
     {
-        // We check the apiKey is correct.
+        // We first have to retrieve the application. We send an error if it is not found.
         App a = appDAO.get(apikey);
         if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        
+        // Then we create the badge entity and add it to the application
         appDAO.addLevel(a, level.toEntity());
         return Response.ok().entity("Level added").build();
     }
@@ -51,14 +53,18 @@ public class Levels
     @Produces("application/json")
     public Response getAllLevels(@PathParam("apikey") String apikey)
     {
-        // We check the apiKey is correct.
+        // We first have to retrieve the application. We send an error if it is not found.
         App a = appDAO.get(apikey);
         if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        
+        // We get the list of levels of this application
         List<Level> levels = a.getLevels();
         List<LevelDTO> levelsDto = new LinkedList<>();
         
-        // We retrieve all current levels.
+        // We construct a DTO for each Level and store it in the list
         for (Level l : levels) {levelsDto.add(LevelDTO.fromEntity(l));}
+        
+        // We return the DTO list
         return Response.ok().entity(levelsDto).build();
     }
 }

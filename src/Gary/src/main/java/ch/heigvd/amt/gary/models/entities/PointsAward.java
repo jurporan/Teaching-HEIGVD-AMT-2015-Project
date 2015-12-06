@@ -7,10 +7,7 @@ package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-/**
- *
- * @author lyuyhn
- */
+
 @Entity
 public class PointsAward extends Award implements Serializable
 {

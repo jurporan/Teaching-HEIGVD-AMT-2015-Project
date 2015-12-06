@@ -32,7 +32,12 @@ a {
 
 .error {
     font-size: 20px;
-    padding: 180px 50px !important;
+    padding: 50px !important;
+}
+
+.btnReload {
+    margin-top: 30px;
+    width: 200px
 }
 
 .intro {
