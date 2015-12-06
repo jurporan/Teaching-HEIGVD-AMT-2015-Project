@@ -7,8 +7,7 @@ import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 
 /**
- * 
- * @author Jan Purro
+ * Avoids the calls to the API Rest to be rejected for security reasons.
  */
 
 @Provider

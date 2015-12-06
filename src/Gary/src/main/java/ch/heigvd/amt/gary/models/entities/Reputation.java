@@ -19,6 +19,9 @@ public class Reputation implements Serializable
     
     private long points;
     
+    @Version
+    private long version;
+    
     @ManyToMany
     private List<Badge> badges = new LinkedList<>();
     @OneToMany

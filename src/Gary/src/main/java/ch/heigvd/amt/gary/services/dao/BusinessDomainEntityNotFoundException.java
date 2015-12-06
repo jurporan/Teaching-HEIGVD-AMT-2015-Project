@@ -1,8 +1,8 @@
 package ch.heigvd.amt.gary.services.dao;
 
 /**
- *
- * @author Jan Purro
+ * Something we copied from the MVCDemo project. We are not sure where and if 
+ * this exception is thrown somewhere but there it is anyway.
  */
 public class BusinessDomainEntityNotFoundException extends Exception {
 

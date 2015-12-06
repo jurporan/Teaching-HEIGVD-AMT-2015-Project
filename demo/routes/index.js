@@ -3,7 +3,7 @@ var router = express.Router();
 var request = require('request');
 var deferred = require('deferred');
 
-var apiKey = '75dc51d2-8291-4e37-aaad-d69c5b3041f8';
+var apiKey = '919c6724-2035-4aed-91c8-04ed36bb3c1e';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
 var voteBadgeId = 0;
@@ -11,7 +11,7 @@ var voteBadgeId = 0;
 function getUsers() {
     // Init data promise.
     var defer = deferred();
-
+    console.log("REQUEST: " + 'http://localhost:8080/Gary/api/applications/' + apiKey + '/users');
     // Makes a POST request on the application to get users.
     request('http://localhost:8080/Gary/api/applications/' + apiKey + '/users', function(error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -250,6 +250,7 @@ function getRules() {
 
 /* GET home page. */
 router.get('/', function(req, res) {
+    console.log("MUTHERFUCKER");
     var usersPromise = getUsers();
 
     usersPromise(function(users) {
