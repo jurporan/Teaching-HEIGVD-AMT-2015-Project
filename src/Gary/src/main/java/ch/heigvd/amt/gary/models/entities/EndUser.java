@@ -2,6 +2,7 @@
 * Author     : Benoist Wolleb
 * Goal       : This class represents a specific user of an app. It is identified with the external number used in the remote application and the app that it is associated with. A created user has an automatic timestamp that is set to its creation date.
 */
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;

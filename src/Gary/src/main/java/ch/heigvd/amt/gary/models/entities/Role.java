@@ -2,6 +2,7 @@
 * Author     : Benoist Wolleb
 * Goal       : This class represents a role of user. It is not currently used. Il is declared as an entity so that it can be stored automatically by JPA.
 */
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;

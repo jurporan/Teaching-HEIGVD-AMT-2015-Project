@@ -2,6 +2,7 @@
 * Author     : Benoist Wolleb
 * Goal       : This class represents an application that users create on the web interface. Il is declared as an entity so that it can be stored automatically by JPA.
 */
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;

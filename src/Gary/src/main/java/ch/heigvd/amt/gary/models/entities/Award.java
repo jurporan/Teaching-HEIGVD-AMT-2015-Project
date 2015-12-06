@@ -2,6 +2,7 @@
 * Author     : Benoist Wolleb
 * Goal       : This class represents an award that can be given to a user. This class won't be used as it is, but through its subclasses. An award can be positive or negative.
 */
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.util.Date;

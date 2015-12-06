@@ -2,6 +2,7 @@
 * Author     : Benoist Wolleb
 * Goal       : This class extends the Award class and represent an archievement that can be given to a user as a number of points. As an award can be positive or negative, this can also get back some points
 */
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;

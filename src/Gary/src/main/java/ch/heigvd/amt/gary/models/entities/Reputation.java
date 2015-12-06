@@ -2,6 +2,7 @@
 * Author     : Benoist Wolleb
 * Goal       : This class represents the reputation of the user. The reputation is a container that summarizes the current state of the user, as a number of points and a collection of badges. It is more efficient than walk through every award to get the data.
 */
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;

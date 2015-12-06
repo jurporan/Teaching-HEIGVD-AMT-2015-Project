@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* Author     : Benoist Wolleb
+* Goal       : This class represents a level that users can reach by getting points. A level is an honorific status represented by a name and attributed to a user when he reaches minPoints.
+*/
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
@@ -11,10 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- *
- * @author lyuyhn
- */
 @Entity
 public class Level implements Serializable
 {
@@ -25,32 +21,62 @@ public class Level implements Serializable
     
     private String name;
     private int minPoints;
-
+    
+    /**
+    * Get the ID of the level
+    *
+    * @return the ID of the level
+    */
     public Long getId()
     {
         return id;
     }
-
+    
+    /**
+    * Set the ID of the level, should be set automatically by the data store
+    *
+    * @param id the ID to set
+    */
     public void setId(Long id)
     {
         this.id = id;
     }
-
+    
+    /**
+    * Get the name of the level
+    *
+    * @return the name of the level
+    */
     public String getName()
     {
         return name;
     }
-
+    
+    /**
+    * Set the name of the level
+    *
+    * @param id the name to set
+    */
     public void setName(String name)
     {
         this.name = name;
     }
-
+    
+    /**
+    * Get the minimum number of points to reach the level
+    *
+    * @return the number of points
+    */
     public int getMinPoints()
     {
         return minPoints;
     }
-
+    
+    /**
+    * Set the minimum number of points to reach the level
+    *
+    * @param minPoints the number of points
+    */
     public void setMinPoints(int minPoints)
     {
         this.minPoints = minPoints;
