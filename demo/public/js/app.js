@@ -3,6 +3,16 @@
     var apiKey = "de9b55a9-bcac-4cb0-8fcc-0e736b175813";
 
     var appModule = angular.module("garyDemo", [])
+        // Returns users' data.
+        .factory("usersData", function() {
+            var data = [];
+
+            data["123"] = "Blairôme";
+            data["132"] = "edri"
+            data["321"] = "Jean-Mich'";
+
+            return data;
+        })
         // Returns level progression's bar's values.
         .factory("progressBarValues", function() {
             // Current progression.
@@ -60,12 +70,12 @@
         .factory("leaderboardScores", function() {
             var scores = [
                 {
-                    "userId": 132,
+                    "userId": 123,
                     "username": "Blairôme",
                     "points": 100
                 },
                 {
-                    "userId": 123,
+                    "userId": 132,
                     "username": "edri",
                     "points": 0
                 },
@@ -80,18 +90,8 @@
         })
         // The main page's controller.
         // Contains functions which allow the user to add points and badges.
-        .controller("PageController", function($scope, $http, progressBarValues, badgesValues, leaderboardScores) {
-            console.log("Get application's users...");
-            $http.get('http://localhost:8080/Gary/api/applications/' + apiKey + '/users').then(
-                function success(response) {
-                    console.log("OK: " + response);
-                    return response;
-                }, function error(response) {
-                    console.log("ERROR: " + response);
-                    return response;
-                }
-            );
-
+        .controller("PageController", function($scope, $http, usersData, progressBarValues, badgesValues, leaderboardScores) {
+            $scope.usersData = usersData;
             // This will contain all user's badges' status (loccked/unlocked).
             $scope.showBadge = [];
             // This will be used for concurrency issues.
@@ -235,6 +235,23 @@
                         });
                     });
                 }
+            }
+
+            $scope.userChanging = function() {
+                console.log("New selected user: " + $scope.userSelect);
+
+                console.log("Get user's statistics...")
+                $http.get('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/reputation')
+                    .then(
+                        function success(response) {
+                            console.log("Current points: " + response.data.points);
+                            console.log("Current badges: " + JSON.stringify(response.data.badges));                            
+                            progressBarValues.current = parseInt(response.data.points);
+                        },
+                        function error(response) {
+                            console.log("An error occured, please retry.");
+                        }
+                    );
             }
 
             /*

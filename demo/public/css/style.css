@@ -24,6 +24,17 @@ a {
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+.errorPanel {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2) !important;
+    margin: auto;
+    width: 50%;
+}
+
+.error {
+    font-size: 20px;
+    padding: 180px 50px !important;
+}
+
 .intro {
     padding-top: 10px;
 }
