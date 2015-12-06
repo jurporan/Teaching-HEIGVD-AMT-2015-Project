@@ -109,7 +109,7 @@ public class Account implements Serializable
     /**
     * Set the ID of the account, should be set automatically by the data store
     *
-    * @param the ID to set
+    * @param id the ID to set
     */
     public void setId(Long id)
     {
