@@ -3,15 +3,16 @@ var router = express.Router();
 var request = require('request');
 var deferred = require('deferred');
 
-var apiKey = '919c6724-2035-4aed-91c8-04ed36bb3c1e';
+var apiKey = '44a3d5b5-46bc-40a4-ba61-c2f79e117575';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
 var voteBadgeId = 0;
+var levelBadgeId = 0;
 
 function getUsers() {
     // Init data promise.
     var defer = deferred();
-    console.log("REQUEST: " + 'http://localhost:8080/Gary/api/applications/' + apiKey + '/users');
+
     // Makes a POST request on the application to get users.
     request('http://localhost:8080/Gary/api/applications/' + apiKey + '/users', function(error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -117,22 +118,26 @@ function getBadges() {
                 // the promise.
                 var requestNumber = 1;
                 for (var i = 0; i < n; ++i) {
+                    var req = requestNumber;
                     request.post({
                         url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/badges',
                         json: data[i]
                     }, function(error, response, body) {
                         // Get badges ID's
-                        if (data[requestNumber - 1].name === "First comment") {
+                        if (data[req - 1].name === "First comment") {
                             commentBadgeId = parseInt(body);
                         }
-                        else if (data[requestNumber - 1].name === "Upvote/Downvote") {
+                        else if (data[req - 1].name === "Upvote/Downvote") {
                             voteBadgeId = parseInt(body);
                         }
-                        else if (data[requestNumber - 1].name === "Kick") {
+                        else if (data[req - 1].name === "Kick") {
                             kickBadgeId = parseInt(body);
                         }
+                        else if (data[req - 1].name === "Level 3!") {
+                            levelBadgeId = parseInt(body);
+                        }
 
-                        if (requestNumber === n) {
+                        if (req === n) {
                             console.log("Badges created, I can now release the promise.");
                             defer.resolve({
                                 error: 0,
@@ -232,6 +237,14 @@ function getRules() {
             "minValue": null,
             "maxValue": null,
             "rewardType": 2
+        },
+        {
+            "typeOfEvent": "Level 3",
+            "ruleParameter": levelBadgeId,
+            "penalty": false,
+            "minValue": null,
+            "maxValue": null,
+            "rewardType": 2
         }
     ];
 
@@ -250,7 +263,6 @@ function getRules() {
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    console.log("MUTHERFUCKER");
     var usersPromise = getUsers();
 
     usersPromise(function(users) {

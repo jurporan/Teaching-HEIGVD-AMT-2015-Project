@@ -9,7 +9,7 @@
                 // Only get one time each rule identified by keyname.
                 angular.forEach(collection, function(item) {
                     var typeOfEvent = item[keyname];
-                    if(typesOfEvent.indexOf(typeOfEvent) === -1) {
+                    if(typesOfEvent.indexOf(typeOfEvent) == -1) {
                         typesOfEvent.push(typeOfEvent);
                         output.push(item);
                     }
@@ -57,7 +57,7 @@
                 {
                     "userId": 123,
                     "username": "Blairôme",
-                    "points": 100
+                    "points": 0
                 },
                 {
                     "userId": 132,
@@ -67,7 +67,7 @@
                 {
                     "userId": 321,
                     "username": "Jean-Mich'",
-                    "points": 60
+                    "points": 0
                 }
             ];
 
@@ -91,11 +91,11 @@
              *                 added in the previous level.
              *                 More explainations in the function.
              */
-            function addPoints(extraPoints = 0) {
+            function addPoints(points, extraPoints = 0) {
                 // First check if the function isn't currently executed (or is executed but
                 // recursively), then check if the input text is a positive number, otherwise
                 // we just ignore it.
-                if ((!levelLoading || extraPoints > 0) && !isNaN($scope.txtEventProperties) && $scope.txtEventProperties > 0) {
+                if ((!levelLoading || extraPoints > 0) || !isNaN(points) && points > 0) {
                     levelLoading = true;
                     // Will store the current progress bar's points or the extra
                     // points.
@@ -114,11 +114,11 @@
                     // Otherwise we need to add the number filled by the user in the event
                     // properties' field and update the user's score in the database.
                     else {
-                        tmpCurrent = progressBarValues.current + parseInt($scope.txtEventProperties);
+                        tmpCurrent = progressBarValues.current + parseInt(points);
 
                         angular.forEach(leaderboardScores, function(score) {
                             if (score.userId == $scope.userSelect) {
-                                score.points += parseInt($scope.txtEventProperties);
+                                score.points += parseInt(points);
                                 return false;
                             }
                         });
@@ -176,7 +176,7 @@
                                     // If there is still too many points for the current level, recursively
                                     // call the function to consider them.
                                     if (extraPoints >= progressBarValues.max - 100) {
-                                        addPoints(extraPoints);
+                                        addPoints(0, extraPoints);
                                     }
 
                                     levelLoading = false;
@@ -197,7 +197,7 @@
                             // If there is still too many points for the current level, recursively
                             // call the function to consider them.
                             if (extraPoints >= progressBarValues.max - 100) {
-                                addPoints(extraPoints);
+                                addPoints(0, extraPoints);
                             }
 
                             levelLoading = false;
@@ -232,26 +232,39 @@
                     });
                 });
 
-                console.log("Get user's statistics...")
-                $http.get('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/reputation')
-                    .then(
-                        function success(response) {
-                            // Hide error panel if shown.
-                            $("#optionsError").fadeOut("fast");
-                            console.log("Current points: " + response.data.points);
-                            console.log("Current badges: " + JSON.stringify(response.data.badges));
-                            progressBarValues.current = parseInt(response.data.points);
+                console.log("Get every user's statistics...")
+                angular.forEach($scope.users, function(user) {
+                    $http.get('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/users/' + user.id + '/reputation')
+                        .then(
+                            function success(response) {
+                                // Search for the user in the leaderboard.
+                                angular.forEach(leaderboardScores, function(score) {
+                                    if (score.userId == user.id) {
+                                        score.points = response.data.points;
+                                        return false;
+                                    }
+                                });
 
-                            angular.forEach(response.data.badges, function(badge) {
-                                addBadge(badge.name);
-                            });
-                        },
-                        function error(response) {
-                            // Set and show error panel.
-                            $("#optionsErrorContent").text("I could not load this user's statistics, please retry.");
-                            $("#optionsError").fadeIn("fast");
-                        }
-                    );
+                                // If current user is the selected one, process data.
+                                if (user.id == $scope.userSelect) {
+                                    // Hide error panel if shown.
+                                    $("#optionsError").fadeOut("fast");
+                                    console.log("Current points: " + response.data.points);
+                                    console.log("Current badges: " + JSON.stringify(response.data.badges));
+                                    progressBarValues.current = parseInt(response.data.points);
+
+                                    angular.forEach(response.data.badges, function(badge) {
+                                        addBadge(badge.name);
+                                    });
+                                }
+                            },
+                            function error(response) {
+                                // Set and show error panel.
+                                $("#optionsErrorContent").text("I could not load this user's statistics, please retry.");
+                                $("#optionsError").fadeIn("fast");
+                            }
+                        );
+                });
             }
 
             /*
@@ -261,6 +274,8 @@
             $scope.showGamification = function() {
                 // If set, the event's properties must be an integer.
                 if (!$scope.txtEventProperties || ($scope.txtEventProperties && !isNaN($scope.txtEventProperties))) {
+                    $("#userSelect").attr("disabled", "disabled");
+
                     // Hide error panel if shown.
                     $("#optionsError").fadeOut("fast");
                     // Hide information panel and show the results one.
@@ -283,27 +298,51 @@
                     $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/events', event)
                         .then(
                             function success(response) {
+                                // Search for the rules associated with the selected event.
+                                angular.forEach($scope.rules, function(rule) {
+                                    if (rule.typeOfEvent == $scope.eventSelect) {
+                                        // New points to add
+                                        if (rule.rewardType == 1) {
+                                            console.log("Add " + rule.ruleParameter + " points...");
+                                            addPoints(rule.ruleParameter);
+                                        }
+                                        else {
+                                            // Badge's name to add.
+                                            var badgeName = "";
 
+                                            // Search for the right badge...
+                                            switch(rule.typeOfEvent) {
+                                                case "Post a comment":
+                                                    badgeName = "First comment";
+                                                    break;
+                                                case "Kick a troll":
+                                                    badgeName = "Kick";
+                                                    break;
+                                                case "Upvote":
+                                                case "Downvote":
+                                                    badgeName = "Upvote/Downvote";
+                                                    break;
+
+                                            }
+
+                                            addBadge(badgeName);
+                                        }
+                                    }
+                                });
                             },
                             function error(response) {
-                                console.log("This user already had this badge. Not a problem, just go ahead.");
+                                // Set and show error panel.
+                                $("#optionsErrorContent").text("Sorry I could not post that event, please retry.");
+                                $("#optionsError").fadeIn("fast");
                             }
                         );
-
-                    // Add points or a badge, depending on the user event's selection.
-                    /*if ($scope.eventSelect == 456) {
-                        addPoints();
-                    }
-                    else if ($scope.eventSelect == 654) {
-                        addBadge();
-                    }
 
                     // Sort scores (greater on top).
                     leaderboardScores.sort(function(score1, score2) {
                         return parseInt(score2.points) - parseInt(score1.points);
                     });
                     // Send back leaderboard's scores to view.
-                    $scope.leaderboardScores = leaderboardScores;*/
+                    $scope.leaderboardScores = leaderboardScores;
                 }
                 else {
                     // Set and show error panel.
@@ -318,6 +357,18 @@
             $scope.$watchCollection(function() { return [progressBarValues.current, progressBarValues.max, progressBarValues.level]; }, function (newValues, oldValues) {
                 // Set new scope's values.
                 $scope.level = newValues[2];
+
+                if ($scope.level == 3) {
+                    // Create new user's event.
+                    var event = {
+                        "type": $scope.eventSelect,
+                        "parameter": ($scope.txtEventProperties ? $scope.txtEventProperties : null)
+                    };
+
+                    console.log("Post new event...");
+                    $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/events', event)
+                }
+
                 $scope.numberOfPoints = newValues[0];
                 $scope.pointsToNextLevel = newValues[1];
                 $scope.progressBarPercentage = newValues[0] / (newValues[1] / 100);
@@ -331,7 +382,7 @@
                 // Set badge's ID.
                 badge.id = parseInt(i) + 1;
                 // Every badge is locked by default, except the "Welcome" one.
-                if (badge.name === "Welcome") {
+                if (badge.name == "Welcome") {
                     badge.locked = false;
                 }
                 else {
