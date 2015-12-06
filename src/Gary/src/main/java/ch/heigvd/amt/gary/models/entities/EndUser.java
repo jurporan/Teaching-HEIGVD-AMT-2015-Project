@@ -1,7 +1,8 @@
 /*
 * Author     : Benoist Wolleb
-* Goal       : -
+* Goal       : This class represents a specific user of an app. It is identified with the external number used in the remote application and the app that it is associated with. A created user has an automatic timestamp that is set to its creation date.
 */
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
@@ -35,30 +36,61 @@ public class EndUser implements Serializable
     @Version
     private long version;
     
+    /**
+    * Creates a new empty Account
+    */
     public EndUser(){date = new Date();}
     
+    /**
+    * Creates a new Account
+    *
+    * @param app the app that this user is associated to
+    * @param id the external id used by the app to identify it
+    */
     public EndUser(App app, Long id)
     {
         this.app = app;
         externalId = id;
         date = new Date();
     }
-
+    
+    // Getters and Setters
+    
+    /**
+    * Get the app associated with this user
+    *
+    * @return the app of this user
+    */
     public App getApp()
     {
         return app;
     }
-
+    
+    /**
+    * Set the app associated to this user, should be set automatically by the data store
+    *
+    * @param app the app to set
+    */
     public void setApp(App app)
     {
         this.app = app;
     }
-
+    
+    /**
+    * Get the external id that identifies the user
+    *
+    * @return the id of this user
+    */
     public Long getExternalId()
     {
         return externalId;
     }
-
+    
+    /**
+    * Set the id of the user, should be set automatically by the data store
+    *
+    * @param externalId the id to set
+    */
     public void setExternalId(Long externalId)
     {
         this.externalId = externalId;
@@ -71,12 +103,22 @@ public class EndUser implements Serializable
         hash += (externalId != null ? externalId.hashCode() : 0) + app.hashCode();
         return hash;
     }
-
+    
+    /**
+    * Get the reputation of the user
+    *
+    * @return the reputation of this user
+    */
     public Reputation getReputation()
     {
         return reputation;
     }
-
+    
+    /**
+    * Set the reputation the user, should be set once the user is created
+    *
+    * @param reputation the reputation to set
+    */
     public void setReputation(Reputation reputation)
     {
         this.reputation = reputation;

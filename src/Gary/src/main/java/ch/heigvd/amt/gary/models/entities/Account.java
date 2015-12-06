@@ -2,6 +2,7 @@
 * Author     : Benoist Wolleb
 * Goal       : This class represents an account that users create on the web interface. Il is declared as an entity so that it can be stored automatically by JPA.
 */
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.io.Serializable;
@@ -109,7 +110,7 @@ public class Account implements Serializable
     /**
     * Set the ID of the account, should be set automatically by the data store
     *
-    * @param the ID to set
+    * @param id the ID to set
     */
     public void setId(Long id)
     {

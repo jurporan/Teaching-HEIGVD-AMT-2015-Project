@@ -22,8 +22,12 @@ public class Badges
     {
         App a = appDAO.get(apikey);
         if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
-        appDAO.addBadge(a, badge.toEntity());
-        return Response.ok().build();
+        
+        Badge b = badge.toEntity();
+        appDAO.addBadge(a, b);
+        
+        System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa" + b.getId());
+        return Response.ok(b.getId()).build();
     }
     
     @GET

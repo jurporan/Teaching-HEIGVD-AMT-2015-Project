@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* Author     : Benoist Wolleb
+* Goal       : This class represents an award that can be given to a user. This class won't be used as it is, but through its subclasses. An award can be positive or negative.
+*/
+
 package ch.heigvd.amt.gary.models.entities;
 
 import java.util.Date;
@@ -16,10 +16,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.DATE;
 
-/**
- *
- * @author lyuyhn
- */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Award implements Serializable
@@ -33,42 +29,84 @@ public class Award implements Serializable
     private Date timestamp;
     private String reason;
     private boolean  isPenalty;
-
+    
+    // Getters and Setters
+    
+    /**
+    * Get the ID of the award
+    *
+    * @return the ID of the award
+    */
     public Long getId()
     {
         return id;
     }
-
+    
+    /**
+    * Set the ID of the award, should be set automatically by the data store
+    *
+    * @param id the ID to set
+    */
     public void setId(Long id)
     {
         this.id = id;
     }
-
+    
+    /**
+    * Get the timestamp of the award
+    *
+    * @return the timestamp of the award
+    */
     public Date getTimestamp()
     {
         return timestamp;
     }
-
+    
+    /**
+    * Set the timestamp of the award
+    *
+    * @param timestamp the timestamp to set
+    */
     public void setTimestamp(Date timestamp)
     {
         this.timestamp = timestamp;
     }
-
+    
+    /**
+    * Get the reason of the award, as text
+    *
+    * @return the reason of the award
+    */
     public String getReason()
     {
         return reason;
     }
-
+    
+    /**
+    * Set the reason of the award
+    *
+    * @param reason the reason to set
+    */
     public void setReason(String reason)
     {
         this.reason = reason;
     }
-
+    
+    /**
+    * Get the penalty of the award
+    *
+    * @return the penalty of the award
+    */
     public boolean isIsPenalty()
     {
         return isPenalty;
     }
-
+    
+    /**
+    * Set the penalty of the award
+    *
+    * @param isPenalty the boolean to set
+    */
     public void setIsPenalty(boolean isPenalty)
     {
         this.isPenalty = isPenalty;
