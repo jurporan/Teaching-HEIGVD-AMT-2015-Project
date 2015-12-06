@@ -21,7 +21,7 @@ public class Reputation implements Serializable
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private int points;
+    private long points;
     
     @ManyToMany
     private List<Badge> badges = new LinkedList<>();
@@ -93,12 +93,12 @@ public class Reputation implements Serializable
         return awards;
     }
 
-    public int getPoints()
+    public long getPoints()
     {
         return points;
     }
 
-    public void setPoints(int points)
+    public void setPoints(long points)
     {
         this.points = points;
     }

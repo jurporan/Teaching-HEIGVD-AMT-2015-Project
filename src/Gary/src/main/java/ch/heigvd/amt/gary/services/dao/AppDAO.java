@@ -10,6 +10,7 @@ import ch.heigvd.amt.gary.models.entities.Badge;
 import ch.heigvd.amt.gary.models.entities.EndUser;
 import ch.heigvd.amt.gary.models.entities.Level;
 import ch.heigvd.amt.gary.models.entities.Rule;
+import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -110,7 +111,6 @@ public class AppDAO extends DAO {
 
         List l = em.createQuery("SELECT a FROM App a WHERE a.apiKey = :key").setParameter("key", key).getResultList();
         
-        System.out.println("nb " + l.size());
         // If the result list is empty, no account exists with this ID, we return null
         if (l.isEmpty()) {return null;}
         
@@ -203,5 +203,17 @@ public class AppDAO extends DAO {
         app = em.merge(app);
         em.persist(level);
         app.addLevel(level);
+    }
+    
+    public Badge getBadge(Long id)
+    {
+        List l = em.createQuery("SELECT b FROM Badge b WHERE b.id = :id").setParameter("id", id).getResultList();
+        
+        // If the result list is empty, no account exists with this ID, we return null
+        if (l.isEmpty()) {return null;}
+        
+        // Otherwise, we return the first (and only) app of the list
+        Badge b = (Badge) l.get(0);
+        return b;
     }
 }
