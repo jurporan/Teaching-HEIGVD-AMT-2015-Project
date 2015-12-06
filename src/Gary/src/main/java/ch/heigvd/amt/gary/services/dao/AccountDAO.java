@@ -2,6 +2,7 @@
  * Author     : Benoist Wolleb
  * Goal       : This DAO inherits the DAO superclass and have access to the EntityManager of the persistence context. This DAO is used to manage Accounts.
  */
+
 package ch.heigvd.amt.gary.services.dao;
 
 import javax.ejb.Stateless;
@@ -81,7 +82,6 @@ public class AccountDAO extends DAO {
     public boolean exists(String mail)
     {
         // Here we create a custom query to fetch the accounts having the provided email address, should contain 1 or 0 element
-        System.out.println("fjsafodsajfoioijdsaoifdaoifrewourwqewruoiwuruewqroiewuoiruewqoiroiwqruoiwqurowqroiewq" + mail);
         List l = em.createQuery("SELECT a FROM Account a WHERE a.mail = :mail").setParameter("mail", mail).getResultList();
         
         return !l.isEmpty();
