@@ -47,36 +47,32 @@ public class Events
             if(r.getTypeOfEvent().equals(event.getType()))
             {
                 rule = r;
-                break;
-            }
-        }
+                /* There is a rule for the event. Now we check if there are conditions for the rule.
+                   If that's the case we check the parameter is within the bounds. */
         
-        if (rule == null) { return Response.ok().entity("Event processed").build(); }
-        
-        /* There is a rule for the event. Now we check if there are conditions for the rule.
-           If that's the case we check the parameter is within the bounds. */
-        
-        if(event.getParameter() == null || 
-          (event.getParameter() != null && event.getParameter() <= rule.getMaxValueParameter() 
-           && event.getParameter() >= rule.getMinValueParameter()))
-        {
-            // Now we check the type of reward.
-            if (rule.getType() == Rule.POINT_EVENT)
-            {
-                PointsAward award = new PointsAward();
-                award.setIsPenalty(rule.isPenalty());
-                award.setNbPoints(rule.getRuleParameter());
-                award.setReason(event.getType());
-                userDAO.givePointAward(user, award);
-            }
-            
-            else if (rule.getType() == Rule.BADGE_EVENT)
-            {
-                BadgeAward award = new BadgeAward();
-                award.setIsPenalty(rule.isPenalty());
-                award.setBadge(appDAO.getBadge(rule.getRuleParameter()));
-                award.setReason(event.getType());
-                userDAO.giveBadgeAward(user, award);
+                if(event.getParameter() == null || 
+                  (event.getParameter() != null && event.getParameter() <= rule.getMaxValueParameter() 
+                   && event.getParameter() >= rule.getMinValueParameter()))
+                {
+                    // Now we check the type of reward.
+                    if (rule.getType() == Rule.POINT_EVENT)
+                    {
+                        PointsAward award = new PointsAward();
+                        award.setIsPenalty(rule.isPenalty());
+                        award.setNbPoints(rule.getRuleParameter());
+                        award.setReason(event.getType());
+                        userDAO.givePointAward(user, award);
+                    }
+
+                    else if (rule.getType() == Rule.BADGE_EVENT)
+                    {
+                        BadgeAward award = new BadgeAward();
+                        award.setIsPenalty(rule.isPenalty());
+                        award.setBadge(appDAO.getBadge(rule.getRuleParameter()));
+                        award.setReason(event.getType());
+                        userDAO.giveBadgeAward(user, award);
+                    }
+                }
             }
         }
         

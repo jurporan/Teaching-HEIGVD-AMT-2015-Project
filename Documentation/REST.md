@@ -100,11 +100,15 @@ Règles
    }
 ```
 
-Le champ penalty indique s'il s'agit d'une punition ou non. Les points (ou le badge) seront enlevés respectivement ajoutés lors d'un événement.
+Le champ *typeOfEvent* sert à indiquer le nom des événements qui seront concernés par la règle
 
-Les champs minValue et maxValue servent à indiquer des éventuels  bornes conditionnant l'obtention de la récompense (comparé avec un paramètre de l'évent)
+Le champ *ruleParameter* sert à indiquer, soit le nombre de points, soit le badge qui seront ajoutés ou enlever à l'utilisateur.
 
-Le champ rewardType indique le type de récompense : 1 pour des points, 2 pour des badges. Toute autre valeur lévera une erreur.
+Le champ *penalty* indique s'il s'agit d'une punition ou non. Les points (ou le badge) seront enlevés respectivement ajoutés lors d'un événement.
+
+Les champs *minValue* et *maxValue* servent à indiquer des éventuels  bornes conditionnant l'obtention de la récompense (comparé avec un paramètre de l'évent)
+
+Le champ *rewardType* indique le type de récompense : 1 pour des points, 2 pour des badges. Toute autre valeur lévera une erreur.
 
 ## Événements
 
