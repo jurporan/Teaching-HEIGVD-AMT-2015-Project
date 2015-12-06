@@ -1,4 +1,4 @@
-package ch.heigvd.amt.gary.rest.ressources;
+   package ch.heigvd.amt.gary.rest.ressources;
 
 import ch.heigvd.amt.gary.models.entities.App;
 import ch.heigvd.amt.gary.models.entities.EndUser;
@@ -55,6 +55,7 @@ public class EndUsers
     @Produces("application/json")
     public Response getUsers(@PathParam("apiKey") String apiKey)
     {
+       System.out.println("Get app's user...");
         // We check the apiKey is correct.
         App app = appDAO.get(apiKey);
         if (app == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}

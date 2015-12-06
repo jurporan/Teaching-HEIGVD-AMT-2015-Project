@@ -4,7 +4,7 @@ var request = require('request');
 var deferred = require('deferred');
 
 var newData = false;
-var apiKey = '16bee50d-e2c0-4606-8207-f4d966ede88b';
+var apiKey = 'bd83fa9d-5f0a-4a46-bb29-4dad06363491';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
 var voteBadgeId = 0;
@@ -19,7 +19,6 @@ function getUsers() {
         if (!error && response.statusCode == 200) {
             // Get users as JSON values.
             users = JSON.parse(body);
-            console.log("USERS: " + users[0]);
             // If there is still no user, create them.
             if (!users[0]) {
                 newData = true;
