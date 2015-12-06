@@ -91,7 +91,7 @@ Règles
 
 ```
    {
-        typeOfEvent : <nom de l'événement concerner>,
+        typeOfEvent : <nom de l'événement concerné>,
         ruleParameter : <le nombre de point ou l'id du badge concerné>,
         penalty : [false|true],
         minValue : <valeur minimum>,
