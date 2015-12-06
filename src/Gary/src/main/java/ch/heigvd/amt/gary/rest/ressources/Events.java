@@ -17,8 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 /**
- *
- * @author Jan Purro
+ * Endpoint used to post events for an application user.
  */
 @Stateless
 @Path("/applications/{apikey}/users/{userId}/events")
@@ -27,10 +26,20 @@ public class Events
     @EJB AppDAO appDAO;
     @EJB EndUserDAO userDAO;
     
+    /**
+     * Process events. If there's a rule (or several rule) defined for this event
+     * it's applied. Otherwise nothing will happen. The lack of rules won't raise
+     * an error.
+     * @param event : the processed event
+     * @param apiKey : the apiKey of the application
+     * @param userId : the userId.
+     * @return will return a response containing either an error an ok if the event was processed correctly.
+     */
     @POST
     @Consumes("application/json")
     public Response postEvent(EventDTO event, @PathParam("apikey") String apiKey, @PathParam("userId") String userId)
     {
+        // First we check the apiKey and userId are correct.
         App app = appDAO.get(apiKey);
         if (app == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
         EndUser user = null;
@@ -38,16 +47,17 @@ public class Events
         { user = userDAO.getUserForApp(app, new Long(userId)); }
         catch (NumberFormatException e)
         { return Response.status(400).entity("Invalid user ID").build(); }
-        
         if (user == null) { return Response.status(400).entity("This user doesn't seem to exist").build(); }
         
-        Rule rule = null;
-        for(Rule r : app.getRules())
+        /* We check all the rule from the application. We don't stop at the first
+           rule, because several rules can be defined for one event.*/
+        for(Rule rule : app.getRules())
         {
-            if(r.getTypeOfEvent().equals(event.getType()))
+            // We check if the rule applies to the event
+            if(rule.getTypeOfEvent().equals(event.getType()))
             {
-                rule = r;
-                /* There is a rule for the event. Now we check if there are conditions for the rule.
+                /* There is a rule for the event. Now we check if there is a parameter 
+                   to the event.
                    If that's the case we check the parameter is within the bounds. */
         
                 if(event.getParameter() == null || 

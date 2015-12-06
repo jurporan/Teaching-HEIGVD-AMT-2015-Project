@@ -7,8 +7,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Entity representing a rule from an application.
- *
+ * Entity representing a rule for an application. 
+ * A rule applies to all event from the same application whose name are 
+ * the same as the typeOfEvent attribute of the rule.
+ * 
+ * The ruleParameter from this class is either a number of point either a badge
+ * ID. The points or badge will be removed or added depending on the boolean penalty
+ * (obviously, if penalty is true then the points or badge are removed).
+ * 
+ * The type attribute indicates the type of reward, points or badge.
+ * 
+ * The minValueParameter and maxValueParameter are used when an event's parameter
+ * is not null. In that case the penalty or reward is given only if the envent's
+ * parameter is within the bounds of the rules parameter :
+ * (minValueParameter <= even'ts parameter <= maxValueParameter)
+ * 
+ * Several rules can be applied to the same events.
  */
 @Entity
 public class Rule implements Serializable
@@ -29,8 +43,20 @@ public class Rule implements Serializable
     private int maxValueParameter;
     private byte type;
     
+    
+    // Create a new empty Rule.
     public Rule(){}
 
+    /**
+     * Create a new Rule.
+     * @param typeOfEvent : name of the event the rule will be applied to.
+     * @param ruleParameter : number of points or badge id.
+     * @param penalty : true if this is a penalty. False otherwise.
+     * @param minValueParameter : lower bound for the event's parameter value (if smaller the rule won't apply).
+     * @param maxValueParameter : upper bound for the event's parameter value (if greater the rule won't apply).
+     * @param type : indicates the type of reward.
+     * @throws Exception 
+     */
     public Rule(String typeOfEvent, long ruleParameter, boolean penalty, int minValueParameter, int maxValueParameter, byte type) throws Exception
     {
         this.typeOfEvent = typeOfEvent;
@@ -50,6 +76,9 @@ public class Rule implements Serializable
             throw new Exception();
         }
     }
+    
+    
+    // Getters and Setters 
     
     public Long getId()
     {
