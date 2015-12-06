@@ -24,6 +24,15 @@ Niveaux
 
 Où la structure ```{level}``` correspond à la définition du point ci-dessus.
 
+- **GET** ```/api/applications/<apikey>/users/<userid>/level``` : Récupère le niveau actuel de l'utilisateur. Le JSON reçu sera sous cette forme :
+
+```
+    {
+        name : "<nom du niveau>",
+        minPoints : <nombre de points au minimum pour accéder au niveau>
+    }
+```
+
 Badges
 --------
 
@@ -78,7 +87,7 @@ Où la structure ```{user}``` correspond à la définition du point ci-dessus.
 Règles
 ------
 
-**POST** ```/api/applications/<apikey>/rules``` : Crée une nouvelle règle pour l'application. Le JSON envoyé doit être de forme:
+- **POST** ```/api/applications/<apikey>/rules``` : Crée une nouvelle règle pour l'application. Le JSON envoyé doit être de forme:
 
 ```
    {
@@ -99,7 +108,7 @@ Le champ rewardType indique le type de récompense : 1 pour des points, 2 pour d
 
 ## Événements
 
-**POST** ```/api/applications/<apikey>/users/<userId>/events``` : L'event sera traité. Le JSON doit être envoyé sous la forme :
+- **POST** ```/api/applications/<apikey>/users/<userId>/events``` : L'event sera traité. Le JSON doit être envoyé sous la forme :
 
 ```
    {

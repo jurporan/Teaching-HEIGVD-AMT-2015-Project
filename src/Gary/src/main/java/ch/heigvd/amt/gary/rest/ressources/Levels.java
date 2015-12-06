@@ -28,7 +28,7 @@ public class Levels
         App a = appDAO.get(apikey);
         if (a == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
         appDAO.addLevel(a, level.toEntity());
-        return Response.ok().build();
+        return Response.ok().entity("Level added").build();
     }
     
     @GET
