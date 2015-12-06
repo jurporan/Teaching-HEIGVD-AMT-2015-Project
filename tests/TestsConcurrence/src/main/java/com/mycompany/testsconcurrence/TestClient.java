@@ -158,7 +158,7 @@ public class TestClient {
         if(userList.isEmpty()) 
         { 
             createEndUser(321);
-        }
+        }        
         
         // Get the id of the first end user of the list
         final long userID = userList.get(0).getId();
@@ -223,7 +223,7 @@ public class TestClient {
         {         
             // Enter an existing api key
             // String apiKey = buffer.readLine().trim();
-            String apiKey = "7f1bfd82-5fcf-4c4b-a362-25d79c99331b";
+            String apiKey = "1e9372c3-eab7-4869-9085-95b01450b3ba";
             // Run the test with 100 threads
             (new TestClient(apiKey, 100)).test(); 
         } catch (Exception e) { System.err.println(e); }   
