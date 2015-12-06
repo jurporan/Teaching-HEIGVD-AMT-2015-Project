@@ -1,0 +1,169 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 18 sept. 2015, 11:37:12
+    Author     : Miguel
+*/
+
+table {
+   width: 100%;
+}
+
+th {
+   border-bottom: 1px solid gray;
+}
+
+th, td {
+   padding-right: 20px;
+   padding-top: 10px;
+}
+
+.header {
+   background-color: #212121;
+  // padding: 10px;
+   height: 60px;
+   width: 100%;
+}
+
+.titleImg {
+   height: 32px;
+   margin-right: 8px;
+   padding-bottom: 2px;
+}
+
+.title {
+   color: white;
+   float: left;
+   font-size: 22px;
+   font-weight: bold;
+   margin-right: 75px;
+}
+
+title:focus, .title:hover {
+   color: white;
+   text-decoration: none;
+}
+
+.btnHeader {
+   color: #DEDEDE;
+   font-size: 15px;
+   font-weight: bold;
+}
+
+.btnHeaderSelected, .btnHeader:hover, .btnHeaderSelected:hover, .btnHeader:focus, .btnHeaderSelected:focus {
+   color: #7AC7A8;
+   font-size: 15px;
+   font-weight: bold;
+   text-decoration: none;
+}
+
+.selectedHeaderElem {
+   margin-right: 50px;
+}
+
+.headerRight {
+   color: #DEDEDE;
+   float: right;
+}
+
+.loginInformation {
+   font-size: 12px;
+}
+
+.btn-gary {
+   background-color: #7AC7A8;
+   border-color: #75B393;
+   color: #000;
+}
+
+.btnLogout {
+   margin-left: 10px;
+}
+
+.pageTitle {
+   float: left;
+}
+
+.btnRegisterNew {
+   float: right;
+   margin-top: 27px;
+}
+
+.appsTable {
+    margin-top: 130px;
+}
+
+.appButtons {
+   padding-right: 0;
+   text-align: right;
+}
+
+.btnStatus {
+   width: 81px;
+}
+
+.paginationTable {
+    border-top: 1px solid black;
+    margin-top: 30px;
+}
+
+.span-btn-form {
+   float: right;
+}
+
+.btn-form {
+   width: 90px;
+}
+
+.mandatoryFields {
+   margin-right: 50px;
+}
+
+form .errors {
+    color: #900;
+}
+
+form .succes {
+    color: #090;
+}
+
+.col-sm-10 {
+    padding: 0px;
+    margin-bottom: 25px;
+}
+
+
+.mainTitle {
+    font-size: 700%;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.navbar-static {
+    padding-top: 13px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+form {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.btn-login {
+    margin-right: 15px;
+}
+
+.stats {
+    font-size: 25px;
+    margin-top: 150px;
+    text-align: center;
+}
+
+.inscrutions {
+    margin-top: 150px;
+    text-align: center;
+}
