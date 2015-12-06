@@ -6,8 +6,8 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
- *
- * @author Jan Purro
+ * Something we copied from the MVCDemo project. We are not sure what it does exactly, but
+ * it seems the API Rest doesn't work without it.
  */
 @Provider
 public class GaryExceptionMapper implements ExceptionMapper<BusinessDomainEntityNotFoundException> {

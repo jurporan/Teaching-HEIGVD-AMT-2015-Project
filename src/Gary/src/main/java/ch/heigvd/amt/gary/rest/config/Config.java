@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.Application;
 
 
-// Just a temporary config class for testing JAX-RS.
+// Config class for JAX-RS.
 
 @javax.ws.rs.ApplicationPath("api")
 public class Config extends Application 
