@@ -7,10 +7,30 @@ package ch.heigvd.amt.gary.rest.dto;
 
 import ch.heigvd.amt.gary.models.entities.EndUser;
 
+/**
+ * DTO representing an application's new user.
+ * It contains only an id. This id can be the same in the client's application and in
+ * ours as it has a composite key inside our DB
+ */
 public class EndUserDTO
 {
     // Property
     private long id;
+
+
+    /**
+     * Create a new DTO from an entity.
+     * 
+     * @param user : the user entity we wish to create a DTO from.
+     * @return The Rule entity corresponding to the DTO
+     */
+    public static EndUserDTO fromEntity(EndUser user)
+    {
+        EndUserDTO dto = new EndUserDTO();
+        dto.id = user.getExternalId();
+        return dto;
+    }
+
     
     // Getters and Setters, not very interessant
     public long getId()
@@ -21,17 +41,5 @@ public class EndUserDTO
     public void setId(long id)
     {
         this.id = id;
-    }
-    
-    /**
-    * Initialize the DTO with the content of the associated entity
-    *
-    * @param user the corresponding EndUser
-    */
-    public static EndUserDTO fromEntity(EndUser user)
-    {
-        EndUserDTO dto = new EndUserDTO();
-        dto.id = user.getExternalId();
-        return dto;
     }
 }

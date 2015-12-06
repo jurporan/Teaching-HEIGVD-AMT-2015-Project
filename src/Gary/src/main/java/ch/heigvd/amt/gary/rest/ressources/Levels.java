@@ -15,12 +15,22 @@ import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+/**
+ * Endpoint to post and get levels.
+ */
 @Stateless
 @Path("/applications/{apikey}/levels")
 public class Levels
 {
     @EJB AppDAO appDAO;
     
+    /**
+     * Create a new level for the application.
+     * 
+     * @param level: the new level
+     * @param apikey the application key
+     * @return will return a response containing either an error an ok if the level was added correctly.
+     */
     @POST
     @Consumes("application/json")
     public Response submitNewLevel(LevelDTO level, @PathParam("apikey") String apikey)
@@ -34,6 +44,11 @@ public class Levels
         return Response.ok().entity("Level added").build();
     }
     
+    /**
+     * Returns all the currently defined levels for the application.
+     * @param apikey : the application key.
+     * @return will return a response containing either an error or all the current levels.
+     */
     @GET
     @Produces("application/json")
     public Response getAllLevels(@PathParam("apikey") String apikey)

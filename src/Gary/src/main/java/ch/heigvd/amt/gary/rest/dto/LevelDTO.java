@@ -7,6 +7,12 @@ package ch.heigvd.amt.gary.rest.dto;
 
 import ch.heigvd.amt.gary.models.entities.Level;
 
+/**
+ * DTO representing a level.
+ * 
+ * A level has a name and a number of minimum points the user must have to attain
+ * that level.
+ */
 public class LevelDTO
 {
     // Properties

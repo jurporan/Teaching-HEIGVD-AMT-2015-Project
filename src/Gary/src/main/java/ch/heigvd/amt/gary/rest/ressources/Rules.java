@@ -12,19 +12,27 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 /**
- *
- * @author Jan Purro
+ * Class used to add rules to an application.
  */
 @Stateless
 @Path("/applications/{apiKey}/rules")
 public class Rules
 {
     @EJB AppDAO appDAO;
-            
+    
+    
+    /**
+     * 
+     * @param rule : the rule to be added to the application
+     * @param apiKey : the apiKey of the application
+     * @return will return a response containing either an error if the apiKey or award type is 
+     * unknown or an ok if the rule was created correctly.
+     */
     @POST
     @Consumes("application/json")
     public Response submitNewRule(RuleDTO rule, @PathParam("apiKey") String apiKey)
     {
+        // We check the apiKey is correct.
         try
         {
              App app = appDAO.get(apiKey);
@@ -35,6 +43,7 @@ public class Rules
         {
             return Response.serverError().entity("Unknown award type.").build();
         }
+        // We tell the client everything's ok
         return Response.ok().entity("Rule was added succesfully").build();
     }
 }

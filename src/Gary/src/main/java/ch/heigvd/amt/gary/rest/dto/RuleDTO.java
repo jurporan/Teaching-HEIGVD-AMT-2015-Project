@@ -3,7 +3,8 @@ package ch.heigvd.amt.gary.rest.dto;
 import ch.heigvd.amt.gary.models.entities.Rule;
 
 /**
- *
+ * DTO used to transfer a Rule between the client and the server.
+ * This DTO has exactly the same properties as the Rule entity.
  * @author Jan Purro
  */
 public class RuleDTO
@@ -15,10 +16,19 @@ public class RuleDTO
     private int maxValue;
     private byte rewardType;
 
+    
+    /**
+     * Create an entity from the DTO.
+     * 
+     * @return The Rule entity corresponding to the DTO
+     * @throws Exception when the reward type is not valid.
+     */
     public Rule toEntity() throws Exception
     {
         return new Rule(typeOfEvent, ruleParameter, penalty, minValue, maxValue, rewardType);
     }
+    
+    // Getters and Setters.
     
     public String getTypeOfEvent()
     {
