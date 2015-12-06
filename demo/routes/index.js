@@ -3,7 +3,8 @@ var router = express.Router();
 var request = require('request');
 var deferred = require('deferred');
 
-var apiKey = '44a3d5b5-46bc-40a4-ba61-c2f79e117575';
+var newData = false;
+var apiKey = '16bee50d-e2c0-4606-8207-f4d966ede88b';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
 var voteBadgeId = 0;
@@ -18,9 +19,10 @@ function getUsers() {
         if (!error && response.statusCode == 200) {
             // Get users as JSON values.
             users = JSON.parse(body);
-
+            console.log("USERS: " + users[0]);
             // If there is still no user, create them.
             if (!users[0]) {
+                newData = true;
                 console.log("No existing user, create new ones.");
 
                 // User's data.
@@ -116,28 +118,28 @@ function getBadges() {
                 var n = data.length;
                 // Used to know if the posted request is the last one, to release
                 // the promise.
-                var requestNumber = 1;
+                //var requestNumber = 1;
                 for (var i = 0; i < n; ++i) {
-                    var req = requestNumber;
+                    var requestNumber = i;
                     request.post({
                         url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/badges',
                         json: data[i]
                     }, function(error, response, body) {
                         // Get badges ID's
-                        if (data[req - 1].name === "First comment") {
+                        if (data[requestNumber].name === "First comment") {
                             commentBadgeId = parseInt(body);
                         }
-                        else if (data[req - 1].name === "Upvote/Downvote") {
+                        else if (data[requestNumber].name === "Upvote/Downvote") {
                             voteBadgeId = parseInt(body);
                         }
-                        else if (data[req - 1].name === "Kick") {
+                        else if (data[requestNumber].name === "Kick") {
                             kickBadgeId = parseInt(body);
                         }
-                        else if (data[req - 1].name === "Level 3!") {
+                        else if (data[requestNumber].name === "Level 3!") {
                             levelBadgeId = parseInt(body);
                         }
 
-                        if (req === n) {
+                        if (requestNumber === (n - 1)) {
                             console.log("Badges created, I can now release the promise.");
                             defer.resolve({
                                 error: 0,
@@ -170,7 +172,6 @@ function getBadges() {
 }
 
 function getRules() {
-    console.log("Create rules.");
 
     // Rules' data.
     var data = [
@@ -248,16 +249,21 @@ function getRules() {
         }
     ];
 
-    // Convert user objects into HTTP requests and send them.
-    var n = data.length;
-    for (var i = 0; i < n; ++i) {
-        request.post({
-            url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/rules',
-            json: data[i]
-        });
+    if (newData) {
+        console.log("Create rules.");
+        // Convert user objects into HTTP requests and send them.
+        var n = data.length;
+        for (var i = 0; i < n; ++i) {
+            request.post({
+                url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/rules',
+                json: data[i]
+            });
+        }
+    }
+    else {
+        console.log("Rules already existing, no need to create.");
     }
 
-    // Return the promise object.
     return data;
 }
 
