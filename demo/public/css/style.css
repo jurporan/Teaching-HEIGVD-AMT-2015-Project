@@ -53,6 +53,10 @@ a {
     width: 50%;
 }
 
+.optionsError {
+    display: none;
+}
+
 .sendButton {
     width: 200px;
 }

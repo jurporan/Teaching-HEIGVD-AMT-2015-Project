@@ -3,10 +3,10 @@ var router = express.Router();
 var request = require('request');
 var deferred = require('deferred');
 
-var apiKey = '2a80e851-58e9-49c3-8773-2de7a3f7870d';
-var commentBadgeId = 751;
-var trollBadgeId = 701;
-var voteBadgeId = 556;
+var apiKey = '75dc51d2-8291-4e37-aaad-d69c5b3041f8';
+var commentBadgeId = 0;
+var kickBadgeId = 0;
+var voteBadgeId = 0;
 
 function getUsers() {
     // Init data promise.
@@ -106,24 +106,44 @@ function getBadges() {
                     },
                     {
                         "name": "Kick",
-                        "description": "Haha you just kicked that boring troll!",
+                        "description": "Haha you just kicked that damn troll!",
                         "imageUrl": "kick.png"
                     }
                 ];
 
                 // Convert user objects into HTTP requests and send them.
                 var n = data.length;
+                // Used to know if the posted request is the last one, to release
+                // the promise.
+                var requestNumber = 1;
                 for (var i = 0; i < n; ++i) {
                     request.post({
                         url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/badges',
                         json: data[i]
+                    }, function(error, response, body) {
+                        // Get badges ID's
+                        if (data[requestNumber - 1].name === "First comment") {
+                            commentBadgeId = parseInt(body);
+                        }
+                        else if (data[requestNumber - 1].name === "Upvote/Downvote") {
+                            voteBadgeId = parseInt(body);
+                        }
+                        else if (data[requestNumber - 1].name === "Kick") {
+                            kickBadgeId = parseInt(body);
+                        }
+
+                        if (requestNumber === n) {
+                            console.log("Badges created, I can now release the promise.");
+                            defer.resolve({
+                                error: 0,
+                                data: data
+                            });
+                        }
+                        else {
+                            ++requestNumber;
+                        }
                     });
                 }
-
-                defer.resolve({
-                    error: 0,
-                    data: data
-                });
             }
             else {
                 defer.resolve({
@@ -175,7 +195,7 @@ function getRules() {
         },
         {
             "typeOfEvent": "Kick a troll",
-            "ruleParameter": trollBadgeId,
+            "ruleParameter": kickBadgeId,
             "penalty": false,
             "minValue": null,
             "maxValue": null,
@@ -236,7 +256,7 @@ router.get('/', function(req, res) {
         if (users.error === 1) {
             res.render('index', {
                 title: 'Ultimate Gary Events Test-Console Two-Thousand-Fifteen!',
-                error: 'Cannot get application\'s users, please retry in a while.'
+                error: 'Sorry I cannot get application\'s users, please retry in a while :('
             });
         }
         else {
@@ -246,7 +266,7 @@ router.get('/', function(req, res) {
                 if (badges.error === 1) {
                     res.render('index', {
                         title: 'Ultimate Gary Events Test-Console Two-Thousand-Fifteen!',
-                        error: 'Cannot get application\'s badges, please retry in a while.'
+                        error: 'Sorry I cannot get application\'s badges, please retry in a while :('
                     });
                 }
                 else {

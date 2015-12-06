@@ -22,18 +22,21 @@ block content
                         option(ng-repeat='user in users' value='{{user.id}}') {{usersData[user.id]}}
                 
                 .form-group
-                    label(for='eventSelect') Event
+                    label(for='eventSelect' ng-init='rules=#{JSON.stringify(rules)}') Event
                     select#eventSelect.form-control(disabled='disabled' ng-model='eventSelect')
                         option(disabled='disabled' selected='selected' style='display: none;' value='') Select an event...
-                        option(value='456') Add points...
-                        option(value='654') Add a badge...
-                        option(value='465') Post a comment...
+                        // Display only one time duplicates events' types.
+                        option(ng-repeat='rule in rules | uniqueRule: "typeOfEvent"' value='{{rule.typeOfEvent}}') {{rule.typeOfEvent}}
             
                 .form-group
                     label(for='eventProperties') Event's properties
                     input#eventProperties.form-control(disabled='disabled' ng-model='txtEventProperties' placeholder='Please select an event...' type='text')
             
                 br
+                
+                #optionsError.panel.panel-danger.optionsError
+                    .panel-heading
+                        #optionsErrorContent
             
                 button#btnRun.btn.btnApp.sendButton(disabled='disabled' name="sendButton" ng-click='showGamification()' type='button') Run!
             
@@ -60,7 +63,7 @@ block content
                 .tab-content.resultsTab
                     #level.tab-pane.fade.in.active(role='tabpanel')
                         h3 AW YEAH! Now let's have a look at the current 
-                            b edri
+                            b {{usersData[userSelect]}}
                             | 's level..
                     
                         .level(ng-controller="ProgressController")
@@ -141,7 +144,7 @@ block content
                     }
                 });
                 
-                // Enable event's properties field when the user choosed an event.
+                // Enable event's properties field and "Run!" button when the user choosed an event.
                 $("#eventSelect").change(function() {
                     if ($("#eventSelect").val() != "none")
                     {
@@ -149,18 +152,8 @@ block content
                         $("#eventProperties").prop("disabled" , false);
                         $("#eventProperties").attr("value" , "");
                         $("#eventProperties").attr("placeholder" , "Enter properties...");
-                    }
-                });
-                
-                // Enable "Run!" button when the user filled the event's properties field.
-                $("#eventProperties").bind("input", function() {
-                    if ($("#eventProperties").val())
-                    {
+                        
                         $("button[name='sendButton']").prop("disabled" , false);
-                    }
-                    else
-                    {
-                        $("button[name='sendButton']").prop("disabled" , true);
                     }
                 });
                 
