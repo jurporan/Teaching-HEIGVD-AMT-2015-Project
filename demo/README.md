@@ -12,3 +12,5 @@
  - Run server with `grunt`.
  - Go to http://localhost:3005/.
  - The demo application will create some data just for you ♥.
+
+Enjoy!
