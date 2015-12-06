@@ -1,26 +1,19 @@
 /*
-* Author     : Benoist Wolleb
-* Goal       : This class represents an account that users create on the web interface. Il is declared as an entity so that it can be stored automatically by JPA.
-*/
-
-package ch.heigvd.amt.gary.models.entities;
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mycompany.testsconcurrence;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
-@Entity
+
 public class Account implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     private String mail;
@@ -28,7 +21,6 @@ public class Account implements Serializable
     private String lastName;
     private String password;
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<App> createdApps = new LinkedList<App>();
 
     /**

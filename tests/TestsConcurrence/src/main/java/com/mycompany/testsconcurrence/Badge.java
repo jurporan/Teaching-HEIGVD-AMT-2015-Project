@@ -1,22 +1,17 @@
 /*
-* Author     : Benoist Wolleb
-* Goal       : This class represents a badge that can be given as an award to the user. A badge is a visual archievement with a name, a desription and an image (we only store the url).
-*/
-
-package ch.heigvd.amt.gary.models.entities;
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mycompany.testsconcurrence;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-@Entity
+
+
 public class Badge implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String imageUrl;
     private String name;
