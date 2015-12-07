@@ -95,7 +95,7 @@
                 // First check if the function isn't currently executed (or is executed but
                 // recursively), then check if the input text is a positive number, otherwise
                 // we just ignore it.
-                if ((!levelLoading || extraPoints > 0) || !isNaN(points) && points > 0) {
+                if ((!levelLoading || extraPoints > 0) || (!isNaN(points) && points > 0)) {
                     levelLoading = true;
                     // Will store the current progress bar's points or the extra
                     // points.
@@ -352,26 +352,41 @@
             };
         })
         // Controller relative to the progress bar's rendering.
-        .controller("ProgressController", function($scope, progressBarValues) {
+        .controller("ProgressController", function($scope, $http, progressBarValues, badgesValues) {
             // Watchs every progress bar's parameter ; if one of them changes, enters the callback function.
             $scope.$watchCollection(function() { return [progressBarValues.current, progressBarValues.max, progressBarValues.level]; }, function (newValues, oldValues) {
                 // Set new scope's values.
                 $scope.level = newValues[2];
+                $scope.numberOfPoints = newValues[0];
+                $scope.pointsToNextLevel = newValues[1];
+                $scope.progressBarPercentage = newValues[0] / (newValues[1] / 100);
 
                 if ($scope.level == 3) {
                     // Create new user's event.
                     var event = {
-                        "type": $scope.eventSelect,
-                        "parameter": ($scope.txtEventProperties ? $scope.txtEventProperties : null)
+                        "type": "Level 3",
+                        "parameter": null
                     };
 
                     console.log("Post new event...");
                     $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/events', event)
+                        .then(
+                            function success(response) {
+                                angular.forEach(badgesValues, function(badges, line) {
+                                    angular.forEach(badges, function(badge) {
+                                        if (badge.name == "Level 3!") {
+                                            $scope.showBadge[badge.id] = true;
+                                            console.log("\"" + "Level 3!" + "\" badge unlocked!");
+                                            return false;
+                                        }
+                                    });
+                                });
+                            },
+                            function error(response) {
+                                console.log("An error occured when trying to unlock 'Level 3' badge.");
+                            }
+                        );
                 }
-
-                $scope.numberOfPoints = newValues[0];
-                $scope.pointsToNextLevel = newValues[1];
-                $scope.progressBarPercentage = newValues[0] / (newValues[1] / 100);
             });
         })
         // Controller relative to the badges' table's rendering.
