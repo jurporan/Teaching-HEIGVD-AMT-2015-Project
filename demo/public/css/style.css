@@ -84,12 +84,11 @@ a {
 }
 
 .fillForm {
-    display: none;
     padding: 100px 100px 160px 100px;
 }
 
 .resultsTabs {
-    /*display: none;*/
+    display: none;
 }
 
 .resultsTab {
@@ -126,16 +125,16 @@ a {
     font-size: 0;
     left: 85px;
     position: absolute;
-    top: 23px;
+    top: 17px;
     -webkit-transition: font-size 1s, left 1s, opacity 1.5s, top 1s; /* Safari */
     transition: font-size 1s, left 1s, opacity 1.5s, top 1s;;
 }
 
 .newLevelBig {
-    font-size: 60px;
+    font-size: 70px;
     left: 130px;
     opacity: 0;
-    top: -75px;
+    top: -80px;
 }
 
 .nextLevel {
@@ -176,6 +175,27 @@ a {
     font-size: 20px;
     font-weight: bold;
     height: 230px;
+    width: 230px;
+}
+
+.badgeWrapper {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.explosion {
+    left: 115px;
+    position: absolute;
+    top: 113px;
+    transition: left 0.8s, opacity 1.5s, top 0.8s, width 0.8s;
+    width: 0;
+}
+
+.explosionBig {
+    left: -15px;
+    opacity: 0;
+    top: -15px;
     width: 230px;
 }
 
@@ -252,6 +272,7 @@ a {
 }
 
 .leaderboardTable {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     margin: auto;
 }
 

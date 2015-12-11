@@ -1,4 +1,5 @@
 (function() {
+    var startPoints = 0;
     var appModule = angular.module("garyDemo", [])
         // Used to display duplicates rules only one time in the select.
         .filter('uniqueRule', function() {
@@ -95,7 +96,7 @@
                 // First check if the function isn't currently executed (or is executed but
                 // recursively), then check if the input text is a positive number, otherwise
                 // we just ignore it.
-                if ((!levelLoading || extraPoints > 0) || (!isNaN(points) && points > 0)) {
+                if ((!levelLoading || extraPoints >= 0) || (!isNaN(points) && points > 0)) {
                     levelLoading = true;
                     // Will store the current progress bar's points or the extra
                     // points.
@@ -160,7 +161,6 @@
                                 // Fade the progress bar in after a delay of 300 ms, and then put back
                                 // transitions on it.
                                 }).delay(300).fadeIn("fast", function() {
-                                    $("#newLevel").show();
                                     $("#newLevel").addClass("newLevelBig");
                                     $("#progressBarCurrent").removeClass("notransition");
                                     // Calculate the next level's extra points.
@@ -213,6 +213,10 @@
                 angular.forEach(badgesValues, function(badges, line) {
                     angular.forEach(badges, function(badge) {
                         if (badge.name == name) {
+                            if (!$scope.showBadge[badge.id]) {
+                                $("#explosion" + badge.id).addClass("explosionBig");
+                            }
+
                             $scope.showBadge[badge.id] = true;
                             console.log("\"" + name + "\" badge unlocked!");
                             return false;
@@ -226,8 +230,8 @@
 
                 // Reset user's badges, except the "Welcome" one.
                 console.log("Clear badges...");
-                angular.forEach(badgesValues, function(text, values) {
-                    angular.forEach(values, function(badge) {
+                angular.forEach(badgesValues, function(badges, line) {
+                    angular.forEach(badges, function(badge) {
                         if (badge.name != "Welcome") {
                             $scope.showBadge[badge.id] = false;
                         }
@@ -253,7 +257,7 @@
                                     $("#optionsError").fadeOut("fast");
                                     console.log("Current points: " + response.data.points);
                                     console.log("Current badges: " + JSON.stringify(response.data.badges));
-                                    progressBarValues.current = parseInt(response.data.points);
+                                    startPoints = parseInt(response.data.points);
 
                                     angular.forEach(response.data.badges, function(badge) {
                                         addBadge(badge.name);
@@ -306,7 +310,7 @@
                                         // New points to add
                                         if (rule.rewardType == 1) {
                                             console.log("Add " + rule.ruleParameter + " points...");
-                                            addPoints(rule.ruleParameter);
+                                            addPoints(startPoints + rule.ruleParameter);
                                         }
                                         else {
                                             // Badge's name to add.
@@ -338,13 +342,6 @@
                                 $("#optionsError").fadeIn("fast");
                             }
                         );
-
-                    // Sort scores (greater on top).
-                    /*leaderboardScores.sort(function(score1, score2) {
-                        return parseInt(score2.points) - parseInt(score1.points);
-                    });
-                    // Send back leaderboard's scores to view.
-                    $scope.leaderboardScores = leaderboardScores;*/
                 }
                 else {
                     // Set and show error panel.
@@ -416,7 +413,7 @@
         // Controller relative to the leaderboard's table's rendering.
         .controller("LeaderboardController", function($scope, leaderboardScores) {
             // Recursively watch leaderboard's scores.
-            $scope.$watch(function() { return leaderboardScores; }, function (newValues, oldValues) {
+            $scope.$watch(function() { return leaderboardScores; }, function (newValue, oldValue) {
                 // Sort scores (greater on top).
                 leaderboardScores.sort(function(score1, score2) {
                     return parseInt(score2.points) - parseInt(score1.points);

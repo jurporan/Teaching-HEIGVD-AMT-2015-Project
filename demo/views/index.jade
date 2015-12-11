@@ -67,7 +67,7 @@ block content
                             | 's level..
                     
                         .level(ng-controller="ProgressController")
-                            span.currentLevel Level {{level}}
+                            span#currentLevel.currentLevel Level {{level}}
                             span#newLevel.newLevel +1
                             span.nextLevel Level {{level + 1}}
                             br
@@ -83,24 +83,26 @@ block content
                         table.badgesTable(ng-controller="BadgesController")
                             tr(ng-repeat="(x, yArray) in badgesArchitecture")
                                 td(ng-class="(y.locked && !showBadge[y.id]) ? 'lockedBadge' : 'unlockedBadge'" ng-repeat="y in yArray")
-                                    div(class="lockedBadgeContent" name="lockedBadgeContent" ng-if="y.locked && !showBadge[y.id]")
-                                        #hiddenBadgeContent.hiddenBadgeContent
+                                    #badgeWrapper.badgeWrapper
+                                        img.explosion(id='explosion{{y.id}}' name='explosion' src='/img/explosion.png')
+                                        div(class="lockedBadgeContent" name="lockedBadgeContent" ng-if="y.locked && !showBadge[y.id]")
+                                            #hiddenBadgeContent.hiddenBadgeContent
+                                                {{y.name}}
+                                                br
+                                                img.badgeImg(ng-src="/img/badges/{{y.imageUrl}}")
+                                                br
+                                                div.badgeText {{y.description}}
+                                            .shownBadgeDiv
+                                                .shownBadgeContent
+                                                    span(aria-hidden="true" class="glyphicon glyphicon-lock")
+                                                    br
+                                                    | Locked
+                                        div(ng-if="!y.locked || showBadge[y.id]")
                                             {{y.name}}
                                             br
                                             img.badgeImg(ng-src="/img/badges/{{y.imageUrl}}")
                                             br
                                             div.badgeText {{y.description}}
-                                        .shownBadgeDiv
-                                            .shownBadgeContent
-                                                span(aria-hidden="true" class="glyphicon glyphicon-lock")
-                                                br
-                                                | Locked
-                                    div(ng-if="!y.locked || showBadge[y.id]")
-                                        {{y.name}}
-                                        br
-                                        img.badgeImg(ng-src="/img/badges/{{y.imageUrl}}")
-                                        br
-                                        div.badgeText {{y.description}}
                                         
                     #leaderboard.tab-pane.fade(role='tabpanel')
                         h3 Yay! How high are you in the leaderboard?
@@ -166,7 +168,7 @@ block content
                 });
                 
                 // Display hidden badge when the user moves the mouse on a locked cell in the table.
-                $("div[name='lockedBadgeContent']").hover(
+                $("div[name='lockedBadgeContent'], badgeWrapper").hover(
                     function() {
                         // The the cursor is on the element, display hidden badge.
                         $("#hiddenBadgeContent", this).addClass("hiddenBadgeContentDisplayed");
@@ -183,15 +185,16 @@ block content
                     $(this).tab("show");
                 });
                 
-                $("#newLevel").click(function() {
-                    $(this).addClass("newLevelBig");
-                });
-                
                 // Triggered when new level's "+1" text finished its transition.
                 $("#newLevel").bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
                     $(this).addClass("notransition");
                     $(this).removeClass("newLevelBig");
                     $(this)[0].offsetHeight;
                     $(this).removeClass("notransition");
+                });
+                
+                // Triggered when explosion finished its transition.
+                $("img[name='explosion']").bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
+                    console.log("HAAAAAAAAAAAAAAAAAAAAA: " + $(this).attr("id"));
                 });
             });

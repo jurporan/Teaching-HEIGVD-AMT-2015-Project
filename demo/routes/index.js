@@ -4,7 +4,7 @@ var request = require('request');
 var deferred = require('deferred');
 
 var newData = false;
-var apiKey = 'b457b95c-3073-430b-84c4-57461a26986f';
+var apiKey = '6676ccc2-b9f2-4051-bf23-6cfbe87aa3c3';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
 var voteBadgeId = 0;
