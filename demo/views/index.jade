@@ -68,6 +68,7 @@ block content
                     
                         .level(ng-controller="ProgressController")
                             span.currentLevel Level {{level}}
+                            span#newLevel.newLevel +1
                             span.nextLevel Level {{level + 1}}
                             br
                             .progress.levelProgressbar(style="height: 60px;")
@@ -180,5 +181,17 @@ block content
                 $("#resultsTabs a").click(function(event) {
                     event.preventDefault();
                     $(this).tab("show");
+                });
+                
+                $("#newLevel").click(function() {
+                    $(this).addClass("newLevelBig");
+                });
+                
+                // Triggered when new level's "+1" text finished its transition.
+                $("#newLevel").bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
+                    $(this).addClass("notransition");
+                    $(this).removeClass("newLevelBig");
+                    $(this)[0].offsetHeight;
+                    $(this).removeClass("notransition");
                 });
             });

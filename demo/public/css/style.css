@@ -84,11 +84,12 @@ a {
 }
 
 .fillForm {
+    display: none;
     padding: 100px 100px 160px 100px;
 }
 
 .resultsTabs {
-    display: none;
+    /*display: none;*/
 }
 
 .resultsTab {
@@ -108,6 +109,10 @@ a {
     margin-bottom: 40px;
 }
 
+.level {
+    position: relative;
+}
+
 .currentLevel, .nextLevel {
     font-size: 22px;
     font-weight: bold;
@@ -115,6 +120,22 @@ a {
 
 .currentLevel {
     float: left;
+}
+
+.newLevel {
+    font-size: 0;
+    left: 85px;
+    position: absolute;
+    top: 23px;
+    -webkit-transition: font-size 1s, left 1s, opacity 1.5s, top 1s; /* Safari */
+    transition: font-size 1s, left 1s, opacity 1.5s, top 1s;;
+}
+
+.newLevelBig {
+    font-size: 60px;
+    left: 130px;
+    opacity: 0;
+    top: -75px;
 }
 
 .nextLevel {
@@ -145,6 +166,7 @@ a {
 }
 
 .badgesTable {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     margin: auto;
 }
 

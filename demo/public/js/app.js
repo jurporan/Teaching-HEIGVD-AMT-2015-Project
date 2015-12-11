@@ -160,6 +160,8 @@
                                 // Fade the progress bar in after a delay of 300 ms, and then put back
                                 // transitions on it.
                                 }).delay(300).fadeIn("fast", function() {
+                                    $("#newLevel").show();
+                                    $("#newLevel").addClass("newLevelBig");
                                     $("#progressBarCurrent").removeClass("notransition");
                                     // Calculate the next level's extra points.
                                     var extraPoints = tmpCurrent - progressBarValues.max;
@@ -413,15 +415,14 @@
         })
         // Controller relative to the leaderboard's table's rendering.
         .controller("LeaderboardController", function($scope, leaderboardScores) {
-            //$scope.$watch(function() { return leaderboardScores; }, function(newValue, oldValue) {
-            $scope.$watchCollection(function() { return [leaderboardScores[0].points]; }, function (newValues, oldValues) {
-                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH: ");
+            // Recursively watch leaderboard's scores.
+            $scope.$watch(function() { return leaderboardScores; }, function (newValues, oldValues) {
                 // Sort scores (greater on top).
                 leaderboardScores.sort(function(score1, score2) {
                     return parseInt(score2.points) - parseInt(score1.points);
                 });
                 // Send back leaderboard's scores to view.
                 $scope.leaderboardScores = leaderboardScores;
-            });
+            }, true);
         });
 })();
