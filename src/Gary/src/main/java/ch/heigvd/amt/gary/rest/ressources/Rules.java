@@ -6,9 +6,11 @@ import ch.heigvd.amt.gary.services.dao.AppDAO;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 /**
@@ -45,5 +47,16 @@ public class Rules
         }
         // We tell the client everything's ok
         return Response.ok().entity("Rule was added succesfully").build();
+    }
+    
+    @GET
+    @Produces("application/json")
+    public Response getExistingRules(@PathParam("apiKey") String apiKey)
+    {
+        App app = appDAO.get(apiKey);
+        if (app == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        
+        // We tell the client everything's ok
+        return Response.ok().entity(app.getRules()).build();
     }
 }
