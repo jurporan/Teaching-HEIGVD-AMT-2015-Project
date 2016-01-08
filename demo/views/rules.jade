@@ -1,5 +1,142 @@
 extends layout
 
 block content
-    #topPanel.topPanel
+    .manageRulesBody
         .title #{title}
+        
+        .manageRulesContainer            
+            #addBadgePanel.addBadgePanel
+                .addBadgeTitle Add a badge...
+                
+                .input-group
+                    span(class="input-group-addon")
+                        span(class="glyphicon glyphicon-bookmark")
+                    input(class="form-control" placeholder="Title (e.g. \"Level 5!\")" type="text")
+                    
+                .input-group
+                    span(class="input-group-addon")
+                        span(class="glyphicon glyphicon-tags")
+                    input(class="form-control" placeholder="Short description (e.g. \"Yay you reached level 5!\")" type="text")
+                    
+                hr
+                
+                .badgeLogoTitle Logo
+                p
+                    | Priorize a 
+                    b
+                        u squared
+                    |  picture - Maximum size of 
+                    b 2 MB.
+                    br
+                    |  Allowed extensions: 
+                    b "gif", "jpeg", "jpg" or "png"
+                    | .
+                input(name='picture', type='file')
+                
+                hr
+                
+                button.btn.btnApp.backButton(name="cancelButton" onclick="hideBadgeAdding(true);" type='button') Cancel
+                button#btnAddBadge.btn.btnApp.executeButton(name="addBadgeButton" type='button')
+                    | Add it!
+
+        
+            .manageRulesPanel
+                #optionsError.panel.panel-danger.optionsError
+                    .panel-heading
+                        #optionsErrorContent
+                
+                .input-group.actionType
+                    span(class="input-group-addon")
+                        span(class="glyphicon glyphicon-pushpin")
+                    select#actionSelect.form-control
+                        option(disabled='disabled' selected='selected' style='display: none;' value='') Please select an action...
+                        option Add my own rule &#9829;
+                        option Edit a rule to beautify it
+                        option Delete an ugly and not-beloved rule
+                                   
+                .actionOptions
+                    .input-group
+                        span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-tag")
+                        input(class="form-control" type="text" placeholder="Your rule's name")
+                        
+                    .input-group
+                        span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-tower")
+                        select.form-control
+                            option(disabled='disabled' selected='selected' style='display: none;' value='') What type of rule do you want to create?
+                            option(rule-type="points") A rule with points
+                            option(rule-type="badge") A rule with a badge
+                            
+                    .input-group#rulePoints
+                        span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-education")
+                        input(class="form-control" type="number" placeholder="How many points will the user gain?")
+                        
+                    .input-group#ruleBadge
+                        span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-gift")
+                        select#badgeKindSelect.form-control
+                            option(disabled='disabled' selected='selected' style='display: none;' value='t') Okay, what kind of badge?
+                            option(rule-type="points" value="add") A whole new badge!
+                            option(rule-type="badge" value="existing") An already existing badge
+                                
+                    .input-group#existingBadge
+                        span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-gift")
+                        select.form-control
+                            option(disabled='disabled' selected='selected' style='display: none;' value='') Please select the badge...
+                                            
+                    .input-group#existingBadge
+                        span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-gift")
+                        input(class="form-control" type="text" placeholder="Okay, please select an existing badge or create a new one")
+                        
+                .rulesButtons
+                    a.btn.btnApp.backButton(href='/') Back
+                    button#btnExecute.btn.btnApp.executeButton(disabled='disabled' name="sendButton" type='button')
+                        | Execute! 
+                        span(class="glyphicon glyphicon-send")
+        
+        img#spongebobImg.spongebobImg(src='/img/spongebob.png')
+
+    script.
+        function showBadgeAdding() {
+            $("#addBadgePanel").addClass("addBadgePanelShows");
+        }
+    
+        function hideBadgeAdding(cancel) {
+            $("#addBadgePanel").removeClass("addBadgePanelShows");
+            
+            if (cancel) {
+                $("#badgeKindSelect option:eq(0)").prop("selected", true);
+            }
+        }
+    
+        $(document).ready(function() {
+            // Shows Spongebob.
+            setTimeout(function() {
+                $("#spongebobImg").addClass("spongebobImgMoved");
+            }, 1500);
+            
+            $("#badgeKindSelect").change(function() {
+                if ($("#badgeKindSelect").val() == "add") {
+                    showBadgeAdding();
+                }
+                else {
+                    hideBadgeAdding(false);
+                }
+            });
+        });
+        
+        // Animates Spongebob when user clicks anywhere on the window.
+        $(document).click(function() {
+            if ($("#spongebobImg").is(".spongebobImgMoved"))
+            {
+                $("#spongebobImg").addClass("spongebobImgJump");
+                
+                setTimeout(function() {
+                    $("#spongebobImg").removeClass("spongebobImgJump");
+                }, 150);
+            }
+        });

@@ -23,10 +23,14 @@ block content
                 
                 .form-group
                     label(for='eventSelect' ng-init='rules=#{JSON.stringify(rules)}') Event
-                    select#eventSelect.form-control(disabled='disabled' ng-model='eventSelect')
-                        option(disabled='disabled' selected='selected' style='display: none;' value='') Select an event...
-                        // Display only one time duplicates events' types.
-                        option(ng-repeat='rule in rules | uniqueRule: "typeOfEvent"' value='{{rule.typeOfEvent}}') {{rule.typeOfEvent}}
+                    
+                    .input-group
+                        select#eventSelect.form-control(disabled='disabled' ng-model='eventSelect')
+                            option(disabled='disabled' selected='selected' style='display: none;' value='') Select an event...
+                            // Display only one time duplicates events' types.
+                            option(ng-repeat='rule in rules | uniqueRule: "typeOfEvent"' value='{{rule.typeOfEvent}}') {{rule.typeOfEvent}}
+                        .input-group-btn
+                            a(href='/rules').btn.btnApp.btnManageRules(type='button') Manage rules...
             
                 .form-group
                     label(for='eventProperties') Event's properties

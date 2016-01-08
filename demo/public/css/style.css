@@ -7,12 +7,21 @@ a {
     color: #00B7FF;
 }
 
-.topPanel {
+.topPanel, .manageRulesBody {
     background-color: #8BCADD;
+    overflow: hidden;
+    position: relative;
+}
+
+.topPanel {
     height: 100vh;
     min-height: 760px;
     padding: 150px 150px 0 150px;
-    position: relative;
+}
+
+.manageRulesBody {
+    min-height: 100vh;
+    padding-top: 100px;
 }
 
 .title {
@@ -50,11 +59,17 @@ a {
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     margin: auto;
     padding: 25px;
+    position: relative;
     width: 50%;
 }
 
 .optionsError {
     display: none;
+}
+
+.btnManageRules {
+    border-radius: 4px !important;
+    margin-left: 10px !important;
 }
 
 .sendButton {
@@ -287,4 +302,98 @@ a {
 .currentUser {
     background-color: #d9edf7;
     color: #31708f;
+}
+
+
+/* RULES PAGE */
+.manageRulesContainer {
+    margin: auto auto 50px;
+    position: relative;
+    width: 40%;
+}
+
+.manageRulesPanel {
+    background-color: #bbe5f1;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    position: relative;
+    z-index: 100;
+}
+
+.addBadgePanel {
+    /*background-color: #E8F8FD;*/
+    background-color: #5fa7bb;
+    bottom: 10px;
+    border-radius: 5px 0 0 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    color: white;
+    left: 0;
+    padding: 46px 30px;
+    position: absolute;
+    text-align: left;
+    transition: left 400ms;
+    top: 10px;
+    width: 65%;
+}
+
+.addBadgePanelShows {
+    left: -65%;
+}
+
+.addBadgeTitle {
+    font-family: 'Raleway', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 19px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.addBadgePanel .input-group {
+    margin-bottom: 20px;
+}
+
+.badgeLogoTitle {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.actionOptions .input-group, .actionType {
+    margin-bottom: 20px;
+}
+
+.rulesButtons {
+    height: 34px;
+    margin-top: 50px;
+}
+
+.backButton, .executeButton {
+    width: 120px;
+}
+
+.backButton {
+    float: left;
+}
+
+.executeButton {
+    float: right;
+}
+
+.spongebobImg {
+    bottom: -310px;
+    position: absolute;
+    right: 100px;
+    transition: bottom 500ms;
+}
+
+.spongebobImgMoved {
+    bottom: -121px;
+}
+
+.spongebobImgJump {
+    bottom: -108px;
+    transition: bottom 150ms;
 }
