@@ -424,24 +424,31 @@
         })
         // Controller relative to the badge adding panel.
         .controller("AddBadgeController", function($scope, $http) {
+            // Add the given badge to the database via a POST request to the REST
+            // API.
             $scope.addBadge = function() {
+                // Fields must be filled.
                 if ($scope.badgeName && $scope.badgeDescription) {
+                    $("#btnExecute").prop("disabled", true);
                     $scope.error = null;
 
+                    // Get badge's data.
                     var badgeData = {
                         name: $scope.badgeName,
                         description: $scope.badgeDescription,
                         imageUrl: "kick.png"
                     };
 
-                    $http.post('http://localhost:8080/Gary/api/applications/' + apiKey + '/badges', badgeData)
+                    // Then post it.
+                    $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/badges', badgeData)
                         .then(
                             function success(response) {
-                                console.log("SUCCESS BITCH");
+                                hideBadgeAdding(false);
+                                $("#btnExecute").prop("disabled", false);
                             },
                             function error(response) {
-                                console.log("An error occured when trying to unlock 'Level 3' badge.");
                                 $scope.error = "An error occured, please retry.";
+                                $("#btnExecute").prop("disabled", false);
                             }
                         );
                 }

@@ -313,6 +313,7 @@ router.get('/', function(req, res) {
 router.get('/rules', function(req, res) {
     res.render('rules', {
         title: 'AW YEAH, you can manage you own rules!',
+        apiKey: apiKey
     });
 });
 

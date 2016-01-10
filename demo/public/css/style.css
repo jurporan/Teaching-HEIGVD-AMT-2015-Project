@@ -24,13 +24,21 @@ a {
     padding-top: 100px;
 }
 
-.title {
+.title, .ruleTitle {
     color: white;
     font-family: 'Raleway', sans-serif;
     font-size: 40px;
     font-weight: bold;
-    margin-bottom: 100px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+    margin-bottom: 100px;
+}
+
+.ruleTitle {
+    height: 81px;
+    margin-bottom: 78px;
 }
 
 .errorPanel {
@@ -306,6 +314,22 @@ a {
 
 
 /* RULES PAGE */
+.subTitle {
+    display: none;
+    font-size: 15px;
+}
+
+.subTitleOut {
+    margin-right: 100%;
+    opacity: 0;
+    transition: margin-right 2000ms, opacity 2000ms;
+}
+
+.btnKillBob {
+    margin-bottom: 3px !important;
+    margin-left: 10px;
+}
+
 .manageRulesContainer {
     margin: auto auto 50px;
     position: relative;
@@ -370,6 +394,10 @@ a {
     margin-bottom: 20px;
 }
 
+.addBadgeOption {
+    display: none;
+}
+
 .rulesButtons {
     height: 34px;
     margin-top: 50px;
@@ -398,7 +426,15 @@ a {
     bottom: -121px;
 }
 
+.spongebobShy {
+    bottom: -235px;
+}
+
 .spongebobImgJump {
     bottom: -108px;
     transition: bottom 150ms;
+}
+
+.spongeBobDead {
+    bottom: calc(100vh + 310px);
 }
