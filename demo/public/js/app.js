@@ -421,5 +421,33 @@
                 // Send back leaderboard's scores to view.
                 $scope.leaderboardScores = leaderboardScores;
             }, true);
+        })
+        // Controller relative to the badge adding panel.
+        .controller("AddBadgeController", function($scope, $http) {
+            $scope.addBadge = function() {
+                if ($scope.badgeName && $scope.badgeDescription) {
+                    $scope.error = null;
+
+                    var badgeData = {
+                        name: $scope.badgeName,
+                        description: $scope.badgeDescription,
+                        imageUrl: "kick.png"
+                    };
+
+                    $http.post('http://localhost:8080/Gary/api/applications/' + apiKey + '/badges', badgeData)
+                        .then(
+                            function success(response) {
+                                console.log("SUCCESS BITCH");
+                            },
+                            function error(response) {
+                                console.log("An error occured when trying to unlock 'Level 3' badge.");
+                                $scope.error = "An error occured, please retry.";
+                            }
+                        );
+                }
+                else {
+                    $scope.error = "Please fill all fields...";
+                }
+            }
         });
 })();

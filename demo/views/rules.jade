@@ -4,19 +4,19 @@ block content
     .manageRulesBody
         .title #{title}
         
-        .manageRulesContainer            
-            #addBadgePanel.addBadgePanel
+        #manageRulesContainer.manageRulesContainer            
+            #addBadgePanel.addBadgePanel(ng-controller="AddBadgeController")
                 .addBadgeTitle Add a badge...
                 
                 .input-group
                     span(class="input-group-addon")
                         span(class="glyphicon glyphicon-bookmark")
-                    input(class="form-control" placeholder="Title (e.g. \"Level 5!\")" type="text")
+                    input(class="form-control" name="badgeName" ng-model="badgeName" placeholder="Title (e.g. \"Level 5!\")" type="text")
                     
                 .input-group
                     span(class="input-group-addon")
                         span(class="glyphicon glyphicon-tags")
-                    input(class="form-control" placeholder="Short description (e.g. \"Yay you reached level 5!\")" type="text")
+                    input(class="form-control" name="badgeDescription" ng-model="badgeDescription" placeholder="Short description (e.g. \"Yay you reached level 5!\")" type="text")
                     
                 hr
                 
@@ -31,12 +31,17 @@ block content
                     |  Allowed extensions: 
                     b "gif", "jpeg", "jpg" or "png"
                     | .
-                input(name='picture', type='file')
+                input(name='picture' ng-model="badgeLogo"  type='file')
                 
                 hr
                 
+                .panel.panel-danger(ng-if="error")
+                    .panel-heading
+                        | {{error}}
+                .emptySpace(ng-if="!error")
+                
                 button.btn.btnApp.backButton(name="cancelButton" onclick="hideBadgeAdding(true);" type='button') Cancel
-                button#btnAddBadge.btn.btnApp.executeButton(name="addBadgeButton" type='button')
+                button#btnAddBadge.btn.btnApp.executeButton(name="addBadgeButton" ng-click='addBadge()' type='button')
                     | Add it!
 
         
@@ -101,15 +106,27 @@ block content
         img#spongebobImg.spongebobImg(src='/img/spongebob.png')
 
     script.
+        var isBadgeAddingPanelOpen = false;
+    
+        // Shows badge adding panel if it is not already shown.
         function showBadgeAdding() {
-            $("#addBadgePanel").addClass("addBadgePanelShows");
+            if (!isBadgeAddingPanelOpen) {
+                $("#addBadgePanel").css("visibility", "visible");
+                $("#addBadgePanel").addClass("addBadgePanelShows");
+                isBadgeAddingPanelOpen = true;
+            }
         }
     
+        // Hides badge adding panel if it is shown.
+        // When the hidding animation finishs, the ''$("#addBadgePanel").bind("transitionend [...]'
+        // is called.
         function hideBadgeAdding(cancel) {
-            $("#addBadgePanel").removeClass("addBadgePanelShows");
-            
-            if (cancel) {
-                $("#badgeKindSelect option:eq(0)").prop("selected", true);
+            if (isBadgeAddingPanelOpen) {
+                $("#addBadgePanel").removeClass("addBadgePanelShows");
+                
+                if (cancel) {
+                    $("#badgeKindSelect option:eq(0)").prop("selected", true);
+                }
             }
         }
     
@@ -125,6 +142,15 @@ block content
                 }
                 else {
                     hideBadgeAdding(false);
+                }
+            });
+            
+            // Hides badge adding panel when it successfully moved under the rule
+            // manager container.
+            $("#addBadgePanel").bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
+                if (isBadgeAddingPanelOpen && $("#addBadgePanel").offset().left >= $("#manageRulesContainer").offset().left) {
+                    $("#addBadgePanel").css("visibility", "hidden");                    
+                    isBadgeAddingPanelOpen = false;
                 }
             });
         });

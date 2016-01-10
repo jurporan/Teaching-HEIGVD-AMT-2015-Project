@@ -329,11 +329,12 @@ a {
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     color: white;
     left: 0;
-    padding: 46px 30px;
+    padding: 10px 30px;
     position: absolute;
     text-align: left;
     transition: left 400ms;
     top: 10px;
+    visibility: hidden;
     width: 65%;
 }
 
@@ -359,6 +360,10 @@ a {
     font-weight: bold;
     margin-bottom: 10px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.emptySpace {
+    height: 63px;
 }
 
 .actionOptions .input-group, .actionType {
