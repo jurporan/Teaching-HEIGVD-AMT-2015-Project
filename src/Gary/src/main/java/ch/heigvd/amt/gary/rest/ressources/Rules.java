@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -67,4 +68,18 @@ public class Rules
         // We tell the client everything's ok
         return Response.ok().entity(rulesDto).build();
     }
+    
+    @DELETE
+    @Path("/{ruleId}")
+    public Response deleteExistingRule(@PathParam("apiKey") String apiKey, @PathParam("ruleId") long ruleId)
+    {
+        App app = appDAO.get(apiKey);
+        if (app == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        
+        appDAO.removeRule(app, ruleId);
+        
+        // We tell the client everything's ok
+        return Response.ok().build();
+    }
+    
 }

@@ -272,4 +272,9 @@ public class App implements Serializable
     {
         levels.add(level);
     }
+    
+    public void removeRule(Rule rule)
+    {
+        rules.remove(rule);
+    }
 }
