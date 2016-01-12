@@ -4,7 +4,7 @@ var request = require('request');
 var deferred = require('deferred');
 
 var newData = false;
-var apiKey = '6676ccc2-b9f2-4051-bf23-6cfbe87aa3c3';
+var apiKey = 'd168106b-c2ae-4795-bd7b-5f7eacb7ab3f';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
 var voteBadgeId = 0;
@@ -306,6 +306,14 @@ router.get('/', function(req, res) {
                 }
             });
         }
+    });
+});
+
+/* GET rules page. */
+router.get('/rules', function(req, res) {
+    res.render('rules', {
+        title: 'AW YEAH, you can manage you own rules!',
+        apiKey: apiKey
     });
 });
 

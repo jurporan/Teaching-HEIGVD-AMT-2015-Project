@@ -7,21 +7,38 @@ a {
     color: #00B7FF;
 }
 
-.topPanel {
+.topPanel, .manageRulesBody {
     background-color: #8BCADD;
-    height: 100vh;
-    min-height: 760px;
-    padding: 150px 150px 0 150px;
+    overflow: hidden;
     position: relative;
 }
 
-.title {
+.topPanel {
+    height: 100vh;
+    min-height: 760px;
+    padding: 150px 150px 0 150px;
+}
+
+.manageRulesBody {
+    min-height: 100vh;
+    padding-top: 100px;
+}
+
+.title, .ruleTitle {
     color: white;
     font-family: 'Raleway', sans-serif;
     font-size: 40px;
     font-weight: bold;
-    margin-bottom: 100px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+    margin-bottom: 100px;
+}
+
+.ruleTitle {
+    height: 81px;
+    margin-bottom: 78px;
 }
 
 .errorPanel {
@@ -50,11 +67,17 @@ a {
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     margin: auto;
     padding: 25px;
+    position: relative;
     width: 50%;
 }
 
 .optionsError {
     display: none;
+}
+
+.btnManageRules {
+    border-radius: 4px !important;
+    margin-left: 10px !important;
 }
 
 .sendButton {
@@ -287,4 +310,131 @@ a {
 .currentUser {
     background-color: #d9edf7;
     color: #31708f;
+}
+
+
+/* RULES PAGE */
+.subTitle {
+    display: none;
+    font-size: 15px;
+}
+
+.subTitleOut {
+    margin-right: 100%;
+    opacity: 0;
+    transition: margin-right 2000ms, opacity 2000ms;
+}
+
+.btnKillBob {
+    margin-bottom: 3px !important;
+    margin-left: 10px;
+}
+
+.manageRulesContainer {
+    margin: auto auto 50px;
+    position: relative;
+    width: 40%;
+}
+
+.manageRulesPanel {
+    background-color: #bbe5f1;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    position: relative;
+    z-index: 100;
+}
+
+.addBadgePanel {
+    /*background-color: #E8F8FD;*/
+    background-color: #5fa7bb;
+    bottom: 10px;
+    border-radius: 5px 0 0 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    color: white;
+    left: 0;
+    padding: 10px 30px;
+    position: absolute;
+    text-align: left;
+    transition: left 400ms;
+    top: 10px;
+    visibility: hidden;
+    width: 65%;
+}
+
+.addBadgePanelShows {
+    left: -65%;
+}
+
+.addBadgeTitle {
+    font-family: 'Raleway', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 19px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.addBadgePanel .input-group {
+    margin-bottom: 20px;
+}
+
+.badgeLogoTitle {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.emptySpace {
+    height: 63px;
+}
+
+.actionOptions .input-group, .actionType {
+    margin-bottom: 20px;
+}
+
+.addBadgeOption {
+    display: none;
+}
+
+.rulesButtons {
+    height: 34px;
+    margin-top: 50px;
+}
+
+.backButton, .executeButton {
+    width: 120px;
+}
+
+.backButton {
+    float: left;
+}
+
+.executeButton {
+    float: right;
+}
+
+.spongebobImg {
+    bottom: -310px;
+    position: absolute;
+    right: 100px;
+    transition: bottom 500ms;
+}
+
+.spongebobImgMoved {
+    bottom: -121px;
+}
+
+.spongebobShy {
+    bottom: -235px;
+}
+
+.spongebobImgJump {
+    bottom: -108px;
+    transition: bottom 150ms;
+}
+
+.spongeBobDead {
+    bottom: calc(100vh + 310px);
 }

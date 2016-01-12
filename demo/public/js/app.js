@@ -421,5 +421,40 @@
                 // Send back leaderboard's scores to view.
                 $scope.leaderboardScores = leaderboardScores;
             }, true);
+        })
+        // Controller relative to the badge adding panel.
+        .controller("AddBadgeController", function($scope, $http) {
+            // Add the given badge to the database via a POST request to the REST
+            // API.
+            $scope.addBadge = function() {
+                // Fields must be filled.
+                if ($scope.badgeName && $scope.badgeDescription) {
+                    $("#btnExecute").prop("disabled", true);
+                    $scope.error = null;
+
+                    // Get badge's data.
+                    var badgeData = {
+                        name: $scope.badgeName,
+                        description: $scope.badgeDescription,
+                        imageUrl: "kick.png"
+                    };
+
+                    // Then post it.
+                    $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/badges', badgeData)
+                        .then(
+                            function success(response) {
+                                hideBadgeAdding(false);
+                                $("#btnExecute").prop("disabled", false);
+                            },
+                            function error(response) {
+                                $scope.error = "An error occured, please retry.";
+                                $("#btnExecute").prop("disabled", false);
+                            }
+                        );
+                }
+                else {
+                    $scope.error = "Please fill all fields...";
+                }
+            }
         });
 })();
