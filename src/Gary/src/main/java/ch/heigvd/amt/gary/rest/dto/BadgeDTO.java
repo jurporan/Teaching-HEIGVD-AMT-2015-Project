@@ -16,6 +16,16 @@ public class BadgeDTO
     private String description;
     
     // Getters and Setters, not very interessant
+
+    public long getId()
+    {
+        return id;
+    }
+
+    public void setId(long id)
+    {
+        this.id = id;
+    }
     
     public String getImageUrl()
     {
