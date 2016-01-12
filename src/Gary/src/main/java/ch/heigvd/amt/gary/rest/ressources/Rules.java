@@ -1,8 +1,11 @@
 package ch.heigvd.amt.gary.rest.ressources;
 
 import ch.heigvd.amt.gary.models.entities.App;
+import ch.heigvd.amt.gary.models.entities.Rule;
 import ch.heigvd.amt.gary.rest.dto.RuleDTO;
 import ch.heigvd.amt.gary.services.dao.AppDAO;
+import java.util.LinkedList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -56,7 +59,12 @@ public class Rules
         App app = appDAO.get(apiKey);
         if (app == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
         
+        List<Rule> rules = app.getRules();
+        List<RuleDTO> rulesDto = new LinkedList<>();
+        
+        for (Rule r : rules) {rulesDto.add(RuleDTO.fromEntity(r));}
+        
         // We tell the client everything's ok
-        return Response.ok().entity(app.getRules()).build();
+        return Response.ok().entity(rulesDto).build();
     }
 }
