@@ -12,6 +12,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -82,4 +83,21 @@ public class Rules
         return Response.ok().build();
     }
     
+    @PUT
+    @Path("/{ruleId}")
+    @Consumes("application/json")
+    public Response editExistingRule(RuleDTO ruleUpdate, @PathParam("apiKey") String apiKey, @PathParam("ruleId") long ruleId)
+    {
+        App app = appDAO.get(apiKey);
+        if (app == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
+        
+        Rule rule = appDAO.getRule(app, ruleId);
+        
+        if (rule == null) {return Response.status(400).entity("This rule doesn't seem to exist").build();}
+        
+        ruleUpdate.updateEntity(rule);
+        
+        // We tell the client everything's ok
+        return Response.ok().build();
+    }
 }

@@ -30,6 +30,16 @@ public class RuleDTO
         return dto;
     }
     
+    public void updateEntity(Rule rule)
+    {
+        rule.setTypeOfEvent(typeOfEvent);
+        rule.setRuleParameter(ruleParameter);
+        rule.setPenalty(penalty);
+        rule.setMinValueParameter(minValue);
+        rule.setMaxValueParameter(maxValue);
+        rule.setType(rewardType);
+    }
+    
     /**
      * Create an entity from the DTO.
      * 
