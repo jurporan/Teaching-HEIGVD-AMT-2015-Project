@@ -10,11 +10,22 @@ import ch.heigvd.amt.gary.models.entities.Badge;
 public class BadgeDTO
 {
     // Properties
+    private long id;
     private String imageUrl;
     private String name;
     private String description;
     
     // Getters and Setters, not very interessant
+
+    public long getId()
+    {
+        return id;
+    }
+
+    public void setId(long id)
+    {
+        this.id = id;
+    }
     
     public String getImageUrl()
     {
@@ -64,10 +75,12 @@ public class BadgeDTO
     * Initialize the DTO with the content of the associated entity
     *
     * @param badge the corresponding Badge
+    * @return the badge DTO.
     */
     public static BadgeDTO fromEntity(Badge badge)
     {
         BadgeDTO dto = new BadgeDTO();
+        dto.id = badge.getId();
         dto.imageUrl = badge.getImageUrl();
         dto.name = badge.getName();
         dto.description = badge.getDescription();

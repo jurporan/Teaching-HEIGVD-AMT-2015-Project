@@ -241,4 +241,42 @@ public class AppDAO extends DAO {
         Badge b = (Badge) l.get(0);
         return b;
     }
+    
+    public boolean removeRule(App app, long ruleId)
+    {
+        // We create the query to fetch all the badges created by the specified id, should return 1 or 0 element as the id should be unique
+        List l = em.createQuery("SELECT r FROM Rule r WHERE r.id = :id").setParameter("id", ruleId).getResultList();
+        
+        // If the result list is empty, no account exists with this ID, we return null
+        if (l.isEmpty()) {return false;}
+        
+        Rule rule = (Rule) l.get(0);
+        
+        if (app.getRules().contains(rule))
+        {
+            app.removeRule(rule);
+            em.remove(rule);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public Rule getRule(App app, long ruleId)
+    {
+        // We create the query to fetch all the badges created by the specified id, should return 1 or 0 element as the id should be unique
+        List l = em.createQuery("SELECT r FROM Rule r WHERE r.id = :id").setParameter("id", ruleId).getResultList();
+        
+        // If the result list is empty, no account exists with this ID, we return null
+        if (l.isEmpty()) {return null;}
+        
+        Rule rule = (Rule) l.get(0);
+        
+        if (app.getRules().contains(rule))
+        {
+            return rule;
+        }
+        
+        return null;
+    }
 }

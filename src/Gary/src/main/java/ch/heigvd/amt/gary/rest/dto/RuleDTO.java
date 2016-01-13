@@ -9,6 +9,7 @@ import ch.heigvd.amt.gary.models.entities.Rule;
  */
 public class RuleDTO
 {
+    private long id;
     private String typeOfEvent;
     private long ruleParameter;
     private boolean penalty;
@@ -16,6 +17,28 @@ public class RuleDTO
     private int maxValue;
     private byte rewardType;
 
+    public static RuleDTO fromEntity(Rule rule)
+    {
+        RuleDTO dto = new RuleDTO();
+        dto.id = rule.getId();
+        dto.typeOfEvent = rule.getTypeOfEvent();
+        dto.ruleParameter = rule.getRuleParameter();
+        dto.penalty = rule.isPenalty();
+        dto.minValue = rule.getMinValueParameter();
+        dto.maxValue = rule.getMaxValueParameter();
+        dto.rewardType = rule.getType();
+        return dto;
+    }
+    
+    public void updateEntity(Rule rule)
+    {
+        rule.setTypeOfEvent(typeOfEvent);
+        rule.setRuleParameter(ruleParameter);
+        rule.setPenalty(penalty);
+        rule.setMinValueParameter(minValue);
+        rule.setMaxValueParameter(maxValue);
+        rule.setType(rewardType);
+    }
     
     /**
      * Create an entity from the DTO.
@@ -88,5 +111,13 @@ public class RuleDTO
     public void setRewardType(byte rewardType)
     {
         this.rewardType = rewardType;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
