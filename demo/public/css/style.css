@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url('/fonts/GoogleRaleway.woff2') format('woff2');
+}
+
+
 body {
     font: "Lucida Grande", Helvetica, Arial, sans-serif;
     text-align: center;
@@ -21,7 +29,7 @@ a {
 
 .manageRulesBody {
     min-height: 100vh;
-    padding-top: 100px;
+    padding-top: 40px;
 }
 
 .title, .ruleTitle {
@@ -38,7 +46,7 @@ a {
 
 .ruleTitle {
     height: 81px;
-    margin-bottom: 78px;
+    margin-bottom: 58px;
 }
 
 .errorPanel {
@@ -223,6 +231,8 @@ a {
 }
 
 .badgeImg {
+    border: 2px solid black;
+    border-radius: 55px;
     height: 110px;
     width: 110px;
 }
@@ -325,7 +335,7 @@ a {
     transition: margin-right 2000ms, opacity 2000ms;
 }
 
-.btnKillBob {
+.btnthrowBob {
     margin-bottom: 3px !important;
     margin-left: 10px;
 }
@@ -353,7 +363,7 @@ a {
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     color: white;
     left: 0;
-    padding: 10px 30px;
+    padding: 30px;
     position: absolute;
     text-align: left;
     transition: left 400ms;
@@ -390,17 +400,58 @@ a {
     height: 63px;
 }
 
-.actionOptions .input-group, .actionType {
+.actionOptions .input-group, .actionOptions .form-group, .actionType {
     margin-bottom: 20px;
 }
 
-.addBadgeOption {
+.addBadgeOption, .badgePreviewPanel {
     display: none;
+}
+
+.addBadgeButtons {
+    bottom: 30px;
+    height: 34px;
+    position: absolute;
+    width: calc(100% - 60px);
 }
 
 .rulesButtons {
     height: 34px;
     margin-top: 50px;
+    transition: margin-top 350ms;
+}
+
+.previewTitle {
+    font-family: "Raleway",sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.badgePreview {
+    background-color: #d9edf7;
+    border: 1px solid #3b889e;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    color: #3b889e;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 auto 20px auto;
+    min-height: 230px;
+    padding: 15px;
+    width: 230px;
+}
+
+.penaltyChk {
+    float: left;
+    margin-right: 5px !important;
+}
+
+.penaltyLabel {
+    float: right;
+    font-weight: bold;
+    margin-top: 2px;
 }
 
 .backButton, .executeButton {
@@ -435,6 +486,9 @@ a {
     transition: bottom 150ms;
 }
 
-.spongeBobDead {
+.spongeBobThrown {
     bottom: calc(100vh + 310px);
+    -ms-transform: rotate(360deg); /* IE 9 */
+    -webkit-transform: rotate(360deg); /* Chrome, Safari, Opera */
+    transform: rotate(360deg);
 }

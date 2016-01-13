@@ -423,37 +423,156 @@
             }, true);
         })
         // Controller relative to the badge adding panel.
-        .controller("AddBadgeController", function($scope, $http) {
+        .controller("ManageRulesController", function($scope, $http) {
+            // Indicates if a badge is currently selected by the user ; used for
+            // form validation.
+            $scope.isBadgeSelected = false;
+            // By default the rule is not a penalty.
+            $scope.penalty = false;
+            $scope.badgeKindOptions = [
+                {
+                    "name": "A whole new badge!",
+                    "id": 0,
+                    "value": "add"
+                },
+                {
+                    "name": "An already existing one",
+                    "id": 1,
+                    "value": "existing"
+                }
+            ];
+
+            $scope.cancelBadgeAdding = function() {
+                $scope.badgeName = null;
+                $scope.badgeImageUrl = "default.png";
+                $scope.badgeDescription = null;
+                $scope.badgeAddingError = null;
+                $scope.isBadgeSelected = false;
+            }
+
             // Add the given badge to the database via a POST request to the REST
             // API.
             $scope.addBadge = function() {
                 // Fields must be filled.
                 if ($scope.badgeName && $scope.badgeDescription) {
                     $("#btnExecute").prop("disabled", true);
-                    $scope.error = null;
+                    $scope.badgeAddingError = null;
 
                     // Get badge's data.
                     var badgeData = {
                         name: $scope.badgeName,
                         description: $scope.badgeDescription,
-                        imageUrl: "kick.png"
+                        imageUrl: "default.png"
                     };
 
                     // Then post it.
                     $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/badges', badgeData)
                         .then(
                             function success(response) {
-                                hideBadgeAdding(false);
-                                $("#btnExecute").prop("disabled", false);
+                                if (response.status == 200) {
+                                    hideBadgeAdding(false);
+
+                                    // Get badge's ID and push it at the end of the
+                                    // badges array so it appears in the badges
+                                    // list.
+                                    badgeData.id = parseInt(response.data);
+                                    var newBadge = $scope.badges.push(badgeData);
+
+                                    $scope.newBadgeValue = badgeData.name;
+                                    // Indicates a badge has been selected.
+                                    $scope.isBadgeSelected = true;
+
+                                    $("#previewTitle").hide();
+                                    $("#newBadgeValue").fadeIn("fast");
+                                    $("#penalty").fadeIn("fast");
+                                    $("#btnExecute").prop("disabled", false);
+                                }
+                                else {
+                                    $scope.badgeAddingError = "An error occured, please retry.";
+                                    $("#btnExecute").prop("disabled", true);
+                                    $scope.isBadgeSelected = false;
+                                }
                             },
                             function error(response) {
-                                $scope.error = "An error occured, please retry.";
-                                $("#btnExecute").prop("disabled", false);
+                                $scope.badgeAddingError = "An error occured, please retry.";
+                                $("#btnExecute").prop("disabled", true);
+                                $scope.isBadgeSelected = false;
                             }
                         );
                 }
                 else {
-                    $scope.error = "Please fill all fields...";
+                    $scope.badgeAddingError = "Please fill all fields...";
+                    $scope.isBadgeSelected = false;
+                }
+            };
+
+            $scope.showBadgePreview = function() {
+                $scope.badgeName = $scope.badgeSelect.name;
+                $scope.badgeImageUrl = $scope.badgeSelect.imageUrl;
+                $scope.badgeDescription = $scope.badgeSelect.description;
+                $scope.isBadgeSelected = true;
+            };
+
+            $scope.addRule = function() {
+                console.log($scope.badges);
+                $scope.error = null;
+
+                // Fields must be filled.
+                if ($scope.ruleName && (($scope.ruleType == "points" && $scope.numberOfPoints) || ($scope.ruleType == "badge" && $scope.isBadgeSelected))) {
+                    // If the user choosed the "points" rule's type, the number
+                    // of points must be a numeric value, greater than 0.
+                    if ($scope.ruleType == "points" && (isNaN($scope.numberOfPoints) || parseInt($scope.numberOfPoints) <= 0)) {
+                        $scope.error = "Please enter a numeric value greater than 0 for the points number.";
+                    }
+                    else {
+                        var ruleData = {
+                            "typeOfEvent": $scope.ruleName,
+                            "ruleParameter": ($scope.ruleType == "points" ? $scope.numberOfPoints : $scope.badgeSelect),
+                            "penalty": $scope.penalty,
+                            "minValue": null,
+                            "maxValue": null,
+                            "rewardType": ($scope.ruleType == "points" ? 1 : 2)
+                        }
+
+                        request.post({
+                            url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/rules',
+                            json: data[i]
+                        });
+
+                        // Then post it.
+                        $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/badges', badgeData)
+                            .then(
+                                function success(response) {
+                                    if (response.status == 200) {
+                                        hideBadgeAdding(false);
+
+                                        // Get badge's ID and push it at the end of the
+                                        // badges array so it appears in the badges
+                                        // list.
+                                        badgeData.id = parseInt(response.data);
+                                        var newBadge = $scope.badges.push(badgeData);
+
+                                        $scope.newBadgeValue = badgeData.name;
+
+                                        $("#previewTitle").hide();
+                                        $("#newBadgeValue").fadeIn("fast");
+                                        $("#penalty").fadeIn("fast");
+                                        $("#btnExecute").prop("disabled", false);
+                                    }
+                                    else {
+                                        $scope.badgeAddingError = "An error occured, please retry.";
+                                        $("#btnExecute").prop("disabled", true);
+                                    }
+                                },
+                                function error(response) {
+                                    $scope.badgeAddingError = "An error occured, please retry.";
+                                    $("#btnExecute").prop("disabled", true);
+                                }
+                            );
+                    }
+                }
+                else {
+                    $scope.error = "Please fill all fields.";
                 }
             }
         });

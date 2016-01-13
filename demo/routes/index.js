@@ -4,7 +4,7 @@ var request = require('request');
 var deferred = require('deferred');
 
 var newData = false;
-var apiKey = 'd168106b-c2ae-4795-bd7b-5f7eacb7ab3f';
+var apiKey = '36320dc5-8972-4a36-975d-a3afdc77e375';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
 var voteBadgeId = 0;
@@ -140,6 +140,8 @@ function getBadges() {
                                 levelBadgeId = parseInt(body);
                                 console.log("Add badge #" + index + ": Level 3? " + data[index].name + " - ID: " + parseInt(body));
                             }
+
+                            data[index].id = parseInt(body);
 
                             if (index === (n - 1)) {
                                 console.log("Badges created, I can now release the promise.");
@@ -311,9 +313,24 @@ router.get('/', function(req, res) {
 
 /* GET rules page. */
 router.get('/rules', function(req, res) {
-    res.render('rules', {
-        title: 'AW YEAH, you can manage you own rules!',
-        apiKey: apiKey
+    var badgesPromise = getBadges();
+
+    badgesPromise(function(badges) {
+        if (badges.error === 1) {
+            res.render('rules', {
+                title: 'AW YEAH, you can manage you own rules!',
+                error: 'Sorry I cannot get application\'s badges, please retry in a while :('
+            });
+        }
+        else {
+            console.log("Badges successfully created/got: " + newData);
+            // Send badges view.
+            res.render('rules', {
+                title: 'AW YEAH, you can manage you own rules!',
+                badges: badges.data,
+                apiKey: apiKey
+            });
+        }
     });
 });
 

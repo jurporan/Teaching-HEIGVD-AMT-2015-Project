@@ -1,275 +1,373 @@
 extends layout
 
 block content
-    .manageRulesBody#manageRulesBody
-        .ruleTitle        
-            .subTitle#errorSubtitle
-                br
-            | #{title}
-            br
-            .subTitle#subTitle You don't like overexcited Bob? Click on that naughty sponge to hide it!
-        
-        #manageRulesContainer.manageRulesContainer
-            #addBadgePanel.addBadgePanel(ng-controller="AddBadgeController" ng-init='apiKey="#{apiKey}"')
-                .addBadgeTitle Add a badge...
-                
-                .input-group
-                    span(class="input-group-addon")
-                        span(class="glyphicon glyphicon-bookmark")
-                    input(class="form-control" name="badgeName" ng-model="badgeName" placeholder="Title (e.g. \"Level 5!\")" type="text")
-                    
-                .input-group
-                    span(class="input-group-addon")
-                        span(class="glyphicon glyphicon-tags")
-                    input(class="form-control" name="badgeDescription" ng-model="badgeDescription" placeholder="Short description (e.g. \"Yay you reached level 5!\")" type="text")
-                    
-                hr
-                
-                .badgeLogoTitle Logo
-                p
-                    | Priorize a 
-                    b
-                        u squared
-                    |  picture - Maximum size of 
-                    b 2 MB.
+    if error
+        #topPanel.topPanel
+            .title #{title}
+            .panel.panel-danger.errorPanel
+                .panel-heading.error
+                    | #{error}
                     br
-                    |  Allowed extensions: 
-                    b "gif", "jpeg", "jpg" or "png"
-                    | .
-                input(name='picture' ng-model="badgeLogo"  type='file')
-                
-                hr
-                
-                .panel.panel-danger(ng-if="error")
-                    .panel-heading
-                        | {{error}}
-                .emptySpace(ng-if="!error")
-                
-                button.btn.btnApp.backButton(name="cancelButton" onclick="hideBadgeAdding(true);" type='button') Cancel
-                button#btnAddBadge.btn.btnApp.executeButton(name="addBadgeButton" ng-click='addBadge()' type='button')
-                    | Add it!
+                    button.btn.btn-danger.btnReload(name="reloadButton" onClick="window.location.reload()" type='button') Reload page
 
-        
-            .manageRulesPanel
-                #optionsError.panel.panel-danger.optionsError
-                    .panel-heading
-                        #optionsErrorContent
-                
-                .input-group.actionType
-                    span(class="input-group-addon")
-                        span(class="glyphicon glyphicon-pushpin")
-                    select.form-control#actionSelect
-                        option(disabled='disabled' selected='selected' style='display: none;' value='') Please select an action...
-                        option(value="add") Add my own rule &#9829;
-                        option(value="edit") Edit a rule to beautify it
-                        option(value="delete") Delete an ugly and not-beloved rule
-                                   
-                .actionOptions
-                    .addBadgeOption#addBadgeOption
-                        .input-group
-                            span(class="input-group-addon")
-                                span(class="glyphicon glyphicon-tag")
-                            input(class="form-control" type="text" placeholder="Your rule's name")
-                            
-                        .input-group
-                            span(class="input-group-addon")
-                                span(class="glyphicon glyphicon-tower")
-                            select.form-control#ruleTypeSelect
-                                option(disabled='disabled' selected='selected' style='display: none;' value='') What type of rule do you want to create?
-                                option(value="points") A rule with points
-                                option(value="badge") A rule with a badge
-                                
-                        .input-group.rulePoints#rulePoints
-                            span(class="input-group-addon")
-                                span(class="glyphicon glyphicon-education")
-                            input(class="form-control" type="number" placeholder="How many points will the user gain?")
-                            
-                        .input-group.ruleBadge#ruleBadge
-                            span(class="input-group-addon")
-                                span(class="glyphicon glyphicon-gift")
-                            select#badgeKindSelect.form-control
-                                option(disabled='disabled' selected='selected' style='display: none;' value='t') Okay, what kind of badge?
-                                option(rule-type="points" value="add") A whole new badge!
-                                option(rule-type="badge" value="existing") An already existing one
-                                    
-                        .input-group.ruleBadge#existingBadge
-                            span(class="input-group-addon")
-                                span(class="glyphicon glyphicon-gift")
-                            select.form-control
-                                option(disabled='disabled' selected='selected' style='display: none;' value='') Please select the badge...
+    else
+        .manageRulesBody#manageRulesBody(ng-controller="ManageRulesController")
+            .ruleTitle #{title}
+                br
+                .subTitle#subTitle You don't like overexcited Spongebob? Click on that naughty sponge to hide it!
+            
+            #manageRulesContainer.manageRulesContainer
+                form#addBadgePanel.addBadgePanel(ng-init='apiKey="#{apiKey}"')
+                    .addBadgeTitle Add a badge...
+                    
+                    .input-group
+                        span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-bookmark")
+                        input(class="form-control" name="badgeName" ng-model="badgeName" placeholder="Title (e.g. \"Level 5!\")" required="required" type="text")
                         
-                .rulesButtons
-                    a.btn.btnApp.backButton(href='/') Back
-                    button#btnExecute.btn.btnApp.executeButton(disabled='disabled' name="sendButton" type='button')
-                        | Execute! 
-                        span(class="glyphicon glyphicon-send")
-        
-        img#spongebobImg.spongebobImg(src='/img/spongebob.png')
+                    .input-group
+                        span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-tags")
+                        input(class="form-control" name="badgeDescription" ng-model="badgeDescription" placeholder="Short description (e.g. \"Yay you reached level 5!\")" required="required" type="text")
+                        
+                    hr
+                    
+                    .badgeLogoTitle Logo
+                    p
+                        | Priorize a 
+                        b
+                            u squared
+                        |  picture - Maximum size of 
+                        b 2 MB.
+                        br
+                        |  Allowed extensions: 
+                        b "gif", "jpeg", "jpg" or "png"
+                        | .
+                        br
+                        | If you do not choose a logo, the default one (a white circle) will be selected.
+                    input(name='picture' ng-model='badgeLogo'  type='file')
+                    
+                    hr
+                    
+                    .panel.panel-danger(ng-if="badgeAddingError")
+                        .panel-heading
+                            | {{badgeAddingError}}
+                    .emptySpace(ng-if="!badgeAddingError")
+                    
+                    .addBadgeButtons
+                        button.btn.btnApp.backButton(name="cancelButton" ng-click='cancelBadgeAdding()' onclick="hideBadgeAdding(true);" type='button') Cancel
+                        button#btnAddBadge.btn.btnApp.executeButton(name="addBadgeButton" ng-click='addBadge()' type='submit')
+                            | Add it!
 
-    script.
-        var isBadgeAddingPanelOpen = false;
-        var isBobKilled = false;
-    
-        // Kill Spongebob...
-        function killBob() {
-            var redBackground = false;
-            var secondsRemaining = 10;
+                form.manageRulesPanel
+                    #optionsError.panel.panel-danger.optionsError
+                        .panel-heading
+                            #optionsErrorContent
+                    
+                    .input-group.actionType
+                        span(class="input-group-addon")
+                            span(class="glyphicon glyphicon-pushpin")
+                        select.form-control#actionSelect(ng-change="isBadgeSelected = false" ng-model="actionSelect")
+                            option(disabled='disabled' selected='selected' style='display: none;' value='') Please select an action...
+                            option(value="add") Add my own rule &#9829;
+                            option(value="edit") Edit a rule to beautify it
+                            option(value="delete") Delete an ugly and not-beloved rule
+                                       
+                    .actionOptions
+                        .addBadgeOption#addBadgeOption
+                            .input-group
+                                span(class="input-group-addon")
+                                    span(class="glyphicon glyphicon-tag")
+                                input#ruleName(class="form-control" type="text" ng-model="ruleName" placeholder="Your rule's name" required="required")
+                                
+                            .input-group
+                                span(class="input-group-addon")
+                                    span(class="glyphicon glyphicon-tower")
+                                select.form-control#ruleTypeSelect(disabled="disabled" ng-change="isBadgeSelected = false" ng-model="ruleType")
+                                    option(disabled='disabled' selected='selected' style='display: none;' value='') What type of rule do you want to create?
+                                    option(value="points") A rule with points
+                                    option(value="badge") A rule with a badge
+                                    
+                            .input-group.rulePoints#rulePoints
+                                span(class="input-group-addon")
+                                    span(class="glyphicon glyphicon-education")
+                                input#numberOfPoints(class="form-control" ng-model="numberOfPoints" placeholder="How many points will the user gain or lose?" type="number")
+                                
+                            .input-group.ruleBadge#ruleBadge
+                                span(class="input-group-addon")
+                                    span(class="glyphicon glyphicon-gift")
+                                select#badgeKindSelect.form-control(ng-change="cancelBadgeAdding()" ng-model="badgeKindSelect" ng-options="o.value as o.name for o in badgeKindOptions")
+                                    option(disabled='disabled' selected='selected' style='display: none;' value='') Okay, what kind of badge?
+                            
+                            .input-group#newBadgeValue
+                                span(class="input-group-addon")
+                                    span(class="glyphicon glyphicon-gift")
+                                input.form-control(disabled="disabled" ng-model="newBadgeValue" type="text")
+                            
+                            .input-group.ruleBadge#existingBadge(ng-init='badges=#{JSON.stringify(badges)}')
+                                span(class="input-group-addon")
+                                    span(class="glyphicon glyphicon-gift")
+                                select.form-control#badgeSelect(ng-model="badgeSelect" ng-change="showBadgePreview()" ng-options="option.name for option in badges")
+                                    option(disabled='disabled' selected='selected' style='display: none;' value='') Please select the badge...
+                            
+                            .badgePreviewPanel#badgePreviewPanel
+                                .previewTitle#previewTitle Live Preview
+                                .badgePreview
+                                    span(ng-if="badgeName") {{badgeName}}
+                                    span(ng-if="!badgeName") [New Badge]
+                                    br
+                                    img.badgeImg(ng-if="badgeImageUrl" ng-src="/img/badges/{{badgeImageUrl}}")
+                                    img.badgeImg(ng-if="!badgeImageUrl" ng-src="/img/badges/default.png")
+                                    br
+                                    div.badgeText(ng-if="badgeDescription") {{badgeDescription}}
+                                    div.badgeText(ng-if="!badgeDescription") [Description]
+                                    
+                            .input-group.penalty#penalty
+                                input.penaltyChk(type="checkbox" ng-model="penalty" name="penalty")
+                                .penaltyLabel This is a penalty (remove given 
+                                    span#dataType
+                                    | )
+                            
+                    .panel.panel-danger(ng-if="error")
+                        .panel-heading
+                            | {{error}}
+                            
+                    .rulesButtons#rulesButtons
+                        a.btn.btnApp.backButton(href='/') Back
+                        button#btnExecute.btn.btnApp.executeButton(disabled='disabled' name="sendButton" ng-click="addRule()" ng-model="btnExecute" type='submit')
+                            | Execute! 
+                            span(class="glyphicon glyphicon-send")
             
-            isBobKilled = true;
-            
-            $("#errorSubtitle").fadeIn("fast");
-            $("#errorSubtitle").text("System overload, system overload, every living creature will be thrown out of this screen in " + secondsRemaining + " seconds...");
-            $("#subTitle").text("Well, you asked for it.");
-            $("#spongebobImg").css("transition", "bottom 150ms");
-            
-            var spongebobJumping = setInterval(function() {
-                if ($("#spongebobImg").is(".spongebobImgJump")) {
-                    $("#spongebobImg").removeClass("spongebobImgJump");
-                }
-                else {
-                    $("#spongebobImg").addClass("spongebobImgJump");
-                }
-            }, 150);
-            
-            var timer = setInterval(function() {
-                if (secondsRemaining > 0) {
-                    if (redBackground) {
-                        $("#manageRulesBody").css("background-color", "#8bcadd");
-                        redBackground = false;
+            img#spongebobImg.spongebobImg(src='/img/spongebob.png')
+
+        script.
+            var isBadgeAddingPanelOpen = false;
+            var isBobThrown = false;
+        
+            // hide subtitle.
+            function hideSubtitle() {
+                $("#subTitle").fadeOut("slow");
+            }
+        
+            // Throw Spongebob out of the screen...
+            function throwBob() {
+                var secondsRemaining = 6;
+                
+                isBobThrown = true;
+                
+                $("#spongebobImg").css("transition", "bottom 150ms");
+                $("#subTitle").text("Bob you have " + secondsRemaining + " seconds to get out!");
+                
+                var spongebobJumping = setInterval(function() {
+                    if ($("#spongebobImg").is(".spongebobImgJump")) {
+                        $("#spongebobImg").removeClass("spongebobImgJump");
                     }
                     else {
-                        $("#manageRulesBody").css("background-color", "#d9534f");
-                        redBackground = true;
+                        $("#spongebobImg").addClass("spongebobImgJump");
+                    }
+                }, 150);
+                
+                var timer = setInterval(function() {
+                    if (secondsRemaining > 0) {
+                        $("#subTitle").text("Bob you have " + --secondsRemaining + 
+                                                " " + (secondsRemaining > 1 ? "seconds" : "second") + " to get out!");
+                    }
+                    else {
+                        $("#spongebobImg").css("transition", "all 1500ms");
+                        
+                        $("#subTitle").fadeOut("slow");
+                        $("#spongebobImg").removeClass("spongebobImgJump");
+                        $("#spongebobImg").removeClass("spongebobImgMoved");                    
+                        $("#spongebobImg").addClass("spongeBobThrown");
+                        
+                        clearInterval(timer);
+                        clearInterval(spongebobJumping);
+                    }
+                }, 1000);
+            }
+        
+            // Shows badge adding panel if it is not already shown.
+            function showBadgeAdding() {
+                if (!isBadgeAddingPanelOpen) {                
+                    setTimeout(function() {
+                        $("#addBadgePanel").css("visibility", "visible");
+                        $("#addBadgePanel").addClass("addBadgePanelShows");
+                    }, 300);
+                    
+                    isBadgeAddingPanelOpen = true;
+                }
+            }
+        
+            // Hides badge adding panel if it is shown.
+            // When the hidding animation finishs, the ''$("#addBadgePanel").bind("transitionend [...]'
+            // is called.
+            function hideBadgeAdding(cancel) {
+                if (isBadgeAddingPanelOpen) {
+                    $("#addBadgePanel").removeClass("addBadgePanelShows");
+                    
+                    if (cancel) {
+                        $("#badgeKindSelect option:eq(0)").prop("selected", true);
+                        
+                        setTimeout(function() {
+                            $("#badgePreviewPanel").hide();
+                        }, 400);
+                    }
+                }
+            }
+        
+            $(document).ready(function() {
+                // Hides useless fields ; can't do it with a "display: none;" css 
+                // property because of the "input-group" css class.          
+                $("#rulePoints, #ruleBadge, #newBadgeValue, #existingBadge, #penalty").hide();
+                // Sometimes the "Execute!" button stay enabled when the user 
+                // refreshs the page because of the browser cache, and we don't 
+                // want it so we disable it to ensure.
+                $("#btnExecute").prop("disabled", true);
+                // Same problem with fields that stay filled.
+                $("#ruleName, #numberOfPoints").val("");
+                
+                // Shows Spongebob.
+                setTimeout(function() {
+                    $("#spongebobImg").addClass("spongebobImgMoved");
+                    $("#subTitle").fadeIn("slow");
+                }, 1500);
+                
+                // Shows the right action's panel, depending on the user's choice of
+                // action.
+                $("#actionSelect").change(function() {
+                    $("#addBadgeOption").hide();
+                    
+                    if ($("#actionSelect").val() == "add") {
+                        $("#addBadgeOption").slideDown("fast");
                     }
                     
-                    $("#errorSubtitle").text("System overload, system overload, every living " + 
-                                            "creature will be thrown out of this screen in " + --secondsRemaining + 
-                                            " " + (secondsRemaining > 1 ? "seconds" : "second") + "...");
-                }
-                else {
-                    $("#spongebobImg").css("transition", "bottom 1500ms");
-                    
-                    $("#errorSubtitle").fadeOut("slow");
-                    $("#subTitle").fadeOut("slow");
-                    $("#spongebobImg").removeClass("spongebobImgJump");
-                    $("#spongebobImg").removeClass("spongebobImgMoved");                    
-                    $("#spongebobImg").addClass("spongeBobDead");
-                    
-                    clearInterval(timer);
-                    clearInterval(spongebobJumping);
-                }
-            }, 1000);
-        }
-    
-        // Shows badge adding panel if it is not already shown.
-        function showBadgeAdding() {
-            if (!isBadgeAddingPanelOpen) {
-                $("#addBadgePanel").css("visibility", "visible");
-                $("#addBadgePanel").addClass("addBadgePanelShows");
-                isBadgeAddingPanelOpen = true;
-            }
-        }
-    
-        // Hides badge adding panel if it is shown.
-        // When the hidding animation finishs, the ''$("#addBadgePanel").bind("transitionend [...]'
-        // is called.
-        function hideBadgeAdding(cancel) {
-            if (isBadgeAddingPanelOpen) {
-                $("#addBadgePanel").removeClass("addBadgePanelShows");
+                    $("#newBadgeValue").hide();
+                    $("#badgePreviewPanel").hide();
+                    $("#btnExecute").prop("disabled", true);
+                });
                 
-                if (cancel) {
-                    $("#badgeKindSelect option:eq(0)").prop("selected", true);
-                }
-            }
-        }
-    
-        $(document).ready(function() {  
-            // Hides useless fields ; can't do it with a "display: none;" css 
-            // property because of the "input-group" css class.          
-            $("#rulePoints, #ruleBadge, #existingBadge").hide();
-            
-            // Shows Spongebob.
-            setTimeout(function() {
-                $("#spongebobImg").addClass("spongebobImgMoved");
-                $("#subTitle").fadeIn("slow");
-            }, 1500);
-            
-            // Shows the right action's panel, depending on the user's choice of
-            // action.
-            $("#actionSelect").change(function() {
-                $("#addBadgeOption").hide();
+                // Enables the rule's type selection when the user entered a value
+                // for the name.
+                $("#ruleName").on("input", function() {
+                    if (!$(this).val()) {
+                        $("#ruleTypeSelect").prop("disabled", true);
+                    }
+                    else {
+                        $("#ruleTypeSelect").prop("disabled", false);
+                    }
+                });
                 
-                if ($("#actionSelect").val() == "add") {
-                    $("#addBadgeOption").slideDown("fast");
-                }
-            });
-            
-            // Shows the points or badge inputs, depending on the user's choice
-            // of rule's type.
-            $("#ruleTypeSelect").change(function() {                
-                if ($("#ruleTypeSelect").val() == "points") {
-                    $("#ruleBadge, #existingBadge").hide();
-                    $("#rulePoints").fadeIn("fast");
-                }
-                else if ($("#ruleTypeSelect").val() == "badge") {
-                    $("#rulePoints").hide();
-                    $("#ruleBadge").fadeIn("fast");
-                }
-            });
-            
-            // 
-            $("#badgeKindSelect").change(function() {
-                if ($("#badgeKindSelect").val() == "add") {
-                    showBadgeAdding();
-                }
-                else {
-                    hideBadgeAdding(false);
-                }
-            });
-            
-            // Hides badge adding panel when it successfully moved under the rule
-            // manager container.
-            $("#addBadgePanel").bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
-                if (isBadgeAddingPanelOpen && $("#addBadgePanel").offset().left >= $("#manageRulesContainer").offset().left) {
-                    $("#addBadgePanel").css("visibility", "hidden");                    
-                    isBadgeAddingPanelOpen = false;
-                }
-            });
-            
-            // Hide Spongebob when the user clicks on it.
-            $("#spongebobImg").click(function() {
-                if (!isBobKilled) {
-                    $("#spongebobImg").removeClass("spongebobImgMoved");
-                    $("#subTitle").text("Well done, he got what he deserved!");
+                // Shows the points or badge inputs, depending on the user's choice
+                // of rule's type.
+                $("#ruleTypeSelect").change(function() {                
+                    if ($("#ruleTypeSelect").val() == "points") {
+                        $("#ruleBadge, #existingBadge").hide();
+                        $("#rulePoints").fadeIn("fast");
+                        $("#penalty").fadeIn("fast");
+                    }
+                    else if ($("#ruleTypeSelect").val() == "badge") {
+                        $("#rulePoints").hide();
+                        $("#ruleBadge").fadeIn("fast");
+                        $("#penalty").hide();
+                        $("#numberOfPoints").val("");
+                    }
                     
-                    // ...but Spongebob has not yet said his last word!
-                    // He first shyly comes again...
-                    setTimeout(function() {
-                        $("#spongebobImg").addClass("spongebobShy");
-                        $("#subTitle").text("Wait... Bob I dare you, I double dare you to come back!");
-                    }, 4000);
-                    setTimeout(function() {
-                        $("#subTitle").text("Bob if you come back, I swear you, you're a dead sponge!");
-                    }, 8000);
-                    // ...and then comes enterely, how naughty!
-                    setTimeout(function() {
-                        $("#spongebobImg").removeClass("spongebobShy");
-                        $("#spongebobImg").addClass("spongebobImgMoved");
-                        $("#subTitle").html("BOB YOU SILLY USELESS DEAD SPONGE! <button class='btn btn-danger btnKillBob' onClick='killBob()'>Kill it!</button>");
-                    }, 12000);
+                    $("#newBadgeValue").hide();
+                    $("#badgePreviewPanel").hide();
+                    $("#dataType").text($("#ruleTypeSelect").val());
+                    $("#btnExecute").prop("disabled", true);
+                });
+                
+                // Enables the 'Execute' button when the user sets the number of
+                // points.
+                $("#numberOfPoints").on("input blur change", function() {
+                    if (!$(this).val()) {
+                        $("#btnExecute").prop("disabled", true);
+                    }
+                    else {
+                        $("#btnExecute").prop("disabled", false);
+                    }
+                });
+                
+                // Shows the badge adding panel if the users choosed to add a new
+                // one.
+                $("#badgeKindSelect").change(function() {
+                    if ($("#badgeKindSelect").val() == "string:add") {
+                        $("#badgePreviewPanel").fadeIn("fast");
+                        $("#previewTitle").fadeIn("fast");
+                        $("#newBadgeValue").hide();
+                        $("#existingBadge").hide();
+                        $("#penalty").hide();
+                        showBadgeAdding();
+                    }
+                    else {
+                        hideBadgeAdding(false);
+                        
+                        setTimeout(function() {
+                            $("#previewTitle").hide();
+                            $("#badgePreviewPanel").hide();
+                            $("#existingBadge").fadeIn("fast");
+                            $("#penalty").fadeIn("fast");
+                        }, 400);
+                    }
+                    
+                    $("#btnExecute").prop("disabled", true);
+                });
+                
+                // Shows the badge preview panel when the user chooses a badge in
+                // the list.
+                $("#badgeSelect").change(function() {
+                    $("#badgePreviewPanel").fadeIn("fast");
+                    $("#btnExecute").prop("disabled", false);
+                });
+                
+                // Hides badge adding panel when it successfully moved under the rule
+                // manager container.
+                $("#addBadgePanel").bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
+                    if (isBadgeAddingPanelOpen && $("#addBadgePanel").offset().left >= $("#manageRulesContainer").offset().left) {
+                        $("#addBadgePanel").css("visibility", "hidden");
+                        
+                        isBadgeAddingPanelOpen = false;
+                    }
+                });
+                
+                // Hide Spongebob when the user clicks on it.
+                $("#spongebobImg").click(function() {
+                    if (!isBobThrown) {
+                        $("#spongebobImg").removeClass("spongebobImgMoved");
+                        $("#subTitle").text("Well done, he got what he deserved!");
+                        
+                        // ...but Spongebob has not yet said his last word!
+                        // He first shyly comes again...
+                        setTimeout(function() {
+                            $("#spongebobImg").addClass("spongebobShy");
+                            $("#subTitle").text("Wait what?! Bob I dare you, I double dare you to come back!");
+                        }, 4000);
+                        setTimeout(function() {
+                            $("#subTitle").text("Bob if you come back I swear you're a dead sponge!");
+                        }, 8000);
+                        // ...and then comes enterely, how naughty!
+                        setTimeout(function() {
+                            $("#spongebobImg").removeClass("spongebobShy");
+                            $("#spongebobImg").addClass("spongebobImgMoved");
+                            $("#subTitle").html(
+                                "Well, you asked for it. " + 
+                                "<button class='btn btn-danger btnthrowBob' onClick='throwBob()'>Throw it out!</button> " + 
+                                "<button class='btn btnApp btnthrowBob' onClick='hideSubtitle()'>Shut up</button>");
+                        }, 12000);
+                    }
+                });
+            });
+            
+            // Animates Spongebob when user clicks anywhere on the window.
+            $(document).click(function() {
+                if (!isBobThrown) {
+                    if ($("#spongebobImg").is(".spongebobImgMoved")) {
+                        $("#spongebobImg").addClass("spongebobImgJump");
+                        
+                        setTimeout(function() {
+                            $("#spongebobImg").removeClass("spongebobImgJump");
+                        }, 150);
+                    }
                 }
             });
-        });
-        
-        // Animates Spongebob when user clicks anywhere on the window.
-        $(document).click(function() {
-            if (!isBobKilled) {
-                if ($("#spongebobImg").is(".spongebobImgMoved")) {
-                    $("#spongebobImg").addClass("spongebobImgJump");
-                    
-                    setTimeout(function() {
-                        $("#spongebobImg").removeClass("spongebobImgJump");
-                    }, 150);
-                }
-            }
-        });
