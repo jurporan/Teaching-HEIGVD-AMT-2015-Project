@@ -431,6 +431,8 @@
             $scope.penalty = false;
             // Indicates if the user successfully managed an event or not.
             $scope.successPosting = false;
+            // Will contain the new added badge's ID if the user added one.
+            $scope.newBadgeId = null;
 
             $scope.badgeKindOptions = [
                 {
@@ -478,11 +480,10 @@
                                     // Get badge's ID and push it at the end of the
                                     // badges array so it appears in the badges
                                     // list.
-                                    badgeData.id = parseInt(response.data);
+                                    badgeData.id = $scope.newBadgeId = parseInt(response.data);
                                     var newBadge = $scope.badges.push(badgeData);
 
-                                    $scope.newBadgeValue = badgeData.name;
-                                    $scope.badgeSelect = $scope.badges[$scope.badges.length - 1];
+                                    $scope.newBadgeValue = "New badge's name: " + badgeData.name;
                                     // Indicates a badge has been selected.
                                     $scope.isBadgeSelected = true;
 
@@ -532,7 +533,7 @@
                         // Create the rule's fields, depending on the users values.
                         var ruleData = {
                             "typeOfEvent": $scope.ruleName,
-                            "ruleParameter": ($scope.ruleType == "points" ? $scope.numberOfPoints : $scope.badgeSelect.id),
+                            "ruleParameter": ($scope.ruleType == "points" ? $scope.numberOfPoints : ($scope.badgeKindSelect == $scope.badgeKindOptions[0].value ? $scope.newBadgeId : $scope.badgeSelect.id)),
                             "penalty": $scope.penalty,
                             "minValue": null,
                             "maxValue": null,

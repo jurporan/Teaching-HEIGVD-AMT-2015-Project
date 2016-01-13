@@ -30,7 +30,7 @@ block content
                     .input-group
                         span(class="input-group-addon")
                             span(class="glyphicon glyphicon-bookmark")
-                        input(class="form-control" name="badgeName" ng-model="badgeName" placeholder="Title (e.g. \"Level 5!\")" required="required" type="text")
+                        input#badgeName(class="form-control" name="badgeName" ng-model="badgeName" placeholder="Title (e.g. \"Level 5!\")" required="required" type="text")
                         
                     .input-group
                         span(class="input-group-addon")
@@ -211,6 +211,7 @@ block content
                     setTimeout(function() {
                         $("#addBadgePanel").css("visibility", "visible");
                         $("#addBadgePanel").addClass("addBadgePanelShows");
+                        $("#badgeName").focus();
                     }, 300);
                     
                     isBadgeAddingPanelOpen = true;
@@ -314,7 +315,6 @@ block content
                     if ($("#badgeKindSelect").val() == "string:add") {
                         $("#badgePreviewPanel").fadeIn("fast");
                         $("#previewTitle").fadeIn("fast");
-                        $("#newBadgeValue").hide();
                         $("#existingBadge").hide();
                         $("#penalty").hide();
                         showBadgeAdding();
@@ -330,6 +330,7 @@ block content
                         }, 400);
                     }
                     
+                    $("#newBadgeValue").hide();
                     $("#btnExecute").prop("disabled", true);
                 });
                 
