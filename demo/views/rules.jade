@@ -16,7 +16,14 @@ block content
                 br
                 .subTitle#subTitle You don't like overexcited Spongebob? Click on that naughty sponge to hide it!
             
-            #manageRulesContainer.manageRulesContainer
+            .panel.panel-success.errorPanel(ng-hide="!successPosting")
+                .panel-heading.error
+                    | Yay you successfully managed a rule!
+                    br
+                    a.btn.btn-success.btnGoBack(href='/') Go back
+                    button.btn.btn-success.btnManageAnother(name="manageAnotherButton" onClick="window.location.reload()" type='button') Manage another one!
+            
+            #manageRulesContainer.manageRulesContainer(ng-hide="successPosting")
                 form#addBadgePanel.addBadgePanel(ng-init='apiKey="#{apiKey}"')
                     .addBadgeTitle Add a badge...
                     
@@ -143,10 +150,28 @@ block content
         script.
             var isBadgeAddingPanelOpen = false;
             var isBobThrown = false;
+            var bobHasBeenThrown = false;
+            var spongebobJumping;
         
             // hide subtitle.
             function hideSubtitle() {
                 $("#subTitle").fadeOut("slow");
+            }
+            
+            // Bob is overexcited and can't stop jumping...
+            // Occurs when the user successfully managed a rule or when he wants
+            // to throw Bob out of the screen...
+            function overexcitedBob() {
+                if (!bobHasBeenThrown) {
+                    spongebobJumping = setInterval(function() {
+                        if ($("#spongebobImg").is(".spongebobImgJump")) {
+                            $("#spongebobImg").removeClass("spongebobImgJump");
+                        }
+                        else {
+                            $("#spongebobImg").addClass("spongebobImgJump");
+                        }
+                    }, 200);
+                }
             }
         
             // Throw Spongebob out of the screen...
@@ -158,14 +183,7 @@ block content
                 $("#spongebobImg").css("transition", "bottom 150ms");
                 $("#subTitle").text("Bob you have " + secondsRemaining + " seconds to get out!");
                 
-                var spongebobJumping = setInterval(function() {
-                    if ($("#spongebobImg").is(".spongebobImgJump")) {
-                        $("#spongebobImg").removeClass("spongebobImgJump");
-                    }
-                    else {
-                        $("#spongebobImg").addClass("spongebobImgJump");
-                    }
-                }, 150);
+                overexcitedBob();
                 
                 var timer = setInterval(function() {
                     if (secondsRemaining > 0) {
@@ -179,6 +197,7 @@ block content
                         $("#spongebobImg").removeClass("spongebobImgJump");
                         $("#spongebobImg").removeClass("spongebobImgMoved");                    
                         $("#spongebobImg").addClass("spongeBobThrown");
+                        bobHasBeenThrown = true;
                         
                         clearInterval(timer);
                         clearInterval(spongebobJumping);
@@ -333,7 +352,7 @@ block content
                 
                 // Hide Spongebob when the user clicks on it.
                 $("#spongebobImg").click(function() {
-                    if (!isBobThrown) {
+                    if (!isBobThrown && !$("#spongebobImg").hasClass("spongebobShy")) {
                         $("#spongebobImg").removeClass("spongebobImgMoved");
                         $("#subTitle").text("Well done, he got what he deserved!");
                         

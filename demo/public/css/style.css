@@ -437,8 +437,9 @@ a {
     cursor: pointer;
     font-size: 20px;
     font-weight: bold;
+    height: 230px;
     margin: 0 auto 20px auto;
-    min-height: 230px;
+    overflow: auto;
     padding: 15px;
     width: 230px;
 }
@@ -468,6 +469,7 @@ a {
 
 .spongebobImg {
     bottom: -310px;
+    cursor: pointer;
     position: absolute;
     right: 100px;
     transition: bottom 500ms;
@@ -491,4 +493,13 @@ a {
     -ms-transform: rotate(360deg); /* IE 9 */
     -webkit-transform: rotate(360deg); /* Chrome, Safari, Opera */
     transform: rotate(360deg);
+}
+
+.btnGoBack, .btnManageAnother {
+    margin-top: 30px;
+    width: 200px;
+}
+
+.btnGoBack {
+    margin-right: 50px;
 }

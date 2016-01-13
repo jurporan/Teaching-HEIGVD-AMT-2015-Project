@@ -429,6 +429,9 @@
             $scope.isBadgeSelected = false;
             // By default the rule is not a penalty.
             $scope.penalty = false;
+            // Indicates if the user successfully managed an event or not.
+            $scope.successPosting = false;
+
             $scope.badgeKindOptions = [
                 {
                     "name": "A whole new badge!",
@@ -479,12 +482,12 @@
                                     var newBadge = $scope.badges.push(badgeData);
 
                                     $scope.newBadgeValue = badgeData.name;
+                                    $scope.badgeSelect = $scope.badges[$scope.badges.length - 1];
                                     // Indicates a badge has been selected.
                                     $scope.isBadgeSelected = true;
 
                                     $("#previewTitle").hide();
                                     $("#newBadgeValue").fadeIn("fast");
-                                    $("#penalty").fadeIn("fast");
                                     $("#btnExecute").prop("disabled", false);
                                 }
                                 else {
@@ -514,7 +517,7 @@
             };
 
             $scope.addRule = function() {
-                console.log($scope.badges);
+                $("#btnExecute").prop("disabled", true);
                 $scope.error = null;
 
                 // Fields must be filled.
@@ -523,56 +526,45 @@
                     // of points must be a numeric value, greater than 0.
                     if ($scope.ruleType == "points" && (isNaN($scope.numberOfPoints) || parseInt($scope.numberOfPoints) <= 0)) {
                         $scope.error = "Please enter a numeric value greater than 0 for the points number.";
+                        $("#btnExecute").prop("disabled", false);
                     }
                     else {
+                        // Create the rule's fields, depending on the users values.
                         var ruleData = {
                             "typeOfEvent": $scope.ruleName,
-                            "ruleParameter": ($scope.ruleType == "points" ? $scope.numberOfPoints : $scope.badgeSelect),
+                            "ruleParameter": ($scope.ruleType == "points" ? $scope.numberOfPoints : $scope.badgeSelect.id),
                             "penalty": $scope.penalty,
                             "minValue": null,
                             "maxValue": null,
                             "rewardType": ($scope.ruleType == "points" ? 1 : 2)
                         }
 
-                        request.post({
-                            url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/rules',
-                            json: data[i]
-                        });
-
                         // Then post it.
-                        $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/badges', badgeData)
+                        $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/rules', ruleData)
                             .then(
                                 function success(response) {
                                     if (response.status == 200) {
-                                        hideBadgeAdding(false);
-
-                                        // Get badge's ID and push it at the end of the
-                                        // badges array so it appears in the badges
-                                        // list.
-                                        badgeData.id = parseInt(response.data);
-                                        var newBadge = $scope.badges.push(badgeData);
-
-                                        $scope.newBadgeValue = badgeData.name;
-
-                                        $("#previewTitle").hide();
-                                        $("#newBadgeValue").fadeIn("fast");
-                                        $("#penalty").fadeIn("fast");
-                                        $("#btnExecute").prop("disabled", false);
+                                        // The user successfully added an event and Spongebob
+                                        // is overexcited.
+                                        overexcitedBob();
+                                        // Shows the success panel.
+                                        $scope.successPosting = true;
                                     }
                                     else {
-                                        $scope.badgeAddingError = "An error occured, please retry.";
-                                        $("#btnExecute").prop("disabled", true);
+                                        $scope.error = "An error occured, please retry.";
+                                        $("#btnExecute").prop("disabled", false);
                                     }
                                 },
                                 function error(response) {
-                                    $scope.badgeAddingError = "An error occured, please retry.";
-                                    $("#btnExecute").prop("disabled", true);
+                                    $scope.error = "An error occured, please retry.";
+                                    $("#btnExecute").prop("disabled", false);
                                 }
                             );
                     }
                 }
                 else {
                     $scope.error = "Please fill all fields.";
+                    $("#btnExecute").prop("disabled", false);
                 }
             }
         });
