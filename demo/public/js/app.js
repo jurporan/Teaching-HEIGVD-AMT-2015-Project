@@ -92,7 +92,11 @@
              *                 added in the previous level.
              *                 More explainations in the function.
              */
-            function addPoints(points, extraPoints = 0) {
+            function addPoints(points, extraPoints) {
+                if (!extraPoints) {
+                    extraPoints = 0;
+                }
+
                 // First check if the function isn't currently executed (or is executed but
                 // recursively), then check if the input text is a positive number, otherwise
                 // we just ignore it.
@@ -423,7 +427,7 @@
             }, true);
         })
         // Controller relative to the badge adding panel.
-        .controller("ManageRulesController", function($scope, $http) {
+        .controller("ManageRulesController", function($scope, $http, $filter) {
             // Indicates if a badge is currently selected by the user ; used for
             // form validation.
             $scope.isBadgeSelected = false;
