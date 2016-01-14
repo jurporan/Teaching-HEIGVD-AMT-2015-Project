@@ -1,5 +1,4 @@
 (function() {
-    var startPoints = 0;
     var appModule = angular.module("garyDemo", [])
         // Used to display duplicates rules only one time in the select.
         .filter('uniqueRule', function() {
@@ -76,7 +75,7 @@
         })
         // The main page's controller.
         // Contains functions which allow the user to add points and badges.
-        .controller("PageController", function($scope, $http, usersData, progressBarValues, badgesValues, leaderboardScores) {
+        .controller("PageController", function($scope, $http, $filter, usersData, progressBarValues, badgesValues, leaderboardScores) {
             $scope.usersData = usersData;
             // This will contain all user's badges' status (loccked/unlocked).
             $scope.showBadge = [];
@@ -86,17 +85,14 @@
             /*
              * Add points to the level's progress bar.
              * Parameters:
-             *  - extraPoints: inficate if there is extra points to add to the progress
+             *  - points: points to add to the progress bar.
+             *  - extraPoints: indicate if there is extra points to add to the progress
              *                 bar. This value will be different to 0 if this is a
              *                 recursive call, indicating that there was too many points
              *                 added in the previous level.
              *                 More explainations in the function.
              */
             function addPoints(points, extraPoints) {
-                if (!extraPoints) {
-                    extraPoints = 0;
-                }
-
                 // First check if the function isn't currently executed (or is executed but
                 // recursively), then check if the input text is a positive number, otherwise
                 // we just ignore it.
@@ -212,17 +208,17 @@
                 }
             }
 
-            // Search for the given badge's name and unlock it.
-            function addBadge(name) {
+            // Search for the given badge's ID and unlock it.
+            function addBadge(id) {
                 angular.forEach(badgesValues, function(badges, line) {
                     angular.forEach(badges, function(badge) {
-                        if (badge.name == name) {
-                            if (!$scope.showBadge[badge.id]) {
-                                $("#explosion" + badge.id).addClass("explosionBig");
+                        if (badge.id === id) {
+                            if (!$scope.showBadge[id]) {
+                                $("#explosion" + id).addClass("explosionBig");
                             }
 
-                            $scope.showBadge[badge.id] = true;
-                            console.log("\"" + name + "\" badge unlocked!");
+                            $scope.showBadge[id] = true;
+                            console.log("\"" + badge.name + "\" badge unlocked!");
                             return false;
                         }
                     });
@@ -249,7 +245,9 @@
                             function success(response) {
                                 // Search for the user in the leaderboard.
                                 angular.forEach(leaderboardScores, function(score) {
-                                    if (score.userId == user.id) {
+                                    // Add points to the user, unless he is the
+                                    // selected one.
+                                    if (score.userId == user.id && user.id != $scope.userSelect) {
                                         score.points = response.data.points;
                                         return false;
                                     }
@@ -261,10 +259,12 @@
                                     $("#optionsError").fadeOut("fast");
                                     console.log("Current points: " + response.data.points);
                                     console.log("Current badges: " + JSON.stringify(response.data.badges));
-                                    startPoints = parseInt(response.data.points);
 
+                                    // Adds selected user's current points.
+                                    addPoints(parseInt(response.data.points));
+                                    // Adds selected user's current badges.
                                     angular.forEach(response.data.badges, function(badge) {
-                                        addBadge(badge.name);
+                                        addBadge(badge.id);
                                     });
                                 }
                             },
@@ -309,33 +309,21 @@
                         .then(
                             function success(response) {
                                 // Search for the rules associated with the selected event.
+                                // Add points and badges.
                                 angular.forEach($scope.rules, function(rule) {
-                                    if (rule.typeOfEvent == $scope.eventSelect) {
+                                    if (rule.typeOfEvent == $scope.eventSelect && !rule.penalty) {
                                         // New points to add
                                         if (rule.rewardType == 1) {
                                             console.log("Add " + rule.ruleParameter + " points...");
-                                            addPoints(startPoints + rule.ruleParameter);
+                                            addPoints(rule.ruleParameter, 0);
                                         }
-                                        else {
-                                            // Badge's name to add.
-                                            var badgeName = "";
+                                        else if (rule.rewardType == 2) {
+                                            // Search for the rule's badge in badges array.
+                                            var badge = $filter('filter')($scope.badges, function(b) {
+                                                return b.id === rule.ruleParameter;
+                                            });
 
-                                            // Search for the right badge...
-                                            switch(rule.typeOfEvent) {
-                                                case "Post a comment":
-                                                    badgeName = "First comment";
-                                                    break;
-                                                case "Kick a troll":
-                                                    badgeName = "Kick";
-                                                    break;
-                                                case "Upvote":
-                                                case "Downvote":
-                                                    badgeName = "Upvote/Downvote";
-                                                    break;
-
-                                            }
-
-                                            addBadge(badgeName);
+                                            addBadge(badge[0].id);
                                         }
                                     }
                                 });
@@ -397,8 +385,6 @@
             var i = 0;
             // Fill the badges' array.
             angular.forEach($scope.badges, function(badge) {
-                // Set badge's ID.
-                badge.id = parseInt(i) + 1;
                 // Every badge is locked by default, except the "Welcome" one.
                 if (badge.name == "Welcome") {
                     badge.locked = false;
@@ -406,8 +392,14 @@
                 else {
                     badge.locked = true;
                 }
+
+                // Create a new line each 5 badges.
+                if (i % 5 === 0) {
+                    badgesValues['x' + (Math.floor(i / 5) + 1)] = [];
+                }
+
                 // 5 badges per table's line.
-                badgesValues['x' + (Math.floor(i / 5) + 1)][i] = badge;
+                badgesValues['x' + (Math.floor(i / 5) + 1)][i % 5] = badge;
                 ++i;
             });
 
@@ -765,7 +757,7 @@
                                 "minValue": null,
                                 "maxValue": null,
                                 "rewardType": ($scope.ruleType == "points" ? 1 : 2)
-                            }
+                            };
 
                             // Fields are valid and the HTTP request can be sent.
                             areFieldsValid = true;

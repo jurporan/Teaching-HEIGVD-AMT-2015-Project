@@ -3,8 +3,7 @@ var router = express.Router();
 var request = require('request');
 var deferred = require('deferred');
 
-var newData = false;
-var apiKey = '36320dc5-8972-4a36-975d-a3afdc77e375';
+var apiKey = '82f72322-a7ab-40d6-8190-c89c261ff0c2';
 var restApiServerAddress = 'http://localhost:8080';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
@@ -82,7 +81,6 @@ function getBadges() {
 
             // If there is still no badge, create them.
             if (!badges[0]) {
-                newData = true;
                 console.log("No existing badge, create new ones.");
 
                 // User's data.
@@ -109,7 +107,7 @@ function getBadges() {
                     },
                     {
                         "name": "Kick",
-                        "description": "Haha you just kicked that damn troll!",
+                        "description": "Haha you just kicked that nasty troll!",
                         "imageUrl": "kick.png"
                     }
                 ];
@@ -156,8 +154,6 @@ function getBadges() {
                 }
             }
             else {
-                newData = false;
-
                 defer.resolve({
                     error: 0,
                     data: badges
@@ -330,17 +326,30 @@ router.get('/', function(req, res) {
                     });
                 }
                 else {
-                    console.log("Badges successfully created/got: " + newData);
-                    var rules = getRules();
+                    console.log("Badges successfully created/got.");
 
-                    // Send new users to view.
-                    res.render('index', {
-                        title: 'Ultimate Gary Events Test-Console Two-Thousand-Fifteen!',
-                        users: users.data,
-                        badges: badges.data,
-                        rules: rules,
-                        apiKey: apiKey,
-                        restApiServerAddress: restApiServerAddress
+                    var rulesPromise = getRules();
+
+                    rulesPromise(function(rules) {
+                        if (rules.error === 1) {
+                            res.render('rules', {
+                                title: 'Ultimate Gary Events Test-Console Two-Thousand-Fifteen!',
+                                error: 'Sorry I cannot get application\'s rules, please retry in a while :('
+                            });
+                        }
+                        else {
+                            console.log("Rules successfully created/got.");
+
+                            // Send data to index view.
+                            res.render('index', {
+                                title: 'Ultimate Gary Events Test-Console Two-Thousand-Fifteen!',
+                                users: users.data,
+                                badges: badges.data,
+                                rules: rules.data,
+                                apiKey: apiKey,
+                                restApiServerAddress: restApiServerAddress
+                            });
+                        }
                     });
                 }
             });
@@ -360,7 +369,7 @@ router.get('/rules', function(req, res) {
             });
         }
         else {
-            console.log("Badges successfully created/got: " + newData);
+            console.log("Badges successfully created/got.");
 
             var rulesPromise = getRules();
 
@@ -372,7 +381,9 @@ router.get('/rules', function(req, res) {
                     });
                 }
                 else {
-                    // Send badges view.
+                    console.log("Rules successfully created/got.");
+
+                    // Send data to rules view.
                     res.render('rules', {
                         title: 'AW YEAH, you can manage you own rules!',
                         badges: badges.data,

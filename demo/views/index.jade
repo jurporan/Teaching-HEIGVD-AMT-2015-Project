@@ -28,7 +28,7 @@ block content
                         select#eventSelect.form-control(disabled='disabled' ng-model='eventSelect')
                             option(disabled='disabled' selected='selected' style='display: none;' value='') Select an event...
                             // Display only one time duplicates events' types.
-                            option(ng-repeat='rule in rules | uniqueRule: "typeOfEvent"' value='{{rule.typeOfEvent}}') {{rule.typeOfEvent}}
+                            option(ng-if='!rule.penalty && rule.typeOfEvent != "Level 3"' ng-repeat='rule in rules | uniqueRule: "typeOfEvent" | orderBy: "typeOfEvent"' value='{{rule.typeOfEvent}}') {{rule.typeOfEvent}}
                         .input-group-btn
                             a(href='/rules').btn.btnApp.btnManageRules(type='button') Manage rules...
             
@@ -124,6 +124,13 @@ block content
 
         script.
             $(document).ready(function() {
+                // (Re)initializes fields.
+                $("#userSelect").prop("disabled", false);
+                $("#eventSelect").prop("disabled", true);
+                $("#eventProperties").prop("disabled", true);
+                $("#btnRun").prop("disabled", true);
+                
+                
                 // Save default top-panel's parameters, for using them in futur calculations.
                 var screenHeight = $("#topPanel").height();
                 var topPanelPaddingTop = parseInt($("#topPanel").css("padding-top").replace("px", ""));
@@ -195,10 +202,5 @@ block content
                     $(this).removeClass("newLevelBig");
                     $(this)[0].offsetHeight;
                     $(this).removeClass("notransition");
-                });
-                
-                // Triggered when explosion finished its transition.
-                $("img[name='explosion']").bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
-                    console.log("HAAAAAAAAAAAAAAAAAAAAA: " + $(this).attr("id"));
                 });
             });
