@@ -39,19 +39,21 @@ public class Rules
     @Consumes("application/json")
     public Response submitNewRule(RuleDTO rule, @PathParam("apiKey") String apiKey)
     {
+        Rule r;
         // We check the apiKey is correct.
         try
         {
              App app = appDAO.get(apiKey);
              if (app == null) {return Response.status(400).entity("This app doesn't seem to exist").build();}
-            appDAO.addRule(app, rule.toEntity());
+            r = rule.toEntity();
+             appDAO.addRule(app, r);
         }
         catch (Exception e)
         {
             return Response.serverError().entity("Unknown award type.").build();
         }
         // We tell the client everything's ok
-        return Response.ok().entity("Rule was added succesfully").build();
+        return Response.ok(r.getId()).build();
     }
     
     @GET
