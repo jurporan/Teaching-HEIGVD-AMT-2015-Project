@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var deferred = require('deferred');
+var multer  = require('multer')
+var upload = multer({ dest: "public/img/badges" })
 
 var apiKey = '82f72322-a7ab-40d6-8190-c89c261ff0c2';
 var restApiServerAddress = 'http://localhost:8080';
@@ -395,6 +397,12 @@ router.get('/rules', function(req, res) {
             });
         }
     });
+});
+
+// Badge's logo upload route.
+router.post('/upload', upload.single('file'), function(req, res, next) {
+    console.log("File '" + req.file.originalname + "' successfully uploaded.");
+    res.end(req.file.filename);
 });
 
 module.exports = router;

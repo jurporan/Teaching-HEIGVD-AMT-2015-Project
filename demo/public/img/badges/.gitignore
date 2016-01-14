@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+# But not these files...
+!default.png
+!firstcomment.png
+!happy.png
+!kick.png
+!level3.png
+!welcome.png
+!.gitignore

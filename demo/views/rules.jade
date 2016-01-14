@@ -26,7 +26,7 @@ block content
                     button.btn.btn-success.btnManageAnother(name="manageAnotherButton" onClick="window.location.reload()" type='button') Manage another one!
             
             #manageRulesContainer.manageRulesContainer(ng-hide="successPosting")
-                form#addBadgePanel.addBadgePanel(ng-init='apiKey="#{apiKey}"')
+                #addBadgePanel.addBadgePanel(ng-init='apiKey="#{apiKey}"')
                     .addBadgeTitle Add a badge...
                     
                     .input-group
@@ -54,7 +54,8 @@ block content
                         | .
                         br
                         | If you do not choose a logo, the default one (a white circle) will be selected.
-                    input(name='picture' ng-model='badgeLogo'  type='file')
+                    // Angular 'ng-change' is not supporting the input file field :(.
+                    input(name='picture' onchange='angular.element(this).scope().uploadFile(this.files)' type='file')
                     
                     hr
                     

@@ -18,6 +18,49 @@
                 return output;
             };
         })
+        // Will allow us to acces an uploaded file object in our controllers.
+        // In the snippet below, file-model is an attribute on a file input
+        // element, and its value is the name of the variable in our controller's
+        // scope that binds to the file object.
+        .directive('fileModel', ['$parse', function ($parse) {
+            return {
+                restrict: 'A',
+                link: function(scope, element, attrs) {
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
+                    element.bind('change', function() {
+                        scope.$apply(function(){
+                            modelSetter(scope, element[0].files[0]);
+                        });
+                    });
+                }
+            };
+        }])
+        // This service upload the given file to the given URL.
+        .service('fileUpload', ['$http', '$q', function ($http, $q) {
+            this.uploadFileToUrl = function(file, uploadUrl) {
+                var defer = $q.defer();
+
+                // Create form data's object and add the uploaded file.
+                var fd = new FormData();
+                fd.append('file', file);
+
+                $http.post(uploadUrl, fd, {
+                    transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}
+                }).then(
+                    function success(response) {
+                        defer.resolve(response.data);
+                    },
+                    function error(response) {
+                        defer.reject();
+                    }
+                );
+
+                return defer.promise;
+            }
+        }])
         // Returns users' data.
         .factory("usersData", function() {
             var data = [];
@@ -419,7 +462,7 @@
             }, true);
         })
         // Controller relative to the badge adding panel.
-        .controller("ManageRulesController", function($scope, $http, $filter) {
+        .controller("ManageRulesController", function($scope, $http, $filter, fileUpload) {
             // Indicates if a badge is currently selected by the user ; used for
             // form validation.
             $scope.isBadgeSelected = false;
@@ -657,6 +700,28 @@
                 }
             });
 
+            // Upload the selected badge's logo by sending a HTTP request to the
+            // server.
+            $scope.uploadFile = function(files) {
+                var file = files[0];
+                var uploadUrl = '/upload';
+                // Uploads the file with the 'fileUpload' service, and receives
+                // back a promises triggered when the HTTP upload request ends.
+                var uploadedFile = fileUpload.uploadFileToUrl(file, uploadUrl);
+
+                // Do actions, depending on the file uploading's status.
+                uploadedFile.then(
+                    // Successful upload.
+                    function(answer) {
+                      $scope.badgeImageUrl = answer;
+                    },
+                    // Upload failed.
+                    function(reason) {
+                      $scope.badgeAddingError = "An error occured when uploading the file, please retry in a while.";
+                    }
+                );
+            }
+
             // Add the given badge to the database via a POST request to the REST
             // API.
             $scope.addBadge = function() {
@@ -670,7 +735,7 @@
                     var badgeData = {
                         name: $scope.badgeName,
                         description: $scope.badgeDescription,
-                        imageUrl: "default.png"
+                        imageUrl: ($scope.badgeImageUrl ? $scope.badgeImageUrl : "default.png")
                     };
 
                     // Then post it.
