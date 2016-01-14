@@ -480,20 +480,89 @@
                 }
             ];
 
+            // Cancel a badge adding by reseting data.
+            $scope.cancelBadgeAdding = function() {
+                $scope.badgeName = null;
+                $scope.badgeImageUrl = "default.png";
+                $scope.badgeDescription = null;
+                $scope.badgeAddingError = null;
+                $scope.isBadgeSelected = false;
+            };
+
             // Shows the right action's panel, depending on the user's choice of
             // action.
             $scope.$watch("actionSelect", function(newValue, oldValue) {
                 if (newValue) {
+                    // Reset badge adding panel.
+                    $scope.cancelBadgeAdding();
+                    $("#addBadgePanel").css("visibility", "hidden");
+                    hideBadgeAdding(false);
+
+                    // Reset data.
                     isBadgeSelected = false;
+                    $scope.ruleSelect = null;
+                    $scope.ruleName = null;
+                    $scope.ruleType = null;
+                    $scope.numberOfPoints = null;
+                    $scope.badgeKindSelect = null;
+                    $scope.badgeSelect = null;
+                    $scope.penalty = false;
+                    $scope.error = null;
                     $scope.btnExecuteDisabled = true;
-
                     // Hides all elements.
-                    $("#addRuleOption, #editRuleOption, #deleteRuleOption, #addRuleOption, #newBadgeValue, #badgePreviewPanel").hide();
+                    $("#addRuleOption, #selectRuleOption, #deleteRuleOption, #addRuleOption, #newBadgeValue, #badgePreviewPanel, #rulePoints, #ruleBadge, #existingBadge, #penalty").hide();
 
-                    // Shows useful elements, depending on the user's choice.
-                    $("#" + newValue + "RuleOption").slideDown("fast");
+                    // Then shows useful elements, depending on the user's choice.
+                    if (newValue === "add") {
+                        $("#addRuleOption").slideDown("fast");
+                    }
+                    else if (newValue === "edit" || newValue === "delete") {
+                        $("#selectRuleOption").slideDown("fast");
+                    }
                 }
             });
+
+            // Load selected rule's details when the user select a rule to edit.
+            $scope.loadSelectedRule = function() {
+                if ($scope.ruleSelect) {
+                    // Reset badge adding panel.
+                    $scope.cancelBadgeAdding();
+                    $("#addBadgePanel").css("visibility", "hidden");
+                    hideBadgeAdding(false);
+
+                    // Slides down rule's details only if the user wants to edit a rule.
+                    if ($scope.actionSelect === "edit") {
+                        $("#addRuleOption").slideDown("fast");
+
+                        $scope.ruleName = $scope.ruleSelect.typeOfEvent;
+
+                        // Shows and fill right fields, depending on the event's reward type.
+                        // 1. The user selected a points event.
+                        if ($scope.ruleSelect.rewardType == 1) {
+                            $scope.ruleType = $scope.ruleTypesOptions[0].value;
+                            $scope.numberOfPoints = $scope.ruleSelect.ruleParameter;
+                        }
+                        // 2. The user selected a badge event.
+                        else if ($scope.ruleSelect.rewardType == 2) {
+                            $scope.ruleType = $scope.ruleTypesOptions[1].value;
+                            $scope.badgeKindSelect = $scope.badgeKindOptions[1].value;
+
+                            // Search for the rule's badge in badges array.
+                            var badge = $filter('filter')($scope.badges, function(b) {
+                                return b.id === $scope.ruleSelect.ruleParameter;
+                            });
+
+                            $scope.badgeSelect = badge[0];
+                        }
+
+                        $scope.penalty = $scope.ruleSelect.penalty;
+                    }
+                    // Otherwise enables the 'Execute!' button.
+                    else if ($scope.actionSelect === "delete") {
+                        $scope.btnExecuteDisabled = false;
+                    }
+                }
+            };
 
             // Enables the rule's type selection when the user entered a value
             // for the name.
@@ -503,6 +572,7 @@
                 }
                 else {
                     $scope.ruleTypeDisabled = true;
+                    $scope.btnExecuteDisabled = true;
                 }
             });
 
@@ -510,6 +580,10 @@
             // of rule's type.
             $scope.$watch("ruleType", function(newValue, oldValue) {
                 if (newValue) {
+                    // Reset badge adding panel.
+                    $scope.cancelBadgeAdding();
+                    $("#addBadgePanel").css("visibility", "hidden");
+                    hideBadgeAdding(false);
                     isBadgeSelected = false;
 
                     if (newValue == "points") {
@@ -543,21 +617,12 @@
                 }
             });
 
-            // Cancel a badge adding by reseting data.
-            $scope.cancelBadgeAdding = function() {
-                $scope.badgeName = null;
-                $scope.badgeImageUrl = "default.png";
-                $scope.badgeDescription = null;
-                $scope.badgeAddingError = null;
-                $scope.isBadgeSelected = false;
-            };
-
-
             // Cancel a badge adding and shows the badge adding panel if the
             // users choosed to add a new one.
             $scope.$watch("badgeKindSelect", function(newValue, oldValue) {
                 if (newValue) {
                     $scope.cancelBadgeAdding();
+                    $scope.penalty = false;
 
                     if (newValue == "add") {
                         $("#badgePreviewPanel").fadeIn("fast");
@@ -573,12 +638,8 @@
                         // function located in the rules.jade file.
                         hideBadgeAdding(false);
 
-                        setTimeout(function() {
-                            $("#previewTitle").hide();
-                            $("#badgePreviewPanel").hide();
-                            $("#existingBadge").fadeIn("fast");
-                            $("#penalty").fadeIn("fast");
-                        }, 400);
+                        $("#existingBadge").fadeIn("fast");
+                        $("#penalty").fadeIn("fast");
                     }
 
                     $("#newBadgeValue").hide();
@@ -658,87 +719,93 @@
             };
 
             // Validates each rule-adding fields and post the new rule.
-            $scope.addRule = function() {
+            $scope.executeAction = function() {
                 $scope.btnExecuteDisabled = true;
                 $scope.error = null;
+                // Initializes HTTP request's server URL.
+                var postUrl = $scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/rules';
+                // Will contain the HTTP request's method.
+                var method;
+                // Indicates if the fields are correctly filled by the user.
+                var areFieldsValid = false;
+                // Will contain rule's data ; used when the user want to add or
+                // edit a rule.
+                var ruleData = null;
 
-                // Fields must be filled.
-                if ($scope.ruleName && (($scope.ruleType == "points" && $scope.numberOfPoints) || ($scope.ruleType == "badge" && $scope.isBadgeSelected))) {
-                    // If the user choosed the "points" rule's type, the number
-                    // of points must be an integer value, greater than 0.
-                    if ($scope.ruleType == "points" && (isNaN($scope.numberOfPoints) || parseInt($scope.numberOfPoints) <= 0 || $scope.numberOfPoints % 1 != 0)) {
-                        $scope.error = "Please enter a integer value greater than 0 for the points number.";
-                        $scope.btnExecuteDisabled = false;
+                // Update HTTP request's server URL and method, depending on the user's action.
+                if ($scope.actionSelect === $scope.actionsOptions[0].value) {
+                    method = "POST";
+                }
+                else if ($scope.actionSelect === $scope.actionsOptions[1].value) {
+                    postUrl += '/' + $scope.ruleSelect.id;
+                    method = "PUT";
+                }
+                else if ($scope.actionSelect === $scope.actionsOptions[2].value) {
+                    postUrl += '/' + $scope.ruleSelect.id;
+                    method = "DELETE";
+
+                    areFieldsValid = confirm("Are you sure to delete this rule?");
+                }
+
+                // Validates fields if the user choosed the "Add rule" or "Edit rule" actions.
+                if ($scope.actionSelect === $scope.actionsOptions[0].value || $scope.actionSelect === $scope.actionsOptions[1].value) {
+                    // Fields must be filled.
+                    if ($scope.ruleName && (($scope.ruleType == "points" && $scope.numberOfPoints) || ($scope.ruleType == "badge" && $scope.isBadgeSelected))) {
+                        // If the user choosed the "points" rule's type, the number
+                        // of points must be an integer value, greater than 0.
+                        if ($scope.ruleType == "points" && (isNaN($scope.numberOfPoints) || parseInt($scope.numberOfPoints) <= 0 || $scope.numberOfPoints % 1 != 0)) {
+                            $scope.error = "Please enter a integer value greater than 0 for the points number.";
+                        }
+                        else {
+                            // Create the rule's fields, depending on the users values.
+                            ruleData = {
+                                "typeOfEvent": $scope.ruleName,
+                                "ruleParameter": ($scope.ruleType == "points" ? $scope.numberOfPoints : ($scope.badgeKindSelect == $scope.badgeKindOptions[0].value ? $scope.newBadgeId : $scope.badgeSelect.id)),
+                                "penalty": $scope.penalty,
+                                "minValue": null,
+                                "maxValue": null,
+                                "rewardType": ($scope.ruleType == "points" ? 1 : 2)
+                            }
+
+                            // Fields are valid and the HTTP request can be sent.
+                            areFieldsValid = true;
+                        }
                     }
                     else {
-                        // Create the rule's fields, depending on the users values.
-                        var ruleData = {
-                            "typeOfEvent": $scope.ruleName,
-                            "ruleParameter": ($scope.ruleType == "points" ? $scope.numberOfPoints : ($scope.badgeKindSelect == $scope.badgeKindOptions[0].value ? $scope.newBadgeId : $scope.badgeSelect.id)),
-                            "penalty": $scope.penalty,
-                            "minValue": null,
-                            "maxValue": null,
-                            "rewardType": ($scope.ruleType == "points" ? 1 : 2)
-                        }
-
-                        // Then post it.
-                        $http.post($scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/rules', ruleData)
-                            .then(
-                                function success(response) {
-                                    if (response.status == 200) {
-                                        // The user successfully added an event and Spongebob
-                                        // is overexcited. This function is located in the
-                                        // "rules.jade" view.
-                                        overexcitedBob();
-                                        // Shows the success panel.
-                                        $scope.successPosting = true;
-                                    }
-                                    else {
-                                        $scope.error = "An error occured, please retry.";
-                                        $scope.btnExecuteDisabled = false;
-                                    }
-                                },
-                                function error(response) {
-                                    $scope.error = "An error occured, please retry.";
-                                    $scope.btnExecuteDisabled = false;
-                                }
-                            );
+                        $scope.error = "Please fill all fields.";
                     }
                 }
+
+                // Then executes the request.
+                if (areFieldsValid) {
+                    $http({
+                        method: method,
+                        url: postUrl,
+                        data: ruleData
+                    }).then(
+                        function success(response) {
+                            if (response.status == 200) {
+                                // The user successfully added an event and Spongebob
+                                // is overexcited. This function is located in the
+                                // "rules.jade" view.
+                                overexcitedBob();
+                                // Shows the success panel.
+                                $scope.successPosting = true;
+                            }
+                            else {
+                                $scope.error = "An error occured, please retry.";
+                                $scope.btnExecuteDisabled = false;
+                            }
+                        },
+                        function error(response) {
+                            $scope.error = "An error occured, please retry.";
+                            $scope.btnExecuteDisabled = false;
+                        }
+                    );
+                }
                 else {
-                    $scope.error = "Please fill all fields.";
                     $scope.btnExecuteDisabled = false;
                 }
-            };
-
-            // Load selected rule's details when the user select a rule to edit.
-            $scope.loadSelectedRule = function() {
-                $("#addRuleOption").slideDown("fast");
-
-                $scope.ruleName = $scope.ruleSelect.typeOfEvent;
-
-                // Shows and fill right fields, depending on the event's reward type.
-                // 1. The user selected a points event.
-                if ($scope.ruleSelect.rewardType == 1) {
-                    $scope.ruleType = $scope.ruleTypesOptions[0].value;
-                    $scope.numberOfPoints = $scope.ruleSelect.ruleParameter;
-                }
-                // 2. The user selected a badge event.
-                else if ($scope.ruleSelect.rewardType == 2) {
-                    $scope.ruleType = $scope.ruleTypesOptions[1].value;
-                    $scope.badgeKindSelect = $scope.badgeKindOptions[1].value;
-
-                    // Search for the rule's badge in badges array.
-                    var badge = $filter('filter')($scope.badges, function(b) {
-                        return b.id === $scope.ruleSelect.ruleParameter;
-                    });
-
-                    console.log(badge);
-
-                    $scope.badgeSelect = badge;
-                }
-
-                $scope.penalty = $scope.ruleSelect.penalty;
             };
         });
 })();

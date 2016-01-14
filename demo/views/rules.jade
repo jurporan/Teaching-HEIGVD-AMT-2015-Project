@@ -14,7 +14,9 @@ block content
         .manageRulesBody#manageRulesBody(ng-controller="ManageRulesController" ng-init='restApiServerAddress="#{restApiServerAddress}"')
             .ruleTitle #{title}
                 br
-                .subTitle#subTitle You don't like overexcited Spongebob? Click on that naughty sponge to hide it!
+                .subTitle#subTitle You don't like overexcited Spongebob? 
+                    u Click
+                    |  on that naughty sponge to hide it!
             
             .panel.panel-success.errorPanel(ng-hide="!successPosting")
                 .panel-heading.error
@@ -78,19 +80,19 @@ block content
                             option(disabled='disabled' selected='selected' style='display: none;' value='') Please select an action...
                                        
                     .actionOptions
-                        .editRuleOption#editRuleOption
+                        .selectRuleOption#selectRuleOption
                             .input-group(ng-init='rules=#{JSON.stringify(rules)}')
                                 span(class="input-group-addon")
                                     span(class="glyphicon glyphicon-tag")
                                 // Displays each rule by the format : "[{Add/Delete} {points/badge}] {ruleName}".
                                 select.form-control#ruleSelect(ng-change="loadSelectedRule()" ng-model="ruleSelect" ng-options='("[" + (rule.penalty == false ? "Adding" : "Removing") + " " + (rule.rewardType == 1 ? "points" : "badge") + " rule] " + rule.typeOfEvent) for rule in rules | orderBy: "typeOfEvent"')
-                                    option(disabled='disabled' selected='selected' style='display: none;' value='') Which rule do you want to edit?
+                                    option(disabled='disabled' selected='selected' style='display: none;' value='') Which rule do you want to {{actionSelect}}?
             
                         .addRuleOption#addRuleOption
                             .input-group
                                 span(class="input-group-addon")
                                     span(class="glyphicon glyphicon-tag")
-                                input#ruleName(class="form-control" type="text" ng-model="ruleName" placeholder="Your rule's name" required="required")
+                                input#ruleName(class="form-control" type="text" ng-model="ruleName" placeholder="Your rule's name")
                                 
                             .input-group
                                 span(class="input-group-addon")
@@ -147,7 +149,7 @@ block content
                             
                     .rulesButtons#rulesButtons
                         a.btn.btnApp.backButton(href='/') Back
-                        button#btnExecute.btn.btnApp.executeButton(name="sendButton" ng-click="addRule()" ng-disabled="btnExecuteDisabled" ng-model="btnExecute" type='submit')
+                        button#btnExecute.btn.btnApp.executeButton(name="sendButton" ng-click="executeAction()" ng-disabled="btnExecuteDisabled" ng-model="btnExecute" type='submit')
                             | Execute! 
                             span(class="glyphicon glyphicon-send")
             
@@ -256,8 +258,11 @@ block content
                 // manager container.
                 $("#addBadgePanel").bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
                     if (isBadgeAddingPanelOpen && $("#addBadgePanel").offset().left >= $("#manageRulesContainer").offset().left) {
-                        $("#addBadgePanel").css("visibility", "hidden");
+                        $("#addBadgePanel").css("visibility", "hidden");  
                         
+                        $("#previewTitle").hide();
+                        //$("#badgePreviewPanel").hide();
+                                              
                         isBadgeAddingPanelOpen = false;
                     }
                 });
