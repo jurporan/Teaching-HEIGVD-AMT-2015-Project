@@ -473,12 +473,16 @@
             ];
 
             // Cancel a badge adding by reseting data.
-            $scope.cancelBadgeAdding = function() {
+            $scope.cancelBadgeAdding = function(resetKindSelection) {
                 $scope.badgeName = null;
                 $scope.badgeImageUrl = "default.png";
                 $scope.badgeDescription = null;
                 $scope.badgeAddingError = null;
                 $scope.isBadgeSelected = false;
+
+                if (resetKindSelection) {
+                    $scope.badgeKindSelect = null;
+                }
             };
 
             // Shows the right action's panel, depending on the user's choice of
@@ -486,7 +490,7 @@
             $scope.$watch("actionSelect", function(newValue, oldValue) {
                 if (newValue) {
                     // Reset badge adding panel.
-                    $scope.cancelBadgeAdding();
+                    $scope.cancelBadgeAdding(true);
                     $("#addBadgePanel").css("visibility", "hidden");
                     hideBadgeAdding(false);
 
@@ -496,7 +500,6 @@
                     $scope.ruleName = null;
                     $scope.ruleType = null;
                     $scope.numberOfPoints = null;
-                    $scope.badgeKindSelect = null;
                     $scope.badgeSelect = null;
                     $scope.penalty = false;
                     $scope.error = null;
@@ -518,7 +521,7 @@
             $scope.loadSelectedRule = function() {
                 if ($scope.ruleSelect) {
                     // Reset badge adding panel.
-                    $scope.cancelBadgeAdding();
+                    $scope.cancelBadgeAdding(true);
                     $("#addBadgePanel").css("visibility", "hidden");
                     hideBadgeAdding(false);
 
@@ -573,7 +576,7 @@
             $scope.$watch("ruleType", function(newValue, oldValue) {
                 if (newValue) {
                     // Reset badge adding panel.
-                    $scope.cancelBadgeAdding();
+                    $scope.cancelBadgeAdding(true);
                     $("#addBadgePanel").css("visibility", "hidden");
                     hideBadgeAdding(false);
                     isBadgeSelected = false;
@@ -613,7 +616,8 @@
             // users choosed to add a new one.
             $scope.$watch("badgeKindSelect", function(newValue, oldValue) {
                 if (newValue) {
-                    $scope.cancelBadgeAdding();
+                    $scope.cancelBadgeAdding(false);
+                    $scope.badgeSelect = null;
                     $scope.penalty = false;
 
                     if (newValue == "add") {

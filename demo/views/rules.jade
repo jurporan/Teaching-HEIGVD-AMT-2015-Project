@@ -64,7 +64,7 @@ block content
                     .emptySpace(ng-if="!badgeAddingError")
                     
                     .addBadgeButtons
-                        button.btn.btnApp.backButton(name="cancelButton" ng-click='cancelBadgeAdding()' onclick="hideBadgeAdding(true);" type='button') Cancel
+                        button.btn.btnApp.backButton(name="cancelButton" ng-click='cancelBadgeAdding(true)' onclick="hideBadgeAdding(true);" type='button') Cancel
                         button#btnAddBadge.btn.btnApp.executeButton(name="addBadgeButton" ng-click='addBadge()' type='submit')
                             | Add it!
 
@@ -233,9 +233,7 @@ block content
                 if (isBadgeAddingPanelOpen) {
                     $("#addBadgePanel").removeClass("addBadgePanelShows");
                     
-                    if (cancel) {
-                        $("#badgeKindSelect option:eq(0)").prop("selected", true);
-                        
+                    if (cancel) {                        
                         setTimeout(function() {
                             $("#badgePreviewPanel").hide();
                         }, 400);
