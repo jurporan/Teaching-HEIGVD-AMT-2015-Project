@@ -404,7 +404,7 @@ a {
     margin-bottom: 20px;
 }
 
-.addBadgeOption, .badgePreviewPanel {
+.addRuleOption, .editRuleOption, .deleteRuleOption, .badgePreviewPanel {
     display: none;
 }
 

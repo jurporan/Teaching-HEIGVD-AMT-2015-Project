@@ -18,7 +18,7 @@ function getUsers() {
     request('http://localhost:8080/Gary/api/applications/' + apiKey + '/users', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             // Get users as JSON values.
-            users = JSON.parse(body);
+            var users = JSON.parse(body);
             // If there is still no user, create them.
             if (!users[0]) {
                 console.log("No existing user, create new ones.");
@@ -77,7 +77,7 @@ function getBadges() {
     request('http://localhost:8080/Gary/api/applications/' + apiKey + '/badges', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             // Get users as JSON values.
-            badges = JSON.parse(body);
+            var badges = JSON.parse(body);
 
             // If there is still no badge, create them.
             if (!badges[0]) {
@@ -176,99 +176,134 @@ function getBadges() {
 }
 
 function getRules() {
+    // Init data promise.
+    var defer = deferred();
 
-    // Rules' data.
-    var data = [
-        {
-            "typeOfEvent": "Post a comment",
-            "ruleParameter": 100,
-            "penalty": false,
-            "minValue": null,
-            "maxValue": null,
-            "rewardType": 1
-        },
-        {
-            "typeOfEvent": "Post a comment",
-            "ruleParameter": commentBadgeId,
-            "penalty": false,
-            "minValue": null,
-            "maxValue": null,
-            "rewardType": 2
-        },
-        {
-            "typeOfEvent": "Kick a troll",
-            "ruleParameter": 200,
-            "penalty": false,
-            "minValue": null,
-            "maxValue": null,
-            "rewardType": 1
-        },
-        {
-            "typeOfEvent": "Kick a troll",
-            "ruleParameter": kickBadgeId,
-            "penalty": false,
-            "minValue": null,
-            "maxValue": null,
-            "rewardType": 2
-        },
-        {
-            "typeOfEvent": "Upvote",
-            "ruleParameter": 100,
-            "penalty": false,
-            "minValue": null,
-            "maxValue": null,
-            "rewardType": 1
-        },
-        {
-            "typeOfEvent": "Upvote",
-            "ruleParameter": voteBadgeId,
-            "penalty": false,
-            "minValue": null,
-            "maxValue": null,
-            "rewardType": 2
-        },
-        {
-            "typeOfEvent": "Downvote",
-            "ruleParameter": 50,
-            "penalty": false,
-            "minValue": null,
-            "maxValue": null,
-            "rewardType": 1
-        },
-        {
-            "typeOfEvent": "Downvote",
-            "ruleParameter": voteBadgeId,
-            "penalty": false,
-            "minValue": null,
-            "maxValue": null,
-            "rewardType": 2
-        },
-        {
-            "typeOfEvent": "Level 3",
-            "ruleParameter": levelBadgeId,
-            "penalty": false,
-            "minValue": null,
-            "maxValue": null,
-            "rewardType": 2
+    // Makes a POST request on the application to get rules.
+    request('http://localhost:8080/Gary/api/applications/' + apiKey + '/rules', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            // Get rules as JSON values.
+            var rules = JSON.parse(body);
+
+            // If there is still no rule, create the default ones.
+            if (!rules[0]) {
+                console.log("No existing rule, create default ones.");
+
+                // Rules' data.
+                var data = [
+                    {
+                        "typeOfEvent": "Post a comment",
+                        "ruleParameter": 100,
+                        "penalty": false,
+                        "minValue": null,
+                        "maxValue": null,
+                        "rewardType": 1
+                    },
+                    {
+                        "typeOfEvent": "Post a comment",
+                        "ruleParameter": commentBadgeId,
+                        "penalty": false,
+                        "minValue": null,
+                        "maxValue": null,
+                        "rewardType": 2
+                    },
+                    {
+                        "typeOfEvent": "Kick a troll",
+                        "ruleParameter": 200,
+                        "penalty": false,
+                        "minValue": null,
+                        "maxValue": null,
+                        "rewardType": 1
+                    },
+                    {
+                        "typeOfEvent": "Kick a troll",
+                        "ruleParameter": kickBadgeId,
+                        "penalty": false,
+                        "minValue": null,
+                        "maxValue": null,
+                        "rewardType": 2
+                    },
+                    {
+                        "typeOfEvent": "Upvote",
+                        "ruleParameter": 100,
+                        "penalty": false,
+                        "minValue": null,
+                        "maxValue": null,
+                        "rewardType": 1
+                    },
+                    {
+                        "typeOfEvent": "Upvote",
+                        "ruleParameter": voteBadgeId,
+                        "penalty": false,
+                        "minValue": null,
+                        "maxValue": null,
+                        "rewardType": 2
+                    },
+                    {
+                        "typeOfEvent": "Downvote",
+                        "ruleParameter": 50,
+                        "penalty": false,
+                        "minValue": null,
+                        "maxValue": null,
+                        "rewardType": 1
+                    },
+                    {
+                        "typeOfEvent": "Downvote",
+                        "ruleParameter": voteBadgeId,
+                        "penalty": false,
+                        "minValue": null,
+                        "maxValue": null,
+                        "rewardType": 2
+                    },
+                    {
+                        "typeOfEvent": "Level 3",
+                        "ruleParameter": levelBadgeId,
+                        "penalty": false,
+                        "minValue": null,
+                        "maxValue": null,
+                        "rewardType": 2
+                    }
+                ];
+
+                console.log("Create rules with following badges IDs: " + commentBadgeId + " - " + kickBadgeId + " - " + voteBadgeId + " - " + levelBadgeId + ".");
+                // Convert user objects into HTTP requests and send them.
+                var n = data.length;
+                for (var i = 0; i < n; ++i) {
+                    (function(index) {
+                        request.post({
+                            url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/rules',
+                            json: data[i]
+                        }, function(error, response, body) {
+                            console.log(body);
+
+                            if (index === (n - 1)) {
+                                console.log("Rules created, I can now release the promise.");
+                                defer.resolve({
+                                    error: 0,
+                                    data: data
+                                });
+                            }
+                        });
+                    })(i);
+                }
+            }
+            else {
+                defer.resolve({
+                    error: 0,
+                    data: rules
+                });
+            }
         }
-    ];
-
-    if (newData) {
-        console.log("Create rules with following badges IDs: " + commentBadgeId + " - " + kickBadgeId + " - " + voteBadgeId + " - " + levelBadgeId + ".");
-        // Convert user objects into HTTP requests and send them.
-        var n = data.length;
-        for (var i = 0; i < n; ++i) {
-            request.post({
-                url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/rules',
-                json: data[i]
+        else {
+            defer.resolve({
+                error: 1,
+                data: null
             });
         }
-    }
-    else {
-        console.log("Rules already existing, no need to create.");
-    }
+    });
 
-    return data;
+    // Return the promise object.
+    return defer.promise;
 }
 
 /* GET home page. */
@@ -324,11 +359,25 @@ router.get('/rules', function(req, res) {
         }
         else {
             console.log("Badges successfully created/got: " + newData);
-            // Send badges view.
-            res.render('rules', {
-                title: 'AW YEAH, you can manage you own rules!',
-                badges: badges.data,
-                apiKey: apiKey
+
+            var rulesPromise = getRules();
+
+            rulesPromise(function(rules) {
+                if (rules.error === 1) {
+                    res.render('rules', {
+                        title: 'AW YEAH, you can manage you own rules!',
+                        error: 'Sorry I cannot get application\'s rules, please retry in a while :('
+                    });
+                }
+                else {
+                    // Send badges view.
+                    res.render('rules', {
+                        title: 'AW YEAH, you can manage you own rules!',
+                        badges: badges.data,
+                        rules: rules.data,
+                        apiKey: apiKey
+                    });
+                }
             });
         }
     });

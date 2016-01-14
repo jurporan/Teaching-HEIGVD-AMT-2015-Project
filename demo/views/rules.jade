@@ -74,14 +74,19 @@ block content
                     .input-group.actionType
                         span(class="input-group-addon")
                             span(class="glyphicon glyphicon-pushpin")
-                        select.form-control#actionSelect(ng-change="isBadgeSelected = false" ng-model="actionSelect")
+                        select.form-control#actionSelect(ng-model="actionSelect" ng-options="o.value as o.name for o in actionsOptions")
                             option(disabled='disabled' selected='selected' style='display: none;' value='') Please select an action...
-                            option(value="add") Add my own rule &#9829;
-                            option(value="edit") Edit a rule to beautify it
-                            option(value="delete") Delete an ugly and not-beloved rule
                                        
                     .actionOptions
-                        .addBadgeOption#addBadgeOption
+                        .editRuleOption#editRuleOption
+                            .input-group(ng-init='rules=#{JSON.stringify(rules)}')
+                                span(class="input-group-addon")
+                                    span(class="glyphicon glyphicon-tag")
+                                // Displays each rule by the format : "[{Add/Delete} {points/badge}] {ruleName}".
+                                select.form-control#ruleSelect(ng-change="loadSelectedRule()" ng-model="ruleSelect" ng-options='("[" + (rule.penalty == false ? "Adding" : "Removing") + " " + (rule.rewardType == 1 ? "points" : "badge") + " rule] " + rule.typeOfEvent) for rule in rules | orderBy: "typeOfEvent"')
+                                    option(disabled='disabled' selected='selected' style='display: none;' value='') Which rule do you want to edit?
+            
+                        .addRuleOption#addRuleOption
                             .input-group
                                 span(class="input-group-addon")
                                     span(class="glyphicon glyphicon-tag")
@@ -90,10 +95,8 @@ block content
                             .input-group
                                 span(class="input-group-addon")
                                     span(class="glyphicon glyphicon-tower")
-                                select.form-control#ruleTypeSelect(disabled="disabled" ng-change="isBadgeSelected = false" ng-model="ruleType")
-                                    option(disabled='disabled' selected='selected' style='display: none;' value='') What type of rule do you want to create?
-                                    option(value="points") A rule with points
-                                    option(value="badge") A rule with a badge
+                                select.form-control#ruleTypeSelect(ng-disabled="ruleTypeDisabled" ng-model="ruleType" ng-options="o.value as o.name for o in ruleTypesOptions")
+                                    option(disabled='disabled' selected='selected' style='display: none;' value='') What kind of rule do you want to create?
                                     
                             .input-group.rulePoints#rulePoints
                                 span(class="input-group-addon")
@@ -103,7 +106,7 @@ block content
                             .input-group.ruleBadge#ruleBadge
                                 span(class="input-group-addon")
                                     span(class="glyphicon glyphicon-gift")
-                                select#badgeKindSelect.form-control(ng-change="cancelBadgeAdding()" ng-model="badgeKindSelect" ng-options="o.value as o.name for o in badgeKindOptions")
+                                select.form-control#badgeKindSelect(ng-model="badgeKindSelect" ng-options="o.value as o.name for o in badgeKindOptions")
                                     option(disabled='disabled' selected='selected' style='display: none;' value='') Okay, what kind of badge?
                             
                             .input-group#newBadgeValue
@@ -114,7 +117,7 @@ block content
                             .input-group.ruleBadge#existingBadge(ng-init='badges=#{JSON.stringify(badges)}')
                                 span(class="input-group-addon")
                                     span(class="glyphicon glyphicon-gift")
-                                select.form-control#badgeSelect(ng-model="badgeSelect" ng-change="showBadgePreview()" ng-options="option.name for option in badges")
+                                select.form-control#badgeSelect(ng-model="badgeSelect" ng-options="o.name for o in badges | orderBy: 'name'")
                                     option(disabled='disabled' selected='selected' style='display: none;' value='') Please select the badge...
                             
                             .badgePreviewPanel#badgePreviewPanel
@@ -132,8 +135,11 @@ block content
                             .input-group.penalty#penalty
                                 input.penaltyChk(type="checkbox" ng-model="penalty" name="penalty")
                                 .penaltyLabel This is a penalty (remove given 
-                                    span#dataType
+                                    span {{dataType}}
                                     | )
+                            
+                        .deleteRuleOption#deleteRuleOption
+                            
                             
                     .panel.panel-danger(ng-if="error")
                         .panel-heading
@@ -141,7 +147,7 @@ block content
                             
                     .rulesButtons#rulesButtons
                         a.btn.btnApp.backButton(href='/') Back
-                        button#btnExecute.btn.btnApp.executeButton(disabled='disabled' name="sendButton" ng-click="addRule()" ng-model="btnExecute" type='submit')
+                        button#btnExecute.btn.btnApp.executeButton(name="sendButton" ng-click="addRule()" ng-disabled="btnExecuteDisabled" ng-model="btnExecute" type='submit')
                             | Execute! 
                             span(class="glyphicon glyphicon-send")
             
@@ -239,107 +245,12 @@ block content
                 // Hides useless fields ; can't do it with a "display: none;" css 
                 // property because of the "input-group" css class.          
                 $("#rulePoints, #ruleBadge, #newBadgeValue, #existingBadge, #penalty").hide();
-                // Sometimes the "Execute!" button stay enabled when the user 
-                // refreshs the page because of the browser cache, and we don't 
-                // want it so we disable it to ensure.
-                $("#btnExecute").prop("disabled", true);
-                // Same problem with fields that stay filled.
-                $("#ruleName, #numberOfPoints").val("");
                 
                 // Shows Spongebob.
                 setTimeout(function() {
                     $("#spongebobImg").addClass("spongebobImgMoved");
                     $("#subTitle").fadeIn("slow");
                 }, 1500);
-                
-                // Shows the right action's panel, depending on the user's choice of
-                // action.
-                $("#actionSelect").change(function() {
-                    $("#addBadgeOption").hide();
-                    
-                    if ($("#actionSelect").val() == "add") {
-                        $("#addBadgeOption").slideDown("fast");
-                    }
-                    
-                    $("#newBadgeValue").hide();
-                    $("#badgePreviewPanel").hide();
-                    $("#btnExecute").prop("disabled", true);
-                });
-                
-                // Enables the rule's type selection when the user entered a value
-                // for the name.
-                $("#ruleName").on("input", function() {
-                    if (!$(this).val()) {
-                        $("#ruleTypeSelect").prop("disabled", true);
-                    }
-                    else {
-                        $("#ruleTypeSelect").prop("disabled", false);
-                    }
-                });
-                
-                // Shows the points or badge inputs, depending on the user's choice
-                // of rule's type.
-                $("#ruleTypeSelect").change(function() {                
-                    if ($("#ruleTypeSelect").val() == "points") {
-                        $("#ruleBadge, #existingBadge").hide();
-                        $("#rulePoints").fadeIn("fast");
-                        $("#penalty").fadeIn("fast");
-                    }
-                    else if ($("#ruleTypeSelect").val() == "badge") {
-                        $("#rulePoints").hide();
-                        $("#ruleBadge").fadeIn("fast");
-                        $("#penalty").hide();
-                        $("#numberOfPoints").val("");
-                    }
-                    
-                    $("#newBadgeValue").hide();
-                    $("#badgePreviewPanel").hide();
-                    $("#dataType").text($("#ruleTypeSelect").val());
-                    $("#btnExecute").prop("disabled", true);
-                });
-                
-                // Enables the 'Execute' button when the user sets the number of
-                // points.
-                $("#numberOfPoints").on("input blur change", function() {
-                    if (!$(this).val()) {
-                        $("#btnExecute").prop("disabled", true);
-                    }
-                    else {
-                        $("#btnExecute").prop("disabled", false);
-                    }
-                });
-                
-                // Shows the badge adding panel if the users choosed to add a new
-                // one.
-                $("#badgeKindSelect").change(function() {
-                    if ($("#badgeKindSelect").val() == "string:add") {
-                        $("#badgePreviewPanel").fadeIn("fast");
-                        $("#previewTitle").fadeIn("fast");
-                        $("#existingBadge").hide();
-                        $("#penalty").hide();
-                        showBadgeAdding();
-                    }
-                    else {
-                        hideBadgeAdding(false);
-                        
-                        setTimeout(function() {
-                            $("#previewTitle").hide();
-                            $("#badgePreviewPanel").hide();
-                            $("#existingBadge").fadeIn("fast");
-                            $("#penalty").fadeIn("fast");
-                        }, 400);
-                    }
-                    
-                    $("#newBadgeValue").hide();
-                    $("#btnExecute").prop("disabled", true);
-                });
-                
-                // Shows the badge preview panel when the user chooses a badge in
-                // the list.
-                $("#badgeSelect").change(function() {
-                    $("#badgePreviewPanel").fadeIn("fast");
-                    $("#btnExecute").prop("disabled", false);
-                });
                 
                 // Hides badge adding panel when it successfully moved under the rule
                 // manager container.
