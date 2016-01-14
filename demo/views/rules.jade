@@ -11,7 +11,7 @@ block content
                     button.btn.btn-danger.btnReload(name="reloadButton" onClick="window.location.reload()" type='button') Reload page
 
     else
-        .manageRulesBody#manageRulesBody(ng-controller="ManageRulesController")
+        .manageRulesBody#manageRulesBody(ng-controller="ManageRulesController" ng-init='restApiServerAddress="#{restApiServerAddress}"')
             .ruleTitle #{title}
                 br
                 .subTitle#subTitle You don't like overexcited Spongebob? Click on that naughty sponge to hide it!

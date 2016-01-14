@@ -240,7 +240,7 @@
 
                 console.log("Get every user's statistics...")
                 angular.forEach($scope.users, function(user) {
-                    $http.get('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/users/' + user.id + '/reputation')
+                    $http.get($scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/users/' + user.id + '/reputation')
                         .then(
                             function success(response) {
                                 // Search for the user in the leaderboard.
@@ -301,7 +301,7 @@
                     };
 
                     console.log("Post new event...");
-                    $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/events', event)
+                    $http.post($scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/events', event)
                         .then(
                             function success(response) {
                                 // Search for the rules associated with the selected event.
@@ -368,7 +368,7 @@
                     };
 
                     console.log("Post new event...");
-                    $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/events', event)
+                    $http.post($scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/events', event)
                         .then(
                             function success(response) {
                                 angular.forEach(badgesValues, function(badges, line) {
@@ -613,7 +613,7 @@
                     };
 
                     // Then post it.
-                    $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/badges', badgeData)
+                    $http.post($scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/badges', badgeData)
                         .then(
                             function success(response) {
                                 if (response.status == 200) {
@@ -678,7 +678,7 @@
                         }
 
                         // Then post it.
-                        $http.post('http://localhost:8080/Gary/api/applications/' + $scope.apiKey + '/rules', ruleData)
+                        $http.post($scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/rules', ruleData)
                             .then(
                                 function success(response) {
                                     if (response.status == 200) {

@@ -11,7 +11,7 @@ block content
                     button.btn.btn-danger.btnReload(name="reloadButton" onClick="window.location.reload()" type='button') Reload page
         img#garyImg.garyImg(src='/img/gary.png')
     else
-        #topPanel.topPanel
+        #topPanel.topPanel(ng-init='restApiServerAddress="#{restApiServerAddress}"')
             .title #{title}
             h4#form.intro Let your imagination float in the meanders of your mind and run some events for your favorite user!
             #options.options(ng-init='apiKey="#{apiKey}"')

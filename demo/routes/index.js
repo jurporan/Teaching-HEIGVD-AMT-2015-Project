@@ -5,6 +5,7 @@ var deferred = require('deferred');
 
 var newData = false;
 var apiKey = '36320dc5-8972-4a36-975d-a3afdc77e375';
+var restApiServerAddress = 'http://localhost:8080';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
 var voteBadgeId = 0;
@@ -15,7 +16,7 @@ function getUsers() {
     var defer = deferred();
 
     // Makes a POST request on the application to get users.
-    request('http://localhost:8080/Gary/api/applications/' + apiKey + '/users', function(error, response, body) {
+    request(restApiServerAddress + '/Gary/api/applications/' + apiKey + '/users', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             // Get users as JSON values.
             var users = JSON.parse(body);
@@ -40,7 +41,7 @@ function getUsers() {
                 var n = data.length;
                 for (var i = 0; i < n; ++i) {
                     request.post({
-                        url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/users',
+                        url: restApiServerAddress + '/Gary/api/applications/' + apiKey + '/users',
                         json: data[i]
                     });
                 }
@@ -74,7 +75,7 @@ function getBadges() {
     var defer = deferred();
 
     // Makes a POST request on the application to get badges.
-    request('http://localhost:8080/Gary/api/applications/' + apiKey + '/badges', function(error, response, body) {
+    request(restApiServerAddress + '/Gary/api/applications/' + apiKey + '/badges', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             // Get users as JSON values.
             var badges = JSON.parse(body);
@@ -120,7 +121,7 @@ function getBadges() {
                 for (var i = 0; i < n; ++i) {
                     (function(index) {
                         request.post({
-                            url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/badges',
+                            url: restApiServerAddress + '/Gary/api/applications/' + apiKey + '/badges',
                             json: data[index]
                         }, function(error, response, body) {
                             // Get badges ID's
@@ -180,7 +181,7 @@ function getRules() {
     var defer = deferred();
 
     // Makes a POST request on the application to get rules.
-    request('http://localhost:8080/Gary/api/applications/' + apiKey + '/rules', function(error, response, body) {
+    request(restApiServerAddress + '/Gary/api/applications/' + apiKey + '/rules', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             // Get rules as JSON values.
             var rules = JSON.parse(body);
@@ -271,7 +272,7 @@ function getRules() {
                 for (var i = 0; i < n; ++i) {
                     (function(index) {
                         request.post({
-                            url: 'http://localhost:8080/Gary/api/applications/' + apiKey + '/rules',
+                            url: restApiServerAddress + '/Gary/api/applications/' + apiKey + '/rules',
                             json: data[i]
                         }, function(error, response, body) {
                             console.log(body);
@@ -338,7 +339,8 @@ router.get('/', function(req, res) {
                         users: users.data,
                         badges: badges.data,
                         rules: rules,
-                        apiKey: apiKey
+                        apiKey: apiKey,
+                        restApiServerAddress: restApiServerAddress
                     });
                 }
             });
@@ -375,7 +377,8 @@ router.get('/rules', function(req, res) {
                         title: 'AW YEAH, you can manage you own rules!',
                         badges: badges.data,
                         rules: rules.data,
-                        apiKey: apiKey
+                        apiKey: apiKey,
+                        restApiServerAddress: restApiServerAddress
                     });
                 }
             });
