@@ -517,6 +517,14 @@
 
             // Cancel a badge adding by reseting data.
             $scope.cancelBadgeAdding = function(resetKindSelection) {
+                // If the user selected a logo for his badge, it has been uploaded.
+                // Because of the cancelation we need to delete it so we won't have
+                // useless files on the server.
+                if ($scope.badgeImageUrl != null && $scope.badgeImageUrl != "default.png") {
+                    // Send a request to the node server to delete the file.
+                    $http.post("/cancelupload", {"fileName": $scope.badgeImageUrl});
+                }
+
                 $scope.badgeName = null;
                 $scope.badgeImageUrl = "default.png";
                 $scope.badgeDescription = null;

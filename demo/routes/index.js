@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var deferred = require('deferred');
+var fs = require('fs');
 var multer  = require('multer')
 var upload = multer({ dest: "public/img/badges" })
 
@@ -404,5 +405,12 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
     console.log("File '" + req.file.originalname + "' successfully uploaded.");
     res.end(req.file.filename);
 });
+
+// Delete the given file to cancel badge's logo uploading.
+router.post('/cancelupload', function(req, res) {
+    console.log("Delete 'public/img/badges/" + req.body.fileName + "' file.");
+    fs.unlink("public/img/badges/" + req.body.fileName);
+    res.end();
+})
 
 module.exports = router;
