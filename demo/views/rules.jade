@@ -53,7 +53,7 @@ block content
                         b "gif", "jpeg", "jpg" or "png"
                         | .
                         br
-                        | If you do not choose a logo, the default one (a white circle) will be selected.
+                        | If you do not choose a logo, the default one will be selected.
                     // Angular 'ng-change' is not supporting the input file field :(.
                     input(name='picture' onchange='angular.element(this).scope().uploadFile(this.files)' type='file')
                     
@@ -122,7 +122,7 @@ block content
                                     span(class="glyphicon glyphicon-gift")
                                 select.form-control#badgeSelect(ng-model="badgeSelect" ng-options="o.name for o in badges | orderBy: 'name'")
                                     option(disabled='disabled' selected='selected' style='display: none;' value='') Please select the badge...
-                            
+                                
                             .badgePreviewPanel#badgePreviewPanel
                                 .previewTitle#previewTitle Live Preview
                                 .badgePreview
@@ -134,6 +134,16 @@ block content
                                     br
                                     div.badgeText(ng-if="badgeDescription") {{badgeDescription}}
                                     div.badgeText(ng-if="!badgeDescription") [Description]
+                            
+                            .input-group#minValue
+                                span(class="input-group-addon")
+                                    span(class=" glyphicon glyphicon-chevron-left")
+                                input.form-control(ng-model="minValue" placeholder="[Optional] What is the minimum properties value?" type="number")
+                            
+                            .input-group#maxValue
+                                span(class="input-group-addon")
+                                    span(class=" glyphicon glyphicon-chevron-right")
+                                input.form-control(ng-model="maxValue" placeholder="[Optional] What is the maximum properties value?" type="number")
                                     
                             .input-group.penalty#penalty
                                 input.penaltyChk(type="checkbox" ng-model="penalty" name="penalty")
@@ -245,7 +255,7 @@ block content
             $(document).ready(function() {
                 // Hides useless fields ; can't do it with a "display: none;" css 
                 // property because of the "input-group" css class.          
-                $("#rulePoints, #ruleBadge, #newBadgeValue, #existingBadge, #penalty").hide();
+                $("#rulePoints, #ruleBadge, #newBadgeValue, #existingBadge, #minValue, #maxValue, #penalty").hide();
                 
                 // Shows Spongebob.
                 setTimeout(function() {

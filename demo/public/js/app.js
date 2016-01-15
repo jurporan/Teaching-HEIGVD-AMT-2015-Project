@@ -37,7 +37,8 @@
                 }
             };
         }])
-        // This service upload the given file to the given URL.
+        // This service upload the given file to the given URL and return a
+        // promise.
         .service('fileUpload', ['$http', '$q', function ($http, $q) {
             this.uploadFileToUrl = function(file, uploadUrl) {
                 var defer = $q.defer();
@@ -347,7 +348,7 @@
                         "parameter": ($scope.txtEventProperties ? $scope.txtEventProperties : null)
                     };
 
-                    console.log("Post new event...");
+                    console.log("Post new user's event...");
                     $http.post($scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/users/' + $scope.userSelect + '/events', event)
                         .then(
                             function success(response) {
@@ -552,11 +553,15 @@
                     $scope.ruleType = null;
                     $scope.numberOfPoints = null;
                     $scope.badgeSelect = null;
+                    $scope.minValue = null;
+                    $scope.maxValue = null;
                     $scope.penalty = false;
                     $scope.error = null;
                     $scope.btnExecuteDisabled = true;
                     // Hides all elements.
-                    $("#addRuleOption, #selectRuleOption, #deleteRuleOption, #addRuleOption, #newBadgeValue, #badgePreviewPanel, #rulePoints, #ruleBadge, #existingBadge, #penalty").hide();
+                    $("#addRuleOption, #selectRuleOption, #deleteRuleOption, #addRuleOption, \
+                        #newBadgeValue, #badgePreviewPanel, #rulePoints, #ruleBadge, #existingBadge, \
+                        #minValue, #maxValue, #penalty").hide();
 
                     // Then shows useful elements, depending on the user's choice.
                     if (newValue === "add") {
@@ -601,6 +606,8 @@
                             $scope.badgeSelect = badge[0];
                         }
 
+                        $scope.minValue = $scope.ruleSelect.minValue;
+                        $scope.maxValue = $scope.ruleSelect.maxValue;
                         $scope.penalty = $scope.ruleSelect.penalty;
                     }
                     // Otherwise enables the 'Execute!' button.
@@ -634,14 +641,15 @@
 
                     if (newValue == "points") {
                         $("#ruleBadge, #existingBadge").hide();
-                        $("#rulePoints").fadeIn("fast");
-                        $("#penalty").fadeIn("fast");
+                        $("#rulePoints, #minValue, #maxValue, #penalty").fadeIn("fast");
                     }
                     else if (newValue == "badge") {
                         $("#rulePoints").hide();
                         $("#ruleBadge").fadeIn("fast");
-                        $("#penalty").hide();
+                        $("#penalty, #minValue, #maxValue").hide();
                         $scope.numberOfPoints = null;
+                        $scope.minValue = null;
+                        $scope.maxValue = null;
                     }
 
                     $("#newBadgeValue").hide();
@@ -675,7 +683,7 @@
                         $("#badgePreviewPanel").fadeIn("fast");
                         $("#previewTitle").fadeIn("fast");
                         $("#existingBadge").hide();
-                        $("#penalty").hide();
+                        $("#minValue, #maxValue, #penalty").hide();
                         // Shows badge adding's panel ; this is a rendering JQuery
                         // function located in the rules.jade file.
                         showBadgeAdding();
@@ -686,7 +694,7 @@
                         hideBadgeAdding(false);
 
                         $("#existingBadge").fadeIn("fast");
-                        $("#penalty").fadeIn("fast");
+                        $("#minValue, #maxValue, #penalty").fadeIn("fast");
                     }
 
                     $("#newBadgeValue").hide();
@@ -711,6 +719,13 @@
             // Upload the selected badge's logo by sending a HTTP request to the
             // server.
             $scope.uploadFile = function(files) {
+                // If the user already choosed a logo for the current badge,
+                // delete the old one so we won't have useless files on the server.
+                if ($scope.badgeImageUrl != null && $scope.badgeImageUrl != "default.png") {
+                    // Send a request to the node server to delete the file.
+                    $http.post("/cancelupload", {"fileName": $scope.badgeImageUrl});
+                }
+
                 var file = files[0];
                 var uploadUrl = '/upload';
                 // Uploads the file with the 'fileUpload' service, and receives
@@ -764,7 +779,7 @@
                                     $scope.isBadgeSelected = true;
 
                                     $("#previewTitle").hide();
-                                    $("#newBadgeValue").fadeIn("fast");
+                                    $("#newBadgeValue, #minValue, #maxValue").fadeIn("fast");
                                     $scope.btnExecuteDisabled = false;
                                 }
                                 else {
@@ -823,21 +838,34 @@
                         // If the user choosed the "points" rule's type, the number
                         // of points must be an integer value, greater than 0.
                         if ($scope.ruleType == "points" && (isNaN($scope.numberOfPoints) || parseInt($scope.numberOfPoints) <= 0 || $scope.numberOfPoints % 1 != 0)) {
-                            $scope.error = "Please enter a integer value greater than 0 for the points number.";
+                            $scope.error = "Please enter an integer value greater than 0 for the points number.";
                         }
                         else {
-                            // Create the rule's fields, depending on the users values.
-                            ruleData = {
-                                "typeOfEvent": $scope.ruleName,
-                                "ruleParameter": ($scope.ruleType == "points" ? $scope.numberOfPoints : ($scope.badgeKindSelect == $scope.badgeKindOptions[0].value ? $scope.newBadgeId : $scope.badgeSelect.id)),
-                                "penalty": $scope.penalty,
-                                "minValue": null,
-                                "maxValue": null,
-                                "rewardType": ($scope.ruleType == "points" ? 1 : 2)
-                            };
+                            // If min and/or max values are filled, they must be numbers.
+                            if ((($scope.minValue || $scope.minValue == undefined) && (isNaN($scope.minValue) || $scope.minValue % 1 != 0)) ||
+                                (($scope.maxValue || $scope.maxValue == undefined) && (isNaN($scope.maxValue) || $scope.maxValue % 1 != 0))) {
+                                $scope.error = "Please enter an integer value for the minimum and maximum properties values.";
+                            }
+                            else {
+                                // The max must be greater or equals to the min if set.
+                                if ($scope.minValue && $scope.maxValue && parseInt($scope.minValue) > parseInt($scope.maxValue)) {
+                                    $scope.error = "Maximum properties value must be greater or equals to minimum value.";
+                                }
+                                else {
+                                    // Create the rule's fields, depending on the users values.
+                                    ruleData = {
+                                        "typeOfEvent": $scope.ruleName,
+                                        "ruleParameter": ($scope.ruleType == "points" ? $scope.numberOfPoints : ($scope.badgeKindSelect == $scope.badgeKindOptions[0].value ? $scope.newBadgeId : $scope.badgeSelect.id)),
+                                        "penalty": $scope.penalty,
+                                        "minValue": $scope.minValue,
+                                        "maxValue": $scope.maxValue,
+                                        "rewardType": ($scope.ruleType == "points" ? 1 : 2)
+                                    };
 
-                            // Fields are valid and the HTTP request can be sent.
-                            areFieldsValid = true;
+                                    // Fields are valid and the HTTP request can be sent.
+                                    areFieldsValid = true;
+                                }
+                            }
                         }
                     }
                     else {
