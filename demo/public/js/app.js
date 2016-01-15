@@ -43,21 +43,31 @@
             this.uploadFileToUrl = function(file, uploadUrl) {
                 var defer = $q.defer();
 
-                // Create form data's object and add the uploaded file.
-                var fd = new FormData();
-                fd.append('file', file);
+                // Get file's extension.
+                var parts = file.name.split('.');
+                var extension = parts[parts.length - 1].toLowerCase();
 
-                $http.post(uploadUrl, fd, {
-                    transformRequest: angular.identity,
-                    headers: {'Content-Type': undefined}
-                }).then(
-                    function success(response) {
-                        defer.resolve(response.data);
-                    },
-                    function error(response) {
-                        defer.reject();
-                    }
-                );
+                // Check file's extension.
+                if (extension != "gif" && extension != "jpeg" && extension != "jpg" && extension != "png") {
+                    defer.reject("wrongExtension");
+                }
+                else {
+                    // Create form data's object and add the uploaded file.
+                    var fd = new FormData();
+                    fd.append('file', file);
+
+                    $http.post(uploadUrl, fd, {
+                        transformRequest: angular.identity,
+                        headers: {'Content-Type': undefined}
+                    }).then(
+                        function success(response) {
+                            defer.resolve(response.data);
+                        },
+                        function error(response) {
+                            defer.reject("uploadFailed");
+                        }
+                    );
+                }
 
                 return defer.promise;
             }
@@ -680,6 +690,7 @@
                     $scope.penalty = false;
 
                     if (newValue == "add") {
+                        $("#badgeLogo").val("");
                         $("#badgePreviewPanel").fadeIn("fast");
                         $("#previewTitle").fadeIn("fast");
                         $("#existingBadge").hide();
@@ -736,11 +747,19 @@
                 uploadedFile.then(
                     // Successful upload.
                     function(answer) {
-                      $scope.badgeImageUrl = answer;
+                        $scope.badgeImageUrl = answer;
+                        $scope.badgeAddingError = null;
+                        $scope.wrongFile = false;
                     },
                     // Upload failed.
                     function(reason) {
-                      $scope.badgeAddingError = "An error occured when uploading the file, please retry in a while.";
+                        if (reason == "wrongExtension") {
+                            $scope.badgeAddingError = "Please select a 'gif', 'jp(e)g' or 'png' image.";
+                            $scope.wrongFile = true;
+                        }
+                        else {
+                            $scope.badgeAddingError = "An error occured when uploading the file, please retry in a while.";
+                        }
                     }
                 );
             }
@@ -751,54 +770,56 @@
                 $scope.btnExecuteDisabled = true;
 
                 // Fields must be filled.
-                if ($scope.badgeName && $scope.badgeDescription) {
-                    $scope.badgeAddingError = null;
+                if (!$scope.wrongFile) {
+                    if ($scope.badgeName && $scope.badgeDescription) {
+                        $scope.badgeAddingError = null;
 
-                    // Get badge's data.
-                    var badgeData = {
-                        name: $scope.badgeName,
-                        description: $scope.badgeDescription,
-                        imageUrl: ($scope.badgeImageUrl ? $scope.badgeImageUrl : "default.png")
-                    };
+                        // Get badge's data.
+                        var badgeData = {
+                            name: $scope.badgeName,
+                            description: $scope.badgeDescription,
+                            imageUrl: ($scope.badgeImageUrl ? $scope.badgeImageUrl : "default.png")
+                        };
 
-                    // Then post it.
-                    $http.post($scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/badges', badgeData)
-                        .then(
-                            function success(response) {
-                                if (response.status == 200) {
-                                    hideBadgeAdding(false);
+                        // Then post it.
+                        $http.post($scope.restApiServerAddress + '/Gary/api/applications/' + $scope.apiKey + '/badges', badgeData)
+                            .then(
+                                function success(response) {
+                                    if (response.status == 200) {
+                                        hideBadgeAdding(false);
 
-                                    // Get badge's ID and push it at the end of the
-                                    // badges array so it appears in the badges
-                                    // list.
-                                    badgeData.id = $scope.newBadgeId = parseInt(response.data);
-                                    var newBadge = $scope.badges.push(badgeData);
+                                        // Get badge's ID and push it at the end of the
+                                        // badges array so it appears in the badges
+                                        // list.
+                                        badgeData.id = $scope.newBadgeId = parseInt(response.data);
+                                        var newBadge = $scope.badges.push(badgeData);
 
-                                    $scope.newBadgeValue = "New badge's name: " + badgeData.name;
-                                    // Indicates a badge has been selected.
-                                    $scope.isBadgeSelected = true;
+                                        $scope.newBadgeValue = "New badge's name: " + badgeData.name;
+                                        // Indicates a badge has been selected.
+                                        $scope.isBadgeSelected = true;
 
-                                    $("#previewTitle").hide();
-                                    $("#newBadgeValue, #minValue, #maxValue").fadeIn("fast");
-                                    $scope.btnExecuteDisabled = false;
-                                }
-                                else {
+                                        $("#previewTitle").hide();
+                                        $("#newBadgeValue, #minValue, #maxValue").fadeIn("fast");
+                                        $scope.btnExecuteDisabled = false;
+                                    }
+                                    else {
+                                        $scope.badgeAddingError = "An error occured, please retry.";
+                                        $scope.btnExecuteDisabled = false;
+                                        $scope.isBadgeSelected = false;
+                                    }
+                                },
+                                function error(response) {
                                     $scope.badgeAddingError = "An error occured, please retry.";
                                     $scope.btnExecuteDisabled = false;
                                     $scope.isBadgeSelected = false;
                                 }
-                            },
-                            function error(response) {
-                                $scope.badgeAddingError = "An error occured, please retry.";
-                                $scope.btnExecuteDisabled = false;
-                                $scope.isBadgeSelected = false;
-                            }
-                        );
-                }
-                else {
-                    $scope.badgeAddingError = "Please fill all fields...";
-                    $scope.isBadgeSelected = false;
-                    $scope.btnExecuteDisabled = false;
+                            );
+                    }
+                    else {
+                        $scope.badgeAddingError = "Please fill all fields...";
+                        $scope.isBadgeSelected = false;
+                        $scope.btnExecuteDisabled = false;
+                    }
                 }
             };
 

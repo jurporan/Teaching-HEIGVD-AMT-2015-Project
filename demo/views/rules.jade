@@ -55,7 +55,7 @@ block content
                         br
                         | If you do not choose a logo, the default one will be selected.
                     // Angular 'ng-change' is not supporting the input file field :(.
-                    input(name='picture' onchange='angular.element(this).scope().uploadFile(this.files)' type='file')
+                    input(id='badgeLogo' name='picture' onchange='angular.element(this).scope().uploadFile(this.files)' type='file')
                     
                     hr
                     
@@ -256,6 +256,7 @@ block content
                 // Hides useless fields ; can't do it with a "display: none;" css 
                 // property because of the "input-group" css class.          
                 $("#rulePoints, #ruleBadge, #newBadgeValue, #existingBadge, #minValue, #maxValue, #penalty").hide();
+                $("#badgeLogo").val("");
                 
                 // Shows Spongebob.
                 setTimeout(function() {

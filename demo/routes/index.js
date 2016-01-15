@@ -409,7 +409,16 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
 // Delete the given file to cancel badge's logo uploading.
 router.post('/cancelupload', function(req, res) {
     console.log("Delete 'public/img/badges/" + req.body.fileName + "' file.");
-    fs.unlink("public/img/badges/" + req.body.fileName);
+
+    // The file must exist.
+    fs.exists("public/img/badges/" + req.body.fileName, function(exists) {
+        if (exists) {
+            fs.unlink("public/img/badges/" + req.body.fileName, function() {
+                console.log("File " + req.body.fileName + " deleted.");
+            });
+        }
+    });
+
     res.end();
 })
 
