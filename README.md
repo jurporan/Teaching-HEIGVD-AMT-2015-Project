@@ -14,6 +14,8 @@ Link to our [documentation](Documentation/Documentation.md)
 
 Link to our [tests](Documentation/Tests.md)
 
+Link to our [demo application's documentation](demo/README.md)
+
 ## How to use this repo
 
 ### What should we do with this repo?

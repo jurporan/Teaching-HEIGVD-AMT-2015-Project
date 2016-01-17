@@ -234,7 +234,7 @@ public class AppDAO extends DAO {
         // We create the query to fetch all the badges created by the specified id, should return 1 or 0 element as the id should be unique
         List l = em.createQuery("SELECT b FROM Badge b WHERE b.id = :id").setParameter("id", id).getResultList();
         
-        // If the result list is empty, no account exists with this ID, we return null
+        // If the result list is empty, no badge exists with this ID, we return null
         if (l.isEmpty()) {return null;}
         
         // Otherwise, we return the first (and only) badge of the list
@@ -242,41 +242,60 @@ public class AppDAO extends DAO {
         return b;
     }
     
+    /**
+    * Remove a rule from an app
+    * 
+    * @param app the app that contains the rule to be deleted
+    * @param ruleId the id of the rule to delete
+    * @return a boolean indicating success or failure
+    */
     public boolean removeRule(App app, long ruleId)
     {
-        // We create the query to fetch all the badges created by the specified id, should return 1 or 0 element as the id should be unique
+        // We create the query to fetch all the rules created by the specified id, should return 1 or 0 element as the id should be unique
         List l = em.createQuery("SELECT r FROM Rule r WHERE r.id = :id").setParameter("id", ruleId).getResultList();
         
-        // If the result list is empty, no account exists with this ID, we return null
+        // If the result list is empty, no rule exists with this ID, we return null
         if (l.isEmpty()) {return false;}
         
         Rule rule = (Rule) l.get(0);
         
+        // We check that the app does contain the rule, otherwise it means the rule is owned by another app
         if (app.getRules().contains(rule))
         {
+            // If everything is ok, we remove the rule
             app.removeRule(rule);
             em.remove(rule);
             return true;
         }
         
+        // Otherwise, we respond a false, the rule was not deleted
         return false;
     }
     
+    /**
+    * Get a rule owned by an app
+    * 
+    * @param app the app that contains the rule
+    * @param ruleId the id of the rule to get
+    * @return the rule
+    */
     public Rule getRule(App app, long ruleId)
     {
-        // We create the query to fetch all the badges created by the specified id, should return 1 or 0 element as the id should be unique
+        // We create the query to fetch all the rules created by the specified id, should return 1 or 0 element as the id should be unique
         List l = em.createQuery("SELECT r FROM Rule r WHERE r.id = :id").setParameter("id", ruleId).getResultList();
         
-        // If the result list is empty, no account exists with this ID, we return null
+        // If the result list is empty, no rule exists with this ID, we return null
         if (l.isEmpty()) {return null;}
         
         Rule rule = (Rule) l.get(0);
         
+        // We check that the rule is owned by the app and return it
         if (app.getRules().contains(rule))
         {
             return rule;
         }
         
+        // Otherwise, we return null
         return null;
     }
 }
