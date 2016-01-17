@@ -17,3 +17,23 @@
  - The demo application will create some data just for you ♥.
 
 Enjoy!
+
+### Index page
+In this page you can create event and link them to users. First select an user among the three already created ones, then select an event and finally press the *Execute!* button. Notice than the "properties" field is not used yet so you don't have to fill it.
+
+![alt text](documentation_images/running_event.png "Running an event")
+
+Once you runned the event you can access the user's stats tabs, in which you can see his current points and badges, and the global leaderboard of the application.
+
+Firstly you can access user's points:
+![alt text](documentation_images/user_points.png "Current points of the selected user")
+
+Then you can see the (un)locked user's badges. If you move the cursor hover a locked badge you can see information about it.
+![alt text](documentation_images/user_badges.png "Current badges of the selected user")
+
+And finally you can watch the leaderboard to see if who's the master ; Blairôme is on fire!
+![alt text](documentation_images/leaderboard.png "Leaderboard of users points")
+
+If you want to run events for a user different that the one you selected, please refresh the page.
+
+### Rules management page
