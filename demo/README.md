@@ -43,4 +43,6 @@ This page allows you to manage rules, by creating, editing and deleting them. Fi
 You can also create a new badge when adding or editing a rule. You will be able to see your badge's rendering on live ; isn't that beautiful?
 ![alt text](documentation_images/badge_creation.png "Add a badge")
 
+Don't worry if entered invalid values in the fields, because the application we told you.
+
 Oh, and don't click on Spongebob... This guy always want to show off.
