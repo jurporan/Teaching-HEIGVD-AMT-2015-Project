@@ -14,7 +14,7 @@ Link to our [documentation](Documentation/Documentation.md).
 
 Link to our [tests](Documentation/Tests.md).
 
-Links to our demo application's [documentation](demo/README.md) and [tutorial](Documentation/Phase%203.md).
+Links to our demo application's [documentation](Documentation/Phase%203.md) and [tutorial](demo/README.md).
 
 ## How to use this repo
 
