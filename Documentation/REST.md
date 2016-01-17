@@ -54,7 +54,7 @@ Lorsque le badge est créé, le serveur renvoie l'identifiant du badge, ainsi l'
     [{badge}, {badge}, ..., {badge}]
 ```
 
-Où la structure ```{badge}``` correspond à la définition du point ci-dessus.
+Où la structure ```{badge}``` correspond à la définition du point ci-dessus, avec un champ `id` en plus dans chaque badge.
 
 Utilisateurs de l'application
 -----------------------------
@@ -111,6 +111,18 @@ Le champ *penalty* indique s'il s'agit d'une punition ou non. Les points (ou le 
 Les champs *minValue* et *maxValue* servent à indiquer des éventuels  bornes conditionnant l'obtention de la récompense (comparé avec un paramètre de l'évent)
 
 Le champ *rewardType* indique le type de récompense : 1 pour des points, 2 pour des badges. Toute autre valeur lévera une erreur.
+
+- **GET** ```/api/applications/<apikey>/rules```: Récupère la liste des règles de l'application, sous la forme:
+
+```
+    [{rule}, {rule}, ..., {rule}]
+```
+
+Où la structure ```{rule}``` correspond à la définition du point ci-dessus, avec un champ `id` en plus dans chacune des règles.
+
+- **PUT** ```/api/applications/<apikey>/rules/<ruleId>```: Met à jour la règle désignée par l'identifiant `ruleId`. Dans le corps de la requête doivent être fournies les nouvelles données à mettre dans la règle sous la même forme que le POST (voir ci-dessus). Si aucune règle n'est trouvée avec cet identifiant ou si la règle n'est pas membre de l'application désignée par `apikey`, le serveur répond une erreur.
+
+- **DELETE** ```/api/applications/<apikey>/rules/<ruleId>```: Supprime la règle désignée par l'identifiant `ruleId`. Si aucune règle n'est trouvée avec cet identifiant ou si la règle n'est pas membre de l'application désignée par `apikey`, le serveur répond une erreur.
 
 ## Événements
 
