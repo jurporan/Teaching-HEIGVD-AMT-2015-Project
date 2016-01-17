@@ -15,12 +15,23 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
+/**
+ * Class used to manage rules to an application.
+ */
 @Stateless
 @Path("/applications/{apikey}/badges")
 public class Badges
 {
     @EJB AppDAO appDAO;
     
+    /**
+     * Creation of badges
+     * 
+     * @param badge : the badge to be added to the application
+     * @param apiKey : the apiKey of the application
+     * @return will return a response containing either an error if the apiKey is 
+     * unknown or an ok with the id of the newly created badge if the rule was created correctly.
+     */
     @POST
     @Consumes("application/json")
     public Response submitNewBadge(BadgeDTO badge, @PathParam("apikey") String apikey)
@@ -37,6 +48,12 @@ public class Badges
         return Response.ok(b.getId()).build();
     }
     
+    /**
+     * List of badges
+     * 
+     * @param apiKey : the apiKey of the application
+     * @return a list of badges owned by the specified application
+     */
     @GET
     @Produces("application/json")
     public Response getAllBadges(@PathParam("apikey") String apikey)
