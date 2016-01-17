@@ -20,6 +20,7 @@ Enjoy!
 
 ### Index page
 In this page you can create event and link them to users. First select an user among the three already created ones, then select an event and finally press the *Execute!* button. Notice than the "properties" field is not used yet so you don't have to fill it.
+
 ![alt text](documentation_images/running_event.png "Running an event")
 
 Once you runned the event you can access the user's stats tabs, in which you can see his current points and badges, and the global leaderboard of the application.
