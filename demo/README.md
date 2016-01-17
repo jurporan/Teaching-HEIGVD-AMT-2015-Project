@@ -19,7 +19,7 @@
 Enjoy!
 
 ### Index page
-In this page you can create event and link them to users. First select an user among the three already created ones, then select an event and finally press the "*Run!*" button. Notice than the "properties" field is not used yet so you don't have to fill it.
+In this page you can create event and link them to users. First select an user among the three already created ones, then select an event and finally press the "*Run!*" button. Notice two tings: the "properties" field is not used yet so you don't have to fill it, and the rules which are penalty are not shown in the list.
 
 ![alt text](documentation_images/running_event.png "Running an event")
 
@@ -37,7 +37,7 @@ And finally you can watch the leaderboard to see if who's the master ; Blairôme
 If you want to run events for a user different that the one you selected, please refresh the page.
 
 ### Rules management page
-This page allows you to manage rules, by creating, editing and deleting them. First select the action you want, then follow what the application asks, and finally press the "*Execute!*" button. Please notice that the minimum and maximum properties values will be stored in the database but are not used in the application yet.
+This page allows you to manage rules, by creating, editing and deleting them. First select the action you want, then follow what the application asks, and finally press the "*Execute!*" button. Please notice that the minimum and maximum properties values and the penalty checkbox's value will be stored in the database but are not used in the application yet.
 ![alt text](documentation_images/rule_management.png "Add a rule")
 
 You can also create a new badge when adding or editing a rule. You will be able to see your badge's rendering on live ; isn't that beautiful?
