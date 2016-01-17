@@ -16,7 +16,13 @@ public class RuleDTO
     private int minValue;
     private int maxValue;
     private byte rewardType;
-
+    
+    /**
+     * Build a DTO initialized by the data in the entity
+     * 
+     * @param rule : the Rule entity from which we get the data
+     * @return a Rule DTO initialized with the data within the Rule entity
+     */
     public static RuleDTO fromEntity(Rule rule)
     {
         RuleDTO dto = new RuleDTO();
@@ -30,6 +36,11 @@ public class RuleDTO
         return dto;
     }
     
+    /**
+     * Update a Rule entity with the data in the DTO
+     * 
+     * @param rule : the Rule entity to update
+     */
     public void updateEntity(Rule rule)
     {
         rule.setTypeOfEvent(typeOfEvent);
