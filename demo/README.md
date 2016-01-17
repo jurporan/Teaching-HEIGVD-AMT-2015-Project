@@ -31,7 +31,7 @@ Firstly you can access user's points:
 Then you can see the (un)locked user's badges. If you move the cursor hover a locked badge you can see information about it.
 ![alt text](documentation_images/user_badges.png "Current badges of the selected user")
 
-And finally you can watch the leaderboard to see if who's the master ; Blairôme is on fire!
+And finally you can watch the leaderboard to see who's the application master ; Blairôme is on fire!
 ![alt text](documentation_images/leaderboard.png "Leaderboard of users points")
 
 If you want to run events for a user different that the one you selected, please refresh the page.
