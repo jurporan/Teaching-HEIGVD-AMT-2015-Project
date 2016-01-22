@@ -10,11 +10,11 @@ Welcome to the home of the AMT Project. This is where you will find information 
 * Benois Wolleb
 
 
-Link to our [documentation](Documentation/Documentation.md)
+Link to our [documentation](Documentation/Documentation.md).
 
-Link to our [tests](Documentation/Tests.md)
+Link to our [tests](Documentation/Tests.md).
 
-Link to our [demo application's documentation](demo/README.md)
+Links to our demo application's [documentation](Documentation/Phase%203.md) and [tutorial](demo/README.md).
 
 ## How to use this repo
 
