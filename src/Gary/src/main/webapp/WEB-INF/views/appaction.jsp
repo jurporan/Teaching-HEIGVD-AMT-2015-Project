@@ -34,6 +34,8 @@
       });
    -->
    </script>
+   
+   <img src="resources/img/web.png" style="left: 0; position: absolute; top: 60px; width: 100px;" />
 
    <h1>${pageTitle}</h1>
    

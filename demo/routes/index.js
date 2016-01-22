@@ -6,7 +6,7 @@ var fs = require('fs');
 var multer  = require('multer')
 var upload = multer({ dest: "public/img/badges" })
 
-var apiKey = '8f5f67d3-f6aa-4d77-be18-11745ec89a8e';
+var apiKey = 'a8794ae1-7535-40e8-9c95-508d3b2005e5';
 var restApiServerAddress = 'http://localhost:8080';
 var commentBadgeId = 0;
 var kickBadgeId = 0;
